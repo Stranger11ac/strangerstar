@@ -842,6 +842,7 @@ form .btn {
     right: calc(var(--icon) / 2);
     left: unset;
     overflow: hidden;
+    min-width: unset;
 }
 .input_group.group_icon-end .icon-input:active,
 .input_group.group_icon .icon-input:active {
@@ -1410,8 +1411,7 @@ form .btn {
     color: white !important;
 }
 
-@media (min-width: 600px) {
-}
+/* @media (min-width: 600px) {} */
 @media (min-width: 968px) {
     [data-menu-direction="horizontal"] nav .nav_toggle_menu {
         display: none;
@@ -1461,6 +1461,9 @@ form .btn {
     }
     .gap {
         gap: var(--global-gap);
+    }
+    [data-menu-direction="vertical"][data-settings="window"] nav.active .nav_links_shadow {
+        height: calc((var(--nav-height) * 3) + (var(--global-gap) * 3));
     }
 }
 

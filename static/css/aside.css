@@ -1,0 +1,322 @@
+aside,
+.has_header {
+    --box-height: clamp(80px, 11vw, 150px);
+    --img-size: clamp(160px, 18vw, 260px);
+    position: relative;
+}
+aside {
+    width: 0;
+    max-width: 0;
+    padding: 0 !important;
+}
+aside.close {
+    --box-height: calc(var(--nav-height) / 1.5);
+    --img-size: calc(var(--nav-height) - 5px);
+    --size: var(--nav-height);
+}
+aside button {
+    --size: 25px;
+    position: absolute;
+    top: calc(var(--box-height) + 40px);
+    right: calc((var(--size) / 2) * -1);
+    border: 4px solid var(--bgcolor);
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+}
+aside button .ic-solar {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+.profile-box {
+    height: var(--box-height);
+    width: 100%;
+    max-height: 140px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin-bottom: calc((var(--img-size) / 2) + 15px);
+    transition: 0.3s ease;
+}
+.profile-box .photo-box {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: var(--detail);
+    border-radius: var(--radius);
+}
+.profile-box .photo-box::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: var(--radius);
+    bottom: calc((var(--radius) * -1) - var(--global-gap));
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: var(--second);
+    z-index: -1;
+}
+.profile-box .photo-box::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: calc((var(--radius) * -1) - var(--global-gap));
+    background: var(--bgcolor);
+    z-index: -2;
+}
+.profile-box .photo-box .photo-item {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(var(--box-height) - ((var(--img-size) / 2) - (var(--global-gap) / 2)));
+    transition: left 0.3s ease;
+}
+.profile-box .photo-box .photo-item img {
+    width: var(--img-size);
+    max-width: 240px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 15px solid var(--bgcolor);
+    background: var(--second);
+    transition: 0.3s ease;
+}
+.profile-box .photo-box .photo-item span {
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    transition-delay: 0.35s;
+}
+.profile-box .photo-box .photo-item span:nth-of-type(1)::after,
+.profile-box .photo-box .photo-item span:nth-of-type(1)::before {
+    content: "";
+    position: absolute;
+    width: var(--radius);
+    height: var(--radius);
+    top: calc((50% + 1px) - var(--global-gap));
+    transform: translateY(-50%);
+}
+.profile-box .photo-box .photo-item span:nth-of-type(1)::after {
+    right: calc((var(--radius) - 1.5px) * -1);
+    border-bottom-left-radius: var(--radius);
+    box-shadow: -3px 3px 0 3px var(--bgcolor);
+}
+.profile-box .photo-box .photo-item span:nth-of-type(1)::before {
+    left: calc((var(--radius) - 1px) * -1);
+    box-shadow: 3px 3px 0 3px var(--bgcolor);
+    border-bottom-right-radius: var(--radius);
+}
+.profile-box .photo-box .photo-item span:nth-of-type(2)::after,
+.profile-box .photo-box .photo-item span:nth-of-type(2)::before {
+    content: "";
+    position: absolute;
+    width: var(--radius);
+    height: var(--radius);
+    bottom: calc((50% + 3px) - var(--global-gap));
+    transform: translateY(50%);
+}
+.profile-box .photo-box .photo-item span:nth-of-type(2)::after {
+    right: calc((var(--radius) - 1.5px) * -1);
+    border-top-left-radius: var(--radius);
+    box-shadow: -3px -3px 0 3px var(--bgcolor);
+}
+.profile-box .photo-box .photo-item span:nth-of-type(2)::before {
+    left: calc((var(--radius) - 1px) * -1);
+    border-top-right-radius: var(--radius);
+    box-shadow: 3px -3px 0 3px var(--bgcolor);
+}
+.profile-box .photo-box .photo-item h2 {
+    position: absolute;
+    top: calc(60% + var(--global-gap));
+    left: calc(120% + var(--global-gap));
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: left 0.3s var(--transitionCubicVal), opacity 0.3s ease;
+    transition-delay: 0.4s, 0.4s;
+}
+
+aside.container .content,
+.container .tab.has_header {
+    inset: 0;
+    border-radius: var(--radius);
+}
+
+.submenu {
+    padding: 15px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.submenu .btn.btn-icon {
+    padding: 0;
+}
+.submenu .btn {
+    padding: 10px;
+}
+.submenu .btn.btn-stack .btn-stack_title {
+    padding: 0;
+    opacity: 1;
+    position: unset;
+    color: var(--bgcolor);
+    visibility: visible;
+    background: transparent;
+    transform: unset;
+}
+.submenu .btn.btn-stack .btn-stack_title::before {
+    display: none;
+}
+
+.aboutTitle {
+    opacity: 1;
+    position: unset;
+    transition: opacity 0.3s ease;
+}
+
+@media (min-width: 630px) {
+    .profile-box .photo-box .photo-item {
+        left: 15vw;
+    }
+    .active .profile-box .photo-box .photo-item h2 {
+        opacity: 1;
+        visibility: visible;
+        left: calc(100% + var(--global-gap));
+    }
+
+    .aboutTitle {
+        opacity: 0;
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media (min-width: 1024px) {
+    aside {
+        width: 25vw;
+        max-width: 25vw;
+    }
+    aside.close {
+        width: var(--nav-height);
+        min-width: var(--nav-height);
+        max-width: var(--nav-height);
+    }
+    aside button {
+        opacity: 1;
+        visibility: visible;
+    }
+    aside.close button .ic-solar {
+        transform: rotate(0deg);
+    }
+    aside.close .profile-box {
+        position: absolute;
+        left: 0;
+    }
+    .profile-box .photo-box .photo-item {
+        left: 50%;
+    }
+    aside .profile-box .photo-box .photo-item h2 {
+        opacity: 0;
+        visibility: hidden;
+    }
+    aside.close .profile-box .photo-box .photo-item img {
+        border-width: 4px;
+    }
+    aside.close .profile-box .photo-box .photo-item span {
+        opacity: 0;
+        transition-delay: 0s;
+    }
+    aside.close .content > *:not(article) {
+        display: none;
+    }
+    aside.close .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        overflow: visible;
+    }
+    aside.close .submenu {
+        padding: 0;
+        flex-direction: column;
+        gap: var(--global-gap);
+        background: var(--bgcolor);
+        padding-top: var(--global-gap);
+        position: relative;
+    }
+    aside.close .submenu::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 15px;
+        top: -15px;
+        border-radius: 0 0 var(--radius) var(--radius);
+        box-shadow: 0 3px 0 3px var(--bgcolor);
+    }
+    aside.close .submenu .btn,
+    aside.close .submenu .btn-submenu {
+        background: var(--second);
+    }
+    aside.close .submenu .btn .ic-solar,
+    aside.close .submenu .btn-submenu .ic-solar {
+        background: var(--gdwhite);
+    }
+    aside.close .submenu .btn-submenu {
+        min-height: var(--size, 40px);
+        height: var(--size, 40px);
+        min-width: var(--size, 40px);
+        width: var(--size, 40px);
+        position: relative;
+        padding: 0;
+        display: grid;
+        place-content: center;
+    }
+    aside.close .submenu .btn:hover,
+    aside.close .submenu .btn-submenu:hover {
+        background: var(--detail);
+    }
+    aside.close .submenu .btn-submenu .ic-solar {
+        height: calc(var(--size, 40px) / 1.5);
+        width: calc(var(--size, 40px) / 1.5);
+        transition: 0.3s ease;
+    }
+    aside.close .submenu .btn-submenu:active .ic-solar {
+        scale: 0.8;
+    }
+    aside.close .submenu .btn-submenu .btn-title {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        padding: 5px 10px;
+        color: var(--bgcolor);
+        background: var(--color);
+        transform: translateY(-50%);
+        border-radius: var(--radius2);
+        transition: 0.3s ease;
+        z-index: 6;
+        opacity: 0;
+        visibility: hidden;
+    }
+    aside.close .submenu .btn-submenu .btn-title::before {
+        content: "";
+        height: 18px;
+        aspect-ratio: 1/1;
+        position: absolute;
+        top: 50%;
+        left: -8px;
+        transform: translateY(-50%) rotate(45deg);
+        background: var(--color);
+        z-index: -1;
+        border-radius: var(--radius2);
+    }
+    aside.close .submenu .btn-submenu:hover .btn-title {
+        left: 110%;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    aside .aboutTitle,
+    .active .aboutTitle {
+        opacity: 1;
+        position: unset;
+        visibility: visible;
+    }
+}

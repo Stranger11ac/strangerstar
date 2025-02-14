@@ -1,0 +1,117 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="{% static 'img/main_icon.webp' %}" type="image/x-icon" />
+        <title>{% block titlefirst %}Inicio{% endblock %} | Stranger Star {% block titleend %}| Bienvenidos{% endblock %}</title>
+        <meta name="author" content="Ing. Salvador Alejandro Hernandez Cepeda" />
+
+        <link rel="stylesheet" href="{% static 'css/globals.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/icons.css' %}" />
+
+        <link rel="stylesheet" href="{% static 'libraries/nano.min.css' %}" />
+        <script>
+            const storageTheme = localStorage.getItem("theme");
+            const storageColor = localStorage.getItem("detail");
+            if (storageTheme) {
+                document.documentElement.setAttribute("data-theme", storageTheme);
+            }
+        </script>
+
+        {% block linksextra %}{% endblock %}
+    </head>
+    <body class="{% block bodyclass %}{% endblock %} unload" data-color="dynamic" data-menu-direction="vertical">
+        <script>
+            if (storageColor) {
+                document.querySelector("body").setAttribute("data-color", storageColor);
+            }
+        </script>
+        <nav class="not_shadow">
+            <a href="{% block navfirst %}#tabHome{% endblock %}" class="nav_title">
+                <div class="nav_title-img"></div>
+                <span>{% block navtitle %}Stranger Star{% endblock %}</span>
+            </a>
+            <button type="button" class="nav_toggle_menu" data-toggle="nav-active-slide-nav_links_box"><span></span><span></span><span></span></button>
+            <div id="nav_links_box" class="nav_links_box">
+                <div class="nav_links">
+                    {% block navlinks %}
+                    <a href="#tabHome" class="link_item" data-toggle-tab="tabHome"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span></a>
+                    <a href="#tabProjects" class="link_item" data-toggle-tab="tabProjects"> <span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span></a>
+                    <a href="#tabLogin" class="link_item" data-toggle-tab="tabLogin"> <span class="ic-solar login-3"></span><span class="link_item-title">Iniciar Sesión</span></a>
+                    <a href="#tabAbout" class="link_item none-xl" data-toggle-tab="tabAbout"> <span class="ic-solar user"></span><span class="link_item-title">Acerca de</span></a>
+                    <button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
+                        <span class="ic-solar settings"></span>
+                        <span class="link_item-title">Configuracion</span>
+                    </button>
+                    {% endblock %}
+                </div>
+            </div>
+            <span class="nav_links_shadow"></span>
+        </nav>
+        <button type="button" class="overlay" data-close data-second></button>
+        <section class="{% block sectparentclass %}{% endblock %}">
+            {% block aside %}{% endblock %}
+
+            <section {% block secthildid %}{% endblock %} class="{% block sectchildclass %}container{% endblock %}">
+                {% block main %}{% endblock %}
+
+                <div class="settings_box hidden">
+                    <div class="settings_btn_overlay"></div>
+                    <button type="button" class="settings_btn" data-toggle="#modalSettings-show-modal" title="Abrir/Cerrar Configuraciones">
+                        <span class="ic-solar settings"></span>
+                    </button>
+                    <div id="modalSettings" class="settings_modal modal_left">
+                        <h2 class="center">Configuraciones</h2>
+                        <hr class="divisor" />
+                        <div class="settings_group">
+                            <div>Tema: <span class="switch_result" id="themeName">Oscuro</span></div>
+                            <button type="button" class="btn-switch" id="themeSwitch" title="Cambiar Tema">
+                                <span id="dark-Oscuro" class="ic-solar moon-stars active"></span>
+                                <span id="light-Claro" class="ic-solar sun"></span>
+                                <span id="device-Automatico" class="ic-solar monitor-smartphone"></span>
+                            </button>
+                        </div>
+                        <div class="settings_group">
+                            <span>Color:</span>
+                            <div class="buttons-color flexbox flex-wrap flex-center">
+                                <button type="button" class="btn-colors purple" data-toggle-color="purple" title="Cambiar a color Morado"></button>
+                                <button type="button" class="btn-colors blue-purple" data-toggle-color="blue-purple" title="Cambiar a color Azul"></button>
+                                <button type="button" class="btn-colors green" data-toggle-color="green" title="Cambiar a color Verde"></button>
+                                <button type="button" class="btn-colors orange" data-toggle-color="orange" title="Cambiar a color Anaranjado"></button>
+                                <button type="button" class="btn-colors purple-blue-green" data-toggle-color="purple-blue-green" title="Cambiar a color Morado, Azul y verde"></button>
+                                <button type="button" class="btn-colors rainbow" data-toggle-color="dynamic" id="btnDynamic" title="Abrir Paleta de Colores"></button>
+                            </div>
+                        </div>
+                        <div class="settings_group">
+                            <div>Menu: <span class="switch_result" id="textDirection">Vertical</span></div>
+                            <button type="button" class="btn-switch" id="menuSwitch" title="Cambiar Aspecto del Menu">
+                                <span id="vertical" class="ic-solar posts-carousel-vertical active"></span>
+                                <span id="horizontal" class="ic-solar posts-carousel-horizontal"></span>
+                            </button>
+                        </div>
+                        <div class="settings_group">
+                            <div>Boton en: <span class="switch_result" id="textPosiSettings">Menu</span></div>
+                            <button type="button" class="btn-switch" id="btnSettingsSwitch" title="Cambiar Posicion de las Configuraciones">
+                                <span id="menu-Menu" class="ic-solar hamburger-menu-line active"></span>
+                                <span id="window-Ventana" class="ic-solar window-frame"></span>
+                            </button>
+                        </div>
+                        <div class="settings_group">
+                            <div>Datos Almacenados:&nbsp;<span id="storageSize">0B</span></div>
+                            <button type="button" class="btn btn-hover btn-icon" id="deleteStorage" title="Eliminar Cache">
+                                <span id="menu-Menu" class="ic-solar trash-bin-trash"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <script src="{% static 'libraries/libraries.min.js' %}"></script>
+        <script src="{% static 'js/functions.js' %}"></script>
+        {% block scriptsextra %}{% endblock %}
+    </body>
+</html>
