@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titlefirst %}Registro de usuarios{% endblock %}
+{% block navlinks %}
+<a href="{% url 'index' %}#tabHome" class="link_item"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span> </a>
+<a href="{% url 'index' %}#tabProjects" class="link_item"> <span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span> </a>
+<a href="{% url 'index' %}#tabLogin" class="link_item"> <span class="ic-solar login-3"></span><span class="link_item-title">Iniciar Sesión</span></a>
+<a href="{% url 'index' %}#tabAbout" class="link_item none-xl"> <span class="ic-solar user"></span><span class="link_item-title">Acerca de</span> </a>
+<button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
+    <span class="ic-solar settings"></span>
+    <span class="link_item-title">Configuracion</span>
+</button>
+{% endblock %}
+
+{% block sectchildclass %}container transparent{% endblock %}
+{% block main %}
+<div class="content flexbox-center gap2 flex-column">
+    <form class="content_login" action="{% url 'singup' %}" data-submit autocomplete="off">
+        {% csrf_token %}
+        <h2>Registro</h2>
+
+        <div class="input_group">
+            <input type="text" name="first_name" id="first_name" />
+            <label class="link-input" for="first_name"><span class="ic-solar user"></span> Nombre:</label>
+        </div>
+
+        <div class="input_group">
+            <input type="text" name="last_name" id="last_name" />
+            <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
+        </div>
+
+        <div class="input_group">
+            <input type="text" name="username" id="username" />
+            <label class="link-input" for="username"><span class="ic-solar user-circle"></span> Nombre de Usuario:</label>
+        </div>
+
+        <div class="input_group">
+            <input type="email" name="email" id="email" />
+            <label class="link-input" for="email"><span class="ic-solar letter"></span> Correo Electrónico:</label>
+        </div>
+
+        <div class="input_group">
+            <input type="password" name="password1" id="password1" />
+            <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
+        </div>
+
+        <div class="input_group">
+            <input type="password" name="password2" id="password2" />
+            <label class="link-input" for="password2"><span class="ic-solar key"></span> Confirmar Contraseña:</label>
+        </div>
+
+
+        <button type="submit" class="btn btn_detail_hover">Enviar Registro <span class="ic-solar plain"></span></button>
+    </form>
+</div>
+{% endblock %}

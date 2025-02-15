@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% block titleend %}| Bienvenidos{% endblock %}
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/grid.css' %}" />
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
@@ -45,7 +46,7 @@
             <a href="session/profile.html" class="btn btn-icon btn-hover" title="perfil">
                 <span class="ic-solar user"></span>
             </a>
-            <a href="session/singup.html" class="btn btn-icon btn-hover" title="perfil">
+            <a href="{% url 'singuppage' %}" class="btn btn-icon btn-hover" title="perfil">
                 <span class="ic-solar user-plus"></span>
             </a>
             <a href="https://github.com/Stranger11ac" target="_blank" rel="noopener noreferrer" class="btn btn-submenu btn-hover">
@@ -136,25 +137,6 @@
             <div class="item__details"><span class="ic-solar magic-stick"></span> Edición de Imágenes y video</div>
         </div>
     </div>
-    <div class="tab flexbox-center flex-column gap2" data-tab="tabLogin">
-        <form class="content_login">
-            <h2>Iniciar Sesión</h2>
-
-            <div class="input_group group_icon-end">
-                <label class="icon-input" for="sesionName"> <span class="ic-solar user-circle"></span></label>
-                <input type="text" name="search_icon" id="sesionName" placeholder="Nombre y Apellido:" />
-            </div>
-
-            <div class="input_group group_icon-end">
-                <label class="icon-input" for="sesionPass"> <span class="ic-solar key"></span></label>
-                <input type="password" name="search_icon" id="sesionPass" placeholder="Contraseña:" />
-            </div>
-            <button type="submit" class="btn btn-hover">Entrar <span class="ic-solar login-3"></span></button>
-        </form>
-        <div class="content_login">
-            <a href="session/forgoten_pass.html">Olvidaste Tu Contraseña?... <span class="ic-solar square-bottom-up"></span></a>
-        </div>
-    </div>
     <div class="tab" data-tab="tabProjects">
         <div class="grid-system">
             <div class="card">
@@ -167,7 +149,7 @@
                 <div class="card-body">Coleccion de Iconos SVG-CSS. Estos se puede utilizar por sus clases, algunos tienen acciones en su efecto hover o click.
                 </div>
                 <div class="card-footer flexbox flex-end">
-                    <a href="projects/icons.html" class="btn btn-content btn-hover">Ver más <span class="ic-solar square-bottom-up"></span></a>
+                    <a href="{% url 'jobicons' %}" class="btn btn-content btn-hover">Ver más <span class="ic-solar square-bottom-up"></span></a>
                 </div>
             </div>
             <div class="card">
@@ -324,6 +306,26 @@
             </div>
         </div>
     </div>
+    <div class="tab flexbox-center flex-column gap2" data-tab="tabLogin">
+        <form class="content_login" data-submit autocomplete="off">
+            {% csrf_token %}
+            <h2>Iniciar Sesión</h2>
+
+            <div class="input_group group_icon-end">
+                <label class="icon-input" for="sesionName"> <span class="ic-solar user-circle"></span></label>
+                <input type="text" name="search_icon" id="sesionName" placeholder="Nombre y Apellido:" />
+            </div>
+
+            <div class="input_group group_icon-end">
+                <label class="icon-input" for="sesionPass"> <span class="ic-solar key"></span></label>
+                <input type="password" name="search_icon" id="sesionPass" placeholder="Contraseña:" />
+            </div>
+            <button type="submit" class="btn btn-hover">Entrar <span class="ic-solar login-3"></span></button>
+        </form>
+        <div class="content_login">
+            <a href="session/forgoten_pass.html">Olvidaste Tu Contraseña?... <span class="ic-solar square-bottom-up"></span></a>
+        </div>
+    </div>
     <div data-listening="scroll-chil">
         <div class="tab last-padding has_header listen_scroll" data-tab="tabAbout">
             <div id="tabAbout"></div>
@@ -333,4 +335,5 @@
 {% endblock %}
 {% block scriptsextra %}
 <script src="{% static 'libraries/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'js/submit.js' %}"></script>
 {% endblock %}

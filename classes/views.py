@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
 
-def clasindex(request):
-    return render(request, 'other.html', {})
+def singuppage(request):
+    return render(request, 'singup.html', {})
 
