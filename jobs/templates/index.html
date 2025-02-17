@@ -44,9 +44,6 @@
         </div>
         <p class="mt-35 pl-15">Contacto:</p>
         <article class="submenu">
-            <a href="session/profile.html" class="btn btn-icon btn-hover" title="perfil">
-                <span class="ic-solar user"></span>
-            </a>
             <a href="{% url 'singuppage' %}" class="btn btn-icon btn-hover" title="perfil">
                 <span class="ic-solar user-plus"></span>
             </a>
@@ -325,7 +322,7 @@
             <button type="submit" class="btn btn-hover">Entrar <span class="ic-solar login-3"></span></button>
         </form>
         <div class="content_login">
-            <a href="session/forgoten_pass.html">Olvidaste Tu Contraseña?... <span class="ic-solar square-bottom-up"></span></a>
+            <a href="{% url 'forgotten' %}">Olvidaste Tu Contraseña?... <span class="ic-solar square-bottom-up"></span></a>
         </div>
     </div>
     <div data-listening="scroll-chil">

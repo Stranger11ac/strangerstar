@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block titlefirst %}Registro de usuarios{% endblock %}
+{% block navfirst %}{% url 'index' %}{% endblock %}
 {% block navlinks %}
 <a href="{% url 'index' %}#tabHome" class="link_item"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span> </a>
 <a href="{% url 'index' %}#tabProjects" class="link_item"> <span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span> </a>

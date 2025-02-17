@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titlefirst %}Reestablecer Contraseña{% endblock %}
+{% block navfirst %}{% url 'index' %}{% endblock %}
+{% block navlinks %}
+<a href="{% url 'index' %}#tabHome" class="link_item"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span> </a>
+<a href="{% url 'index' %}#tabProjects" class="link_item"> <span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span> </a>
+<a href="{% url 'index' %}#tabLogin" class="link_item"> <span class="ic-solar login-3"></span><span class="link_item-title">Iniciar Sesión</span></a>
+<a href="{% url 'index' %}#tabAbout" class="link_item none-xl"> <span class="ic-solar user"></span><span class="link_item-title">Acerca de</span> </a>
+<button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
+    <span class="ic-solar settings"></span>
+    <span class="link_item-title">Configuracion</span>
+</button>
+{% endblock %}
+
+{% block sectchildclass %}container transparent{% endblock %}
+{% block main %}
+<div class="content flexbox-center flex-column gap2">
+    <form class="content_login">
+        <div>
+            <h2>Olvidate tu Contraseña?</h2>
+            <p class="justify mt-10">
+                Puedes restablecer tu contraseña con el correo electrónico vinculado a tu cuenta. Te enviaremos un código de confirmación y entonces podrás crear una nueva contraseña.
+            </p>
+        </div>
+
+        <div class="input_group group_icon flexbox gap_20">
+            <label class="icon-input" for="forgotenEmail"> <span class="ic-solar letter"></span></label>
+            <input type="text" name="forgotenEmail" id="forgotenEmail" placeholder="Email:" />
+            <button type="submit" class="btn btn-icon btn-hover" title="enviar"><span class="ic-solar plain"></span></button>
+        </div>
+    </form>
+    <form class="content_login gap_20">
+        <p class="end">Código válido por <span class="mw-65">2:00 min</span></p>
+        <div class="input_group group_icon-end">
+            <label class="icon-input" for="forgotenCode"> <span class="ic-solar hashtag-circle"></span></label>
+            <input type="text" name="forgotenCode" id="forgotenCode" placeholder="Código:" />
+        </div>
+        <button type="submit" class="btn btn_detail_hover">Verificar Código <span class="ic-solar plain"></span></button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scriptsextra %}
+<script src="{% static 'js/submit.js' %}"></script>
+{% endblock %}

@@ -10,6 +10,7 @@ from django.urls import reverse
 import json
 
 def index(request):
+    logout(request)
     return render(request, 'index.html', {})
 
 def jobicons(request):
