@@ -1,50 +1,55 @@
 $(document).ready(function () {
-    $("[data-submit]").submit(function (e) {
-        e.preventDefault = e.preventDefault || function () {};
+    $("[data-submit]").on("submit", function (e) {
         e.preventDefault();
 
-        const thisForm = e.target;
-        const formData = new FormData(thisForm);
-        const formToken = $("[name=csrfmiddlewaretoken]").val();
+        const $form = $(this);
+        const formData = new FormData(this);
+        const csrfToken = $("[name=csrfmiddlewaretoken]").val();
 
-        try {
-            formSubmitBtn = thisForm.querySelector('button[type="submit"]');
-            if (formSubmitBtn) {
-                formSubmitBtn.setAttribute("disabled", "disabled");
-            }
-        } catch (error) {
-            console.warn("Advertencia: Boton de envio no encontrado...");
-            console.warn(formSubmitBtn);
-            console.error(error);
+        const $submitButton = $form.find('button[type="submit"]');
+        if ($submitButton.length) {
+            $submitButton.prop("disabled", true);
+        } else {
+            console.warn("Advertencia: Botón de envío no encontrado...");
         }
 
-        fetch(thisForm.action, {
+        $.ajax({
+            url: $form.attr("action"),
             method: "POST",
-            body: formData,
+            data: formData,
+            processData: false,
+            contentType: false,
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": formToken,
+                "X-CSRFToken": csrfToken,
             },
-        })
-            .then(async (response) => {
-                if (!response.ok) {
-                    const data = await response.json();
-                    console.error(data);
-                    throw new Error(data.error || "Error en el formato recivido");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                const datastatus = data.datastatus;
+            success: function (data) {
                 const dataMsg = data.message;
-                let dataIcon;
-                if (datastatus) {
-                    dataIcon = "success";
-                } else {
-                    dataIcon = "error";
-                }
 
-                toast("center", 8000, dataIcon, dataMsg);
-            });
+                if (data.datastatus) {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    } else {
+                        toast("top", 8000, "success", dataMsg);
+                    }
+                } else {
+                    toast("center", 8000, "error", dataMsg);
+                }
+            },
+            error: function (jqXHR) {
+                const response = jqXHR.responseJSON;
+                const msg = response?.message || "Error desconocido";
+                toast("center", 8000, "error", msg);
+
+                if (!response?.message) {
+                    console.error(response || "Error desconocido");
+                }
+            },
+            complete: function () {
+                if ($submitButton.length) {
+                    $submitButton.prop("disabled", false);
+                }
+            },
+        });
     });
 });

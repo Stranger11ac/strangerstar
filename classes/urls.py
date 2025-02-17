@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from .views import singuppage, indexprofile
 
 urlpatterns = [
-    path("singup/", views.singuppage, name="singuppage"),
+    path("singup/", singuppage, name="singuppage"),
+    path("profile/", indexprofile, name="indexprofile"),
 ]

@@ -31,7 +31,7 @@
         }
     </script>
     <nav class="not_shadow">
-        <a href="{% block navfirst %}#tabHome{% endblock %}" class="nav_title">
+        <a href="{% block navfirst %}{% endblock %}" class="nav_title">
             <div class="nav_title-img"></div>
             <span>{% block navtitle %}Stranger Star{% endblock %}</span>
         </a>
@@ -61,7 +61,7 @@
     <section class="{% block sectparentclass %}{% endblock %}">
         {% block aside %}{% endblock %}
 
-        <section {% block secthildid %}{% endblock %} class="{% block sectchildclass %}container{% endblock %}">
+        <section {% block sectchildid %}{% endblock %} class="{% block sectchildclass %}container{% endblock %}">
             {% block main %}{% endblock %}
 
             <div class="settings_box hidden">

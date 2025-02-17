@@ -13,8 +13,9 @@
 {% endblock %}
 
 {% block bodyclass %}update_link{% endblock %}
+{% block navfirst %}#tabHome{% endblock %}
 {% block sectparentclass %}flexbox gap{% endblock %}
-{% block secthildid %}id="containerTabs"{% endblock %}
+{% block sectchildid %}id="containerTabs"{% endblock %}
 {% block sectchildclass %}container transparent has_swiper{% endblock %}
 {% block aside %}
 <aside class="container close" data-listening="scroll">
@@ -307,19 +308,20 @@
         </div>
     </div>
     <div class="tab flexbox-center flex-column gap2" data-tab="tabLogin">
-        <form class="content_login" data-submit autocomplete="off">
-            {% csrf_token %}
+        <form class="content_login" action="{% url 'singin' %}" data-submit autocomplete="off">
             <h2>Iniciar Sesión</h2>
+            {% csrf_token %}
 
             <div class="input_group group_icon-end">
                 <label class="icon-input" for="sesionName"> <span class="ic-solar user-circle"></span></label>
-                <input type="text" name="search_icon" id="sesionName" placeholder="Nombre y Apellido:" />
+                <input type="text" name="username" id="sesionName" placeholder="Nombre y Apellido:" />
             </div>
 
             <div class="input_group group_icon-end">
                 <label class="icon-input" for="sesionPass"> <span class="ic-solar key"></span></label>
-                <input type="password" name="search_icon" id="sesionPass" placeholder="Contraseña:" />
+                <input type="password" name="password" id="sesionPass" placeholder="Contraseña:" />
             </div>
+
             <button type="submit" class="btn btn-hover">Entrar <span class="ic-solar login-3"></span></button>
         </form>
         <div class="content_login">

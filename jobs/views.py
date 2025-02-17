@@ -28,17 +28,13 @@ def singup(request):
             password2=request.POST.get('password2'),
         )
         
-        status = 200 if response['success'] else 400
+        status = 200 if response['datastatus'] else 400
         return JsonResponse(response, status=status)
-    else:
-        logout(request)
-        url = reverse('index') + '#tabLogin'
-        return HttpResponseRedirect(url)
 
 @never_cache
-def singinpage(request):
+def singin(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        login_identifier = request.POST.get('username')  # Puede ser username o email
+        login_identifier = request.POST.get('username')
         password = request.POST.get('password')
         
         try:
@@ -58,8 +54,7 @@ def singinpage(request):
                 return JsonResponse({'datastatus': False, 'message': 'Revisa el usuario o contraseña 😅.'}, status=400)
             else:
                 login(request, user)
-                url_name = reverse('vista_programador')
-                return JsonResponse({'datastatus': True, 'url': url_name}, status=200)
+                return JsonResponse({'datastatus': True, 'redirect_url': reverse('indexprofile')})
         else:
             return JsonResponse({'datastatus': False, 'message': 'Usuario no registrado 😅. Verifica tu nombre de usuario o contraseña'}, status=400)
     else:
