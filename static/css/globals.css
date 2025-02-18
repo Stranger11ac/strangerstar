@@ -1264,8 +1264,8 @@ form .btn {
 .minw-65 {
     min-width: 65px;
 }
-.maxw-600 {
-    max-width: 600px;
+.maxw-400 {
+    max-width: 400px;
 }
 
 /* flexbox */

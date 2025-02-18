@@ -54,12 +54,11 @@
 {% block main %}
 <div class="tabs">
     <div class="tab last-padding" data-tab="tabHome">
-        <h2 class="center my-30">Usuarios</h2>
-        <div class="maxw-600">
-            <form class="flexbox flex-column gap_35" action="{% url 'singup' %}" data-valid-user>
+        <h2 class="center mb-15">Usuarios</h2>
+        <h4 class="center mb-35">Nuevo Registro</h4>
+        <div class="maxw-400">
+            <form class="flexbox flex-column gap_40" action="{% url 'singup' %}" data-valid-user>
                 {% csrf_token %}
-                <h2 class="mb-15">Registro</h2>
-
                 <div class="flexbox gap2">
                     <div class="input_group">
                         <input type="text" name="first_name" id="first_name" />
@@ -87,7 +86,7 @@
                     <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
                 </div>
 
-                <button type="submit" class="btn btn_detail_hover">Enviar Registro <span class="ic-solar plain"></span></button>
+                <button type="submit" class="btn btn-hover none" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
                 <input type="hidden" name="is_active" value="true">
             </form>
         </div>

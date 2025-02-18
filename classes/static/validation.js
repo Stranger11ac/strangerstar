@@ -41,22 +41,23 @@ $(document).ready(function () {
                 ignore: optionals ? optionals : ":hidden",
                 rules: rules,
                 messages: messages,
+                validClass: "is-valid",
+                errorClass: "is-invalid",
                 errorPlacement: function (error, element) {
                     error.addClass("error_text");
                     error.insertAfter(element);
                 },
-                highlight: function (element) {
-                    $(element).addClass("is-invalid").removeClass("is-valid");
-                },
-                unhighlight: function (element) {
-                    $(element).addClass("is-valid").removeClass("is-invalid");
-                    $("#lockIcon").removeClass("fa-lock-open").addClass("fa-lock");
-                },
+                // highlight: function (element) {
+                //     $(element).addClass("is-invalid").removeClass("is-valid");
+                // },
+                // unhighlight: function (element) {
+                //     $(element).addClass("is-valid").removeClass("is-invalid");
+                // },
                 invalidHandler: function (event, validator) {
                     var errors = validator.numberOfInvalids();
                     if (errors) {
                         var message = errors == 1 ? "Llena correctamente el campo resaltado 😬" : "Corrige los " + errors + " errores resaltados 😥😯🧐🤔😬";
-                        alertSToast("center", 10000, "error", message);
+                        toast("center", 10000, "error", message);
                     }
                 },
                 submitHandler: function (form) {
@@ -64,12 +65,12 @@ $(document).ready(function () {
                         target: form,
                         preventDefault: function () {},
                     });
-                },
+                }
             });
             setupDelayedValidation(`${selector} input`);
         } catch (error) {
             console.error("Error Inesperado: ", error);
-            alertSToast("center", 8000, "error", `😥 Ah ocurrido un error #304.`);
+            toast("center", 8000, "error", `😥 Ah ocurrido un error #304.`);
         }
     }
 
