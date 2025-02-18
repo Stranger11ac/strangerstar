@@ -47,12 +47,6 @@ $(document).ready(function () {
                     error.addClass("error_text");
                     error.insertAfter(element);
                 },
-                // highlight: function (element) {
-                //     $(element).addClass("is-invalid").removeClass("is-valid");
-                // },
-                // unhighlight: function (element) {
-                //     $(element).addClass("is-valid").removeClass("is-invalid");
-                // },
                 invalidHandler: function (event, validator) {
                     var errors = validator.numberOfInvalids();
                     if (errors) {
