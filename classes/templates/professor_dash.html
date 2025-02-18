@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block titlefirst %} Perfil | {{user}} {% endblock %}
+{% block titlefirst %} Dashboard | {{user.first_name}} {% endblock %}
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/grid.css' %}" />
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
@@ -22,7 +22,7 @@
 {% block sectchildid %}id="containerTabs"{% endblock %}
 {% block sectchildclass %}container transparent{% endblock %}
 {% block aside %}
-<aside class="container close" data-listening="scroll">
+<aside id="userAside" class="container close" data-listening="scroll">
     <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close" title="Cerrar Aside">
         <span class="ic-solar alt-arrow-right"></span>
     </button>
@@ -70,4 +70,5 @@
 
 {% block scriptsextra %}
 <script src="{% static 'js/tabs.js' %}"></script>
+<script src="{% static 'js/aside.js' %}"></script>
 {% endblock %}

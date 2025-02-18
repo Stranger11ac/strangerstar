@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block titlefirst %} Perfil | {{user}} {% endblock %}
+{% block titlefirst %} Perfil | Estudiante {{user.first_name}} {% endblock %}
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/grid.css' %}" />
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
@@ -9,9 +9,18 @@
 
 {% block bodyclass %}update_link{% endblock %}
 {% block navlinks %}
-<a href="#tabHome" class="link_item" data-toggle-tab="tabHome"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span></a>
-<a href="#tabMap" class="link_item" data-toggle-tab="tabMap"> <span class="ic-solar map"></span><span class="link_item-title">Mapa</span></a>
-<a href="#tabAbout" class="link_item none-xl" data-toggle-tab="tabAbout"> <span class="ic-solar user"></span><span class="link_item-title">Perfil</span></a>
+<a href="#tabHome" class="link_item" data-toggle-tab="tabHome">
+    <span class="ic-solar home-angle"></span>
+    <span class="link_item-title">Inicio</span>
+</a>
+<a href="#tabMap" class="link_item" data-toggle-tab="tabMap">
+    <span class="ic-solar map"></span>
+    <span class="link_item-title">Mapa</span>
+</a>
+<a href="#tabAbout" class="link_item none-xl" data-toggle-tab="tabAbout">
+    <span class="ic-solar user"></span>
+    <span class="link_item-title">perfil</span>
+</a>
 <button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
     <span class="ic-solar settings"></span>
     <span class="link_item-title">Configuracion</span>
@@ -22,7 +31,7 @@
 {% block sectchildid %}id="containerTabs"{% endblock %}
 {% block sectchildclass %}container{% endblock %}
 {% block aside %}
-<aside class="container close" data-listening="scroll">
+<aside id="userAside" class="container close" data-listening="scroll">
     <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close" title="Cerrar Aside">
         <span class="ic-solar alt-arrow-right"></span>
     </button>
@@ -70,4 +79,5 @@
 
 {% block scriptsextra %}
 <script src="{% static 'js/tabs.js' %}"></script>
+<script src="{% static 'js/aside.js' %}"></script>
 {% endblock %}

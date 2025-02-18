@@ -342,13 +342,13 @@ nav.active .nav_links_shadow {
     border-radius: 0 0 0 var(--radius);
 }
 [data-menu-direction="vertical"] nav.active .nav_links_shadow {
-    height: calc((var(--nav-height) * 5) + (var(--global-gap) * 5));
+    height: calc((var(--nav-height) * var(--num-btns, 5)) + (var(--global-gap) * var(--num-btns, 5)));
     display: block;
     opacity: 1;
     z-index: 4;
 }
 [data-menu-direction="vertical"][data-settings="window"] nav.active .nav_links_shadow {
-    height: calc((var(--nav-height) * 4) + (var(--global-gap) * 4));
+    height: calc((var(--nav-height) * (var(--num-btns, 5) - 1)) + (var(--global-gap) * (var(--num-btns, 5) - 1)));
     display: block;
     opacity: 1;
     z-index: 4;
@@ -705,7 +705,7 @@ hr.divisor {
 }
 
 [data-settings="window"] .last-padding {
-    padding-bottom: 70px;
+    padding-bottom: 80px;
 }
 
 /* Post interacions */
@@ -771,6 +771,7 @@ form .btn {
 */
 .input_group {
     --icon: 16px;
+    width: 100%;
     position: relative;
 }
 .input_group button {
@@ -798,19 +799,21 @@ form .btn {
 .input_group input:focus {
     background: var(--second);
 }
-.input_group input.valid {
+/* .input_group input.is-valid {
     border-color: lime;
-}
-.input_group input.invalid {
+} */
+.input_group input.is-invalid {
     border-color: tomato;
 }
-.input_group:has(input.valid) .link-input,
+.input_group:has(input.is-valid) .link-input,
 .input_group:has(input:focus) .link-input,
-.input_group:has(input.invalid) .link-input {
+.input_group:has(input.is-invalid) .link-input {
     inset: unset;
     top: calc(((var(--size, 40px) / 2) * -1) - 4px);
     height: calc(var(--size, 40px) / 2);
 }
+.input_group:has(input.is-valid) .link-input .ic-solar,
+.input_group:has(input.is-invalid) .link-input .ic-solar,
 .input_group:has(input:focus) .link-input .ic-solar {
     width: calc(var(--size, 40px) - var(--icon) - 5px);
     height: calc(var(--size, 40px) - var(--icon) - 5px);
@@ -859,6 +862,19 @@ form .btn {
 .input_group.without-border input,
 .input_group.without-border button {
     border: none !important;
+}
+
+.input_group .error_text {
+    padding: 10px 15px;
+    width: fit-content;
+    color: white;
+    background: tomato;
+    border-radius: var(--radius_inset);
+    margin-top: 10px;
+    display: inline-block;
+}
+.input_group .error_text ul {
+    margin-left: 20px;
 }
 
 /* Buttons / Botones */
@@ -1245,8 +1261,11 @@ form .btn {
     text-align: justify;
 }
 
-.mw-65 {
+.minw-65 {
     min-width: 65px;
+}
+.maxw-600 {
+    max-width: 600px;
 }
 
 /* flexbox */
@@ -1462,8 +1481,12 @@ form .btn {
     .gap {
         gap: var(--global-gap);
     }
+    [data-menu-direction="vertical"] nav.active .nav_links_shadow {
+        height: calc((var(--nav-height) * (var(--num-btns, 5) - 1)) + (var(--global-gap) * (var(--num-btns, 5) - 1)));
+    }
+   
     [data-menu-direction="vertical"][data-settings="window"] nav.active .nav_links_shadow {
-        height: calc((var(--nav-height) * 3) + (var(--global-gap) * 3));
+        height: calc((var(--nav-height) * (var(--num-btns, 5) - 2)) + (var(--global-gap) * (var(--num-btns, 5) - 2)));
     }
 }
 

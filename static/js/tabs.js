@@ -55,3 +55,7 @@ function handleResize() {
 $(window).on("hashchange", updateActiveTab);
 $(window).on("resize", handleResize).trigger("resize");
 updateActiveTab();
+
+
+const count = $(".link_item").length;
+$("nav").css("--num-btns", count);

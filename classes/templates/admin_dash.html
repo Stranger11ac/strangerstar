@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block titlefirst %} Perfil | {{user}} {% endblock %}
+{% block titlefirst %} Administracion | {{user}} | Dashboard {% endblock %}
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/grid.css' %}" />
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
@@ -22,7 +22,7 @@
 {% block sectchildid %}id="containerTabs"{% endblock %}
 {% block sectchildclass %}container transparent{% endblock %}
 {% block aside %}
-<aside class="container close" data-listening="scroll">
+<aside id="userAside" class="container close" data-listening="scroll">
     <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close" title="Cerrar Aside">
         <span class="ic-solar alt-arrow-right"></span>
     </button>
@@ -53,22 +53,43 @@
 
 {% block main %}
 <div class="tabs">
-    <div class="tab will_transparent grid-system" data-tab="tabHome">
-        <div class="grid-item card-picture">
-            <img loading="eager" src="{% static 'img/header_3.jpg' %}" class="picture" alt="image" />
-            <div class="item__details"><span class="ic-solar cursor-square"></span> {{user}}</div>
-        </div>
-        <div class="grid-item card-picture">
-            <img loading="eager" src="{% static 'img/header_4.jpg' %}" class="picture" alt="image" />
-            <div class="item__details"><span class="ic-solar box-minimalistic"></span> Modelado / Animación 3D</div>
-        </div>
-        <div class="grid-item card-picture">
-            <img loading="eager" src="{% static 'img/header_2.jpg' %}" class="picture" alt="image" />
-            <div class="item__details"><span class="ic-solar gamepad"></span> Desarrollo de Videojuegos</div>
-        </div>
-        <div class="grid-item card-picture">
-            <img loading="eager" src="{% static 'img/header_1.jpg' %}" class="picture" alt="image" />
-            <div class="item__details"><span class="ic-solar magic-stick"></span> Edición de Imágenes y video</div>
+    <div class="tab last-padding" data-tab="tabHome">
+        <h2 class="center my-30">Usuarios</h2>
+        <div class="maxw-600">
+            <form class="flexbox flex-column gap_35" action="{% url 'singup' %}" data-valid-user>
+                {% csrf_token %}
+                <h2 class="mb-15">Registro</h2>
+
+                <div class="flexbox gap2">
+                    <div class="input_group">
+                        <input type="text" name="first_name" id="first_name" />
+                        <label class="link-input" for="first_name"><span class="ic-solar user"></span> Nombre:</label>
+                    </div>
+
+                    <div class="input_group">
+                        <input type="text" name="last_name" id="last_name" />
+                        <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
+                    </div>
+                </div>
+
+                <div class="input_group">
+                    <input type="text" name="username" id="username" autocomplete="off" />
+                    <label class="link-input" for="username"><span class="ic-solar user-circle"></span> Usuario:</label>
+                </div>
+
+                <div class="input_group">
+                    <input type="email" name="email" id="email" />
+                    <label class="link-input" for="email"><span class="ic-solar letter"></span> Email:</label>
+                </div>
+
+                <div class="input_group">
+                    <input type="password" name="password1" id="password1" autocomplete="off" />
+                    <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
+                </div>
+
+                <button type="submit" class="btn btn_detail_hover">Enviar Registro <span class="ic-solar plain"></span></button>
+                <input type="hidden" name="is_active" value="true">
+            </form>
         </div>
     </div>
     <div id="map" class="tab will_transparent profile-mapbox" data-tab="tabMap"></div>
@@ -82,4 +103,7 @@
 
 {% block scriptsextra %}
 <script src="{% static 'js/tabs.js' %}"></script>
+<script src="{% static 'js/aside.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'validation.js' %}"></script>
 {% endblock %}

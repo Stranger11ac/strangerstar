@@ -1,9 +1,7 @@
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.contrib.auth import logout
 from .functions import group_required
 from django.shortcuts import render
-
 
 def singuppage(request):
     return render(request, 'singup.html', {})
@@ -12,7 +10,6 @@ def forgotten(request):
     logout(request)
     return render(request, 'forgotten.html', {})
 
-@login_required
 @never_cache
 @group_required('admin')
 def admin_dashboard(request):
@@ -20,7 +17,6 @@ def admin_dashboard(request):
         'user': request.user,
     })
 
-@login_required
 @never_cache
 @group_required('professor')
 def professor_dashboard(request):
@@ -28,7 +24,6 @@ def professor_dashboard(request):
         'user': request.user,
     })
 
-@login_required
 @never_cache
 @group_required('students')
 def student_dashboard(request):

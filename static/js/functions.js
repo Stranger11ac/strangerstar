@@ -210,10 +210,6 @@ $(document).ready(function () {
         $(`[data-toggle-color="${storageColor}"]`).addClass("active");
     }
 
-    // Transfered About Content #############################################
-    const contProfile = $("#contAbout").html();
-    $("#tabAbout").html(contProfile);
-
     // LocalStorage Data ################################################
     $("#deleteStorage").click(() => {
         $("#storageSize").text("0B");
@@ -228,29 +224,6 @@ $(document).ready(function () {
         }
         return `${totalPeso}B`;
     });
-
-    // Save Toggle Aside ##########################################################
-    document.addEventListener("keydown", (event) => {
-        if (event.ctrlKey && event.key.toLowerCase() === "b") {
-            event.preventDefault();
-            $("#close_aside").click();
-        }
-    });
-    $("#close_aside").click(() => {
-        const status = $("aside").hasClass("close") ? "close" : "";
-        $("aside").css({
-            "--box-height": "",
-            "--img-size": "",
-        });
-        localStorage.setItem("aside-status", status);
-    });
-
-    const asideStatus = localStorage.getItem("aside-status");
-    if (asideStatus && asideStatus === "close") {
-        $("aside#userAside").addClass("close");
-    } else {
-        $("aside#userAside").removeClass("close");
-    }
 
     // Picture in Card #####################################################
     $(".card-picture").each(function () {
@@ -273,41 +246,6 @@ $(document).ready(function () {
         const $item = $(this);
         const textCopy = $item.attr("data-copy");
         copyToClipboard(textCopy);
-    });
-});
-
-// Scroll in Aside #####################################################
-$(document).ready(function () {
-    $("[data-listening]").each(function () {
-        const $dataListenScroll = $(this);
-        const $dataListenVal = $dataListenScroll.attr("data-listening");
-        let $listenScroll = $dataListenScroll.find(".listen_scroll");
-        let $boxStyle;
-
-        const initialHeight = 11;
-        const minBoxHeight = 6;
-        let boxHeight = initialHeight;
-
-        const initialImgSize = 18;
-        const minImgSize = 8;
-        let imgSize = initialImgSize;
-
-        $listenScroll.on("scroll", function () {
-            let scrollPos = $listenScroll.scrollTop(); // Obtiene el desplazamiento actual
-            let factor = Math.min(scrollPos / 100, 1); // Rango de 0 a 1
-            boxHeight = initialHeight - (initialHeight - minBoxHeight) * factor;
-            imgSize = initialImgSize - (initialImgSize - minImgSize) * factor;
-
-            if ($dataListenVal == "scroll") {
-                $boxStyle = $dataListenScroll;
-            } else {
-                $boxStyle = $listenScroll;
-            }
-            $boxStyle.css({
-                "--box-height": `clamp(80px, ${boxHeight}vw, 150px)`,
-                "--img-size": `clamp(160px, ${imgSize}vw, 260px)`,
-            });
-        });
     });
 });
 
@@ -560,3 +498,11 @@ const countryFlags = {
 //         event.preventDefault();
 //     }
 // });
+
+var expressions = {
+    name: /^[a-zA-ZÀ-ÿ\s]+$/,
+    username: /^(?![0-9_-])[a-zA-Z0-9_-]+$/,
+    email: /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+    password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*.?&])[A-Za-z\d@#<>:;$!%*.?&]{8,}$/,
+    title: /^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9\s\-_#]*$/,
+};
