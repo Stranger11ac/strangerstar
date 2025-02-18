@@ -210,65 +210,6 @@ $(document).ready(function () {
         $(`[data-toggle-color="${storageColor}"]`).addClass("active");
     }
 
-    // URL Hash Changes ######################################################################
-    function updateActiveTab() {
-        const currentHash = window.location.hash.substring(1);
-        const isWideScreen = $(window).width() > 1023;
-        const $nav = $("nav");
-        const $containerTabs = $("#containerTabs");
-
-        $("[data-toggle-tab]").removeClass("link_active");
-        $("[data-tab]").removeClass("active");
-
-        let activeHash = currentHash === "tabAbout" && isWideScreen ? false : currentHash;
-
-        if (activeHash) {
-            $(`[data-toggle-tab="${activeHash}"]`).addClass("link_active");
-            $(`[data-tab="${activeHash}"]`).addClass("active");
-            $containerTabs.addClass("transparent");
-
-            if (activeHash === "tabHome") {
-                $containerTabs.removeClass("tabAbout");
-                if ($containerTabs.hasClass("has_swiper")) {
-                    swiper.autoplay.start();
-                }
-            } else if (activeHash === "tabAbout") {
-                $containerTabs.addClass("tabAbout").removeClass("transparent");
-            } else {
-                if ($containerTabs.hasClass("has_swiper")) {
-                    swiper.autoplay.stop();
-                }
-                setTimeout(() => {
-                    $containerTabs.removeClass("tabAbout");
-                }, 508);
-            }
-        } else if ($("body").hasClass("update_link")) {
-            $('[data-tab="tabHome"]').addClass("active");
-            $('[data-toggle-tab="tabHome"]').addClass("link_active");
-            $containerTabs.removeClass("tabAbout");
-        }
-    }
-
-    // URL Hash changes and Window Size ##########################################
-    function handleResize() {
-        const isWideScreen = $(window).width() > 1023;
-
-        if (isWideScreen && $('[data-toggle-tab="tabAbout"]').hasClass("link_active")) {
-            $('[data-toggle-tab="tabAbout"]').removeClass("link_active");
-            $('[data-toggle-tab="tabHome"]').addClass("link_active");
-            $('[data-tab="tabAbout"]').removeClass("active");
-            $('[data-tab="tabHome"]').addClass("active");
-
-            $("#containerTabs").addClass("transparent");
-        } else if (!isWideScreen) {
-            updateActiveTab();
-        }
-    }
-
-    $(window).on("hashchange", updateActiveTab);
-    $(window).on("resize", handleResize).trigger("resize");
-    updateActiveTab();
-
     // Transfered About Content #############################################
     const contProfile = $("#contAbout").html();
     $("#tabAbout").html(contProfile);

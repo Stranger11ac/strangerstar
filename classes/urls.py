@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import singuppage, indexprofile, forgotten
+from . import views
 
 urlpatterns = [
-    path("", forgotten, name="forgotten"),
-    path("singup/", singuppage, name="singuppage"),
-    path("profile/", indexprofile, name="indexprofile"),
+    path("", views.forgotten, name="forgotten"),
+    path("singup/", views.singuppage, name="singuppage"),
+    
+    path('admin/', views.admin_dashboard, name='admin_dash'),
+    path('professor/', views.professor_dashboard, name='professor_dash'),
+    path('student/', views.student_dashboard, name='student_dash'),
 ]

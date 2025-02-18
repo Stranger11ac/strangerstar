@@ -1,5 +1,7 @@
+from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.urls import reverse
 
 def create_newuser(first_name, last_name, username, email, password1, password2=None, is_staff=False, is_active=False):
     if not (password1 and username and email):
@@ -28,3 +30,16 @@ def create_newuser(first_name, last_name, username, email, password1, password2=
         return {'datastatus': True, 'message': f'Usuario creado exitosamente 🥳🎈 {aviso}'}
     except IntegrityError:
         return {'datastatus': False, 'message': 'Ocurrió un error durante el registro. Intente nuevamente.'}
+    
+
+def user_redirect(user):
+    if user.is_superuser:
+        return reverse('admin_dash')
+
+    if user.groups.filter(name='professor').exists():
+        return reverse('professor_dash')
+
+    if user.groups.filter(name='students').exists():
+        return reverse('student_dash')
+
+    return reverse('index')

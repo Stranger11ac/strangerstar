@@ -1,10 +1,10 @@
-from .views import index, jobicons, singup, singin, singout
+from . import views
 from django.urls import path
 
 urlpatterns = [
-    path("", index, name="index"),
-    path("singup/", singup, name="singup"),
-    path("singin/", singin, name="singin"),
-    path("singout/", singout, name="singout"),
-    path("proyectos/iconos/", jobicons, name="jobicons"),
+    path("", views.index, name="index"),
+    path("singup/", views.singup, name="singup"),
+    path("singin/", views.singin, name="singin"),
+    path("singout/", views.singout, name="singout"),
+    path("proyectos/iconos/", views.jobicons, name="jobicons"),
 ]

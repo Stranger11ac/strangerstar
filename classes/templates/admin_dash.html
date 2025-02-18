@@ -23,14 +23,14 @@
 {% block sectchildclass %}container transparent{% endblock %}
 {% block aside %}
 <aside class="container close" data-listening="scroll">
-    <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close">
+    <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close" title="Cerrar Aside">
         <span class="ic-solar alt-arrow-right"></span>
     </button>
     <section id="contAbout" class="content listen_scroll">
         <article class="profile-box">
             <div class="photo-box">
                 <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1422255198496-21531f12a6e8" />
+                    <img src="https://images.unsplash.com/photo-1422255198496-21531f12a6e8" alt="foto de perfil" />
                     <span></span>
                     <span></span>
                     <h2>{{user}}</h2>
@@ -53,29 +53,33 @@
 
 {% block main %}
 <div class="tabs">
-    <div class="tab grid-system" data-tab="tabHome">
+    <div class="tab will_transparent grid-system" data-tab="tabHome">
         <div class="grid-item card-picture">
-            <img loading="eager" src="{% static 'img/header_3.jpg' %}" class="picture" />
-            <div class="item__details"><span class="ic-solar cursor-square"></span> Full-stack Web Developer</div>
+            <img loading="eager" src="{% static 'img/header_3.jpg' %}" class="picture" alt="image" />
+            <div class="item__details"><span class="ic-solar cursor-square"></span> {{user}}</div>
         </div>
         <div class="grid-item card-picture">
-            <img loading="eager" src="{% static 'img/header_4.jpg' %}" class="picture" />
+            <img loading="eager" src="{% static 'img/header_4.jpg' %}" class="picture" alt="image" />
             <div class="item__details"><span class="ic-solar box-minimalistic"></span> Modelado / Animación 3D</div>
         </div>
         <div class="grid-item card-picture">
-            <img loading="eager" src="{% static 'img/header_2.jpg' %}" class="picture" />
+            <img loading="eager" src="{% static 'img/header_2.jpg' %}" class="picture" alt="image" />
             <div class="item__details"><span class="ic-solar gamepad"></span> Desarrollo de Videojuegos</div>
         </div>
         <div class="grid-item card-picture">
-            <img loading="eager" src="{% static 'img/header_1.jpg' %}" class="picture" />
+            <img loading="eager" src="{% static 'img/header_1.jpg' %}" class="picture" alt="image" />
             <div class="item__details"><span class="ic-solar magic-stick"></span> Edición de Imágenes y video</div>
         </div>
     </div>
-    <div id="map" class="tab profile-mapbox" data-tab="tabMap"></div>
+    <div id="map" class="tab will_transparent profile-mapbox" data-tab="tabMap"></div>
     <div data-listening="scroll-chil">
         <div class="tab last-padding has_header listen_scroll" data-tab="tabAbout">
             <div id="tabAbout"></div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scriptsextra %}
+<script src="{% static 'js/tabs.js' %}"></script>
 {% endblock %}

@@ -14,6 +14,7 @@
 
 {% block bodyclass %}update_link{% endblock %}
 {% block navfirst %}#tabHome{% endblock %}
+
 {% block sectparentclass %}flexbox gap{% endblock %}
 {% block sectchildid %}id="containerTabs"{% endblock %}
 {% block sectchildclass %}container transparent has_swiper{% endblock %}
@@ -83,9 +84,10 @@
     </section>
 </aside>
 {% endblock %}
+
 {% block main %}
 <div class="tabs">
-    <div class="tab grid-system grid-index" data-tab="tabHome">
+    <div class="tab will_transparent grid-system grid-index" data-tab="tabHome">
         <div class="grid-item transparent swiper" data-interval="10000">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -135,7 +137,7 @@
             <div class="item__details"><span class="ic-solar magic-stick"></span> Edición de Imágenes y video</div>
         </div>
     </div>
-    <div class="tab" data-tab="tabProjects">
+    <div class="tab will_transparent" data-tab="tabProjects">
         <div class="grid-system">
             <div class="card">
                 <div class="image-group">
@@ -304,19 +306,19 @@
             </div>
         </div>
     </div>
-    <div class="tab flexbox-center flex-column gap2" data-tab="tabLogin">
+    <div class="tab will_transparent flexbox-center flex-column gap2" data-tab="tabLogin">
         <form class="content_login" action="{% url 'singin' %}" data-submit autocomplete="off">
             <h2>Iniciar Sesión</h2>
             {% csrf_token %}
 
             <div class="input_group group_icon-end">
                 <label class="icon-input" for="sesionName"> <span class="ic-solar user-circle"></span></label>
-                <input type="text" name="username" id="sesionName" placeholder="Nombre y Apellido:" />
+                <input type="text" name="username" id="sesionName" placeholder="Usuario:" required />
             </div>
 
             <div class="input_group group_icon-end">
                 <label class="icon-input" for="sesionPass"> <span class="ic-solar key"></span></label>
-                <input type="password" name="password" id="sesionPass" placeholder="Contraseña:" />
+                <input type="password" name="password" id="sesionPass" placeholder="Contraseña:" required />
             </div>
 
             <button type="submit" class="btn btn-hover">Entrar <span class="ic-solar login-3"></span></button>
@@ -332,7 +334,9 @@
     </div>
 </div>
 {% endblock %}
+
 {% block scriptsextra %}
 <script src="{% static 'libraries/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'js/tabs.js' %}"></script>
 <script src="{% static 'js/submit.js' %}"></script>
 {% endblock %}
