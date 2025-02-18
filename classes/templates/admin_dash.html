@@ -20,7 +20,7 @@
 
 {% block sectparentclass %}flexbox gap{% endblock %}
 {% block sectchildid %}id="containerTabs"{% endblock %}
-{% block sectchildclass %}container transparent{% endblock %}
+{% block sectchildclass %}container{% endblock %}
 {% block aside %}
 <aside id="userAside" class="container close" data-listening="scroll">
     <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close" title="Cerrar Aside">
@@ -57,31 +57,31 @@
         <h2 class="center mb-15">Usuarios</h2>
         <h4 class="center mb-35">Nuevo Registro</h4>
         <div class="maxw-400">
-            <form class="flexbox flex-column gap_40" action="{% url 'singup' %}" data-valid-user>
+            <form class="flexbox flex-column gap_40" method="POST" data-action="{% url 'singup' %}" data-valid-user>
                 {% csrf_token %}
                 <div class="flexbox gap2">
-                    <div class="input_group">
+                    <div class="input_group validate">
                         <input type="text" name="first_name" id="first_name" />
                         <label class="link-input" for="first_name"><span class="ic-solar user"></span> Nombre:</label>
                     </div>
 
-                    <div class="input_group">
+                    <div class="input_group validate">
                         <input type="text" name="last_name" id="last_name" />
                         <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
                     </div>
                 </div>
 
-                <div class="input_group">
+                <div class="input_group validate">
                     <input type="text" name="username" id="username" autocomplete="off" />
                     <label class="link-input" for="username"><span class="ic-solar user-circle"></span> Usuario:</label>
                 </div>
 
-                <div class="input_group">
+                <div class="input_group validate">
                     <input type="email" name="email" id="email" />
                     <label class="link-input" for="email"><span class="ic-solar letter"></span> Email:</label>
                 </div>
 
-                <div class="input_group">
+                <div class="input_group validate">
                     <input type="password" name="password1" id="password1" autocomplete="off" />
                     <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
                 </div>
@@ -104,5 +104,5 @@
 <script src="{% static 'js/tabs.js' %}"></script>
 <script src="{% static 'js/aside.js' %}"></script>
 <script src="{% static 'js/jquery.validate.min.js' %}"></script>
-<script src="{% static 'validation.js' %}"></script>
+<script src="{% static 'js/submit.js' %}"></script>
 {% endblock %}
