@@ -709,7 +709,7 @@ hr.divisor {
 }
 
 [data-settings="window"] .last-padding {
-    padding-bottom: 80px;
+    padding-bottom: 70px;
 }
 
 /* Post interacions */
@@ -757,16 +757,22 @@ form .btn {
     min-height: 40px;
     min-width: 40px;
 }
-.content_login {
+.tab article,
+.content_form {
     width: 100%;
-    padding: 30px;
-    max-width: 600px;
+    padding: 20px;
+    height: fit-content;
     background: var(--second);
     border-radius: var(--radius);
+}
+.tab article {
+    max-width: fit-content;
+    overflow: auto;
+}
+.content_form {
+    gap: 30px;
     display: flex;
     flex-direction: column;
-    text-align: center;
-    gap: 30px;
 }
 
 /*
@@ -1268,8 +1274,11 @@ form .btn {
 .minw-65 {
     min-width: 65px;
 }
-.maxw-400 {
-    max-width: 400px;
+.maxw-450 {
+    max-width: 450px;
+}
+.maxw-600 {
+    max-width: 600px;
 }
 
 /* flexbox */

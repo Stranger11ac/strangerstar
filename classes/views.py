@@ -1,4 +1,5 @@
 from django.views.decorators.cache import never_cache
+from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from .functions import group_required
 from django.shortcuts import render
@@ -13,8 +14,10 @@ def forgotten(request):
 @never_cache
 @group_required('admin')
 def admin_dashboard(request):
+    users_objects = User.objects.all().order_by('-id')
     return render(request, 'admin_dash.html', {
         'user': request.user,
+        'users_list': users_objects,
     })
 
 @never_cache

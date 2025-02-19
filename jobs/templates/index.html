@@ -307,7 +307,7 @@
         </div>
     </div>
     <div class="tab will_transparent flexbox-center flex-column gap2" data-tab="tabLogin">
-        <form class="content_login" action="{% url 'singin' %}" data-submit autocomplete="off">
+        <form class="content_form maxw-600" action="{% url 'singin' %}" data-submit autocomplete="off">
             <h2>Iniciar Sesión</h2>
             {% csrf_token %}
 
@@ -323,7 +323,7 @@
 
             <button type="submit" class="btn btn-hover">Entrar <span class="ic-solar login-3"></span></button>
         </form>
-        <div class="content_login">
+        <div class="content_form maxw-600">
             <a href="{% url 'forgotten' %}">Olvidaste Tu Contraseña?... <span class="ic-solar square-bottom-up"></span></a>
         </div>
     </div>

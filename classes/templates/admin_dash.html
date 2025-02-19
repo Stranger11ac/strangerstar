@@ -3,7 +3,6 @@
 
 {% block titlefirst %} Administracion | {{user}} | Dashboard {% endblock %}
 {% block linksextra %}
-<link rel="stylesheet" href="{% static 'css/grid.css' %}" />
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
 {% endblock %}
 
@@ -20,7 +19,7 @@
 
 {% block sectparentclass %}flexbox gap{% endblock %}
 {% block sectchildid %}id="containerTabs"{% endblock %}
-{% block sectchildclass %}container{% endblock %}
+{% block sectchildclass %}container transparent{% endblock %}
 {% block aside %}
 <aside id="userAside" class="container close" data-listening="scroll">
     <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close" title="Cerrar Aside">
@@ -30,7 +29,7 @@
         <article class="profile-box">
             <div class="photo-box">
                 <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1422255198496-21531f12a6e8" alt="foto de perfil" />
+                    <img src="{% static 'img/header_1.jpg' %}" alt="foto de perfil" />
                     <span></span>
                     <span></span>
                     <h2>{{user}}</h2>
@@ -53,40 +52,66 @@
 
 {% block main %}
 <div class="tabs">
-    <div class="tab last-padding" data-tab="tabHome">
-        <h2 class="center mb-15">Usuarios</h2>
-        <h4 class="center mb-35">Nuevo Registro</h4>
-        <div class="maxw-400">
-            <form class="flexbox flex-column gap_40" method="POST" action="{% url 'singup' %}" data-valid-user>
-                {% csrf_token %}
-                <div class="flexbox gap2">
-                    <div class="input_group validate">
-                        <input type="text" name="first_name" id="first_name" />
-                        <label class="link-input" for="first_name"><span class="ic-solar user"></span> Nombre:</label>
-                    </div>
-                    <div class="input_group validate">
-                        <input type="text" name="last_name" id="last_name" />
-                        <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
-                    </div>
+    <div class="tab will_transparent last-padding flexbox gap2 flex-wrap" data-tab="tabHome">
+        <form class="content_form maxw-450" method="POST" action="{% url 'singup' %}" data-valid-user>
+            <div>
+                <h2 class="center mb-15">Usuarios</h2>
+                <h4 class="center">Nuevo Registro</h4>
+            </div>
+            {% csrf_token %}
+            <div class="flexbox gap2">
+                <div class="input_group validate">
+                    <input type="text" name="first_name" id="first_name" />
+                    <label class="link-input" for="first_name"><span class="ic-solar user"></span> Nombre:</label>
                 </div>
                 <div class="input_group validate">
-                    <input type="text" name="username" id="username" autocomplete="off" />
-                    <label class="link-input" for="username"><span class="ic-solar user-circle"></span> Usuario:</label>
+                    <input type="text" name="last_name" id="last_name" />
+                    <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
                 </div>
-                <div class="input_group validate">
-                    <input type="email" name="email" id="email" />
-                    <label class="link-input" for="email"><span class="ic-solar letter"></span> Email:</label>
-                </div>
-                <div class="input_group validate">
-                    <input type="password" name="password1" id="password1" autocomplete="off" />
-                    <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
-                </div>
-                <button type="submit" class="btn btn-hover opacity" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
-                <input type="hidden" name="is_active" value="true">
-            </form>
-        </div>
+            </div>
+            <div class="input_group validate">
+                <input type="text" name="username" id="username" autocomplete="off" />
+                <label class="link-input" for="username"><span class="ic-solar user-circle"></span> Usuario:</label>
+            </div>
+            <div class="input_group validate">
+                <input type="email" name="email" id="email" />
+                <label class="link-input" for="email"><span class="ic-solar letter"></span> Email:</label>
+            </div>
+            <div class="input_group validate">
+                <input type="password" name="password1" id="password1" autocomplete="off" />
+                <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
+            </div>
+            <button type="submit" class="btn btn-hover opacity" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
+            <input type="hidden" name="is_active" value="true">
+        </form>
+        <article>
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Usuario</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Email</th>
+                  <th>Grupo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for oneuser in users_list %}
+                <tr id="row-user_{{oneuser.id}}">
+                  <td>{{ oneuser.id }}</td>
+                  <td><strong>{{ oneuser.username }}</strong></td>
+                  <td>{{ oneuser.first_name }}</td>
+                  <td>{{ oneuser.last_name }}</td>
+                  <td>{{ oneuser.email }}</td>
+                  <td>{{ oneuser.groups.name }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </article>
     </div>
-    <div id="map" class="tab will_transparent profile-mapbox" data-tab="tabMap"></div>
+    <div id="map" class="tab profile-mapbox" data-tab="tabMap"></div>
     <div data-listening="scroll-chil">
         <div class="tab last-padding has_header listen_scroll" data-tab="tabAbout">
             <div id="tabAbout"></div>
