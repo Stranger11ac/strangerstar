@@ -204,6 +204,10 @@ a {
     -webkit-tap-highlight-color: transparent;
 }
 
+button:disabled {
+    cursor: not-allowed;
+}
+
 :is(h1, h2, h3, h4, h5, h6, p) {
     cursor: text;
 }
@@ -1361,6 +1365,9 @@ form .btn {
     gap: 55px;
 }
 
+.opacity {
+    opacity: 0.5;
+}
 .none {
     display: none;
 }
@@ -1484,14 +1491,15 @@ form .btn {
     [data-menu-direction="vertical"] nav.active .nav_links_shadow {
         height: calc((var(--nav-height) * (var(--num-btns, 5) - 1)) + (var(--global-gap) * (var(--num-btns, 5) - 1)));
     }
-   
+
     [data-menu-direction="vertical"][data-settings="window"] nav.active .nav_links_shadow {
         height: calc((var(--nav-height) * (var(--num-btns, 5) - 2)) + (var(--global-gap) * (var(--num-btns, 5) - 2)));
     }
 }
 
 @media (prefers-color-scheme: dark) {
-    [data-theme="device"]:root, :root {
+    [data-theme="device"]:root,
+    :root {
         --bgcolor: #212121;
         --second: #2d2d2d;
         --color: #fff;

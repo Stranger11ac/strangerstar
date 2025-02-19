@@ -1,5 +1,8 @@
 $(document).ready(function () {
-    $("[data-submit]").on("submit", jsonSubmit);
+    $("[data-submit]").on("submit", function (e) {
+        e.preventDefault();
+        jsonSubmit();
+    });
 
     var typingTimer;
     function setupDelayedValidation(selector) {
@@ -12,6 +15,7 @@ $(document).ready(function () {
                         var element = this;
                         typingTimer = setTimeout(function () {
                             $(element).valid();
+                            validAllInputs(selector);
                         }, 900);
                     })
                     .on("keydown", function () {
@@ -29,9 +33,9 @@ $(document).ready(function () {
             });
 
         if (allValid) {
-            $("[type='submit']").removeClass("none").removeAttr("disabled");
+            $("[type='submit']").removeClass("opacity").removeAttr("disabled");
         } else {
-            $("[type='submit']").addClass("none").attr("disabled", "disabled");
+            $("[type='submit']").addClass("opacity").attr("disabled", "disabled");
         }
     }
 
@@ -71,20 +75,16 @@ $(document).ready(function () {
                         toast("center", 10000, "error", message);
                     }
                 },
-                unhighlight: function (element) {
-                    $(element).addClass("is-valid").removeClass("is-invalid");
-                    validAllInputs(selector);
-                },
-                submitHandler: function (e, form) {
-                    e.preventDefault();
-                    jsonSubmit({
-                        target: form,
-                        formUrl: $(`${selector}[data-action]`),
-                        preventDefault: function () {},
-                    });
+                submitHandler: function (form) {
+                    jsonSubmit.call(form);
+                    $(`${selector} input`).blur();
+                    setTimeout(() => {
+                        $(`${selector} input`).removeClass("is-invalid is-valid");
+                        $(".error_text").remove();
+                    }, 1000);
                 },
             });
-            setupDelayedValidation(`${selector} input`);
+            setupDelayedValidation(selector);
         } catch (error) {
             console.error("Error Inesperado: ", error);
             toast("center", 8000, "error", `😥 Ah ocurrido un error #304.`);
@@ -141,13 +141,11 @@ $(document).ready(function () {
     );
 });
 
-function jsonSubmit(e, formUrl = none) {
-    e.preventDefault();
-
+function jsonSubmit() {
     const $form = $(this);
     const formData = new FormData(this);
     const csrfToken = $("[name=csrfmiddlewaretoken]").val();
-    let $formUrl = $form.attr("action");
+    let $formUrlAct = $form.attr("action");
 
     const $submitButton = $form.find('button[type="submit"]');
     if ($submitButton.length) {
@@ -156,12 +154,8 @@ function jsonSubmit(e, formUrl = none) {
         console.warn("Advertencia: Botón de envío no encontrado...");
     }
 
-    if (!$formUrl) {
-        $formUrl = formUrl;
-    }
-
     $.ajax({
-        url: $formUrl,
+        url: $formUrlAct,
         method: "POST",
         data: formData,
         processData: false,
@@ -182,6 +176,7 @@ function jsonSubmit(e, formUrl = none) {
             } else {
                 toast("center", 8000, "error", dataMsg);
             }
+            $form.trigger("reset");
         },
         error: function (jqXHR) {
             const response = jqXHR.responseJSON;
@@ -190,6 +185,10 @@ function jsonSubmit(e, formUrl = none) {
 
             if (!response?.message) {
                 console.error(response || "Error desconocido");
+            }
+
+            if (response?.valSelector) {
+                $(`#${response.valSelector}`).focus();
             }
         },
         complete: function () {

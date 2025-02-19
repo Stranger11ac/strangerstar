@@ -35,11 +35,8 @@ def create_newuser(first_name, last_name, username, email, password1, password2=
 def user_redirect(user):
     if user.is_superuser:
         return reverse('admin_dash')
-
     if user.groups.filter(name='professor').exists():
         return reverse('professor_dash')
-
     if user.groups.filter(name='students').exists():
         return reverse('student_dash')
-
     return reverse('index')
