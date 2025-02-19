@@ -4,7 +4,6 @@ from django.db import models
 class Theclass(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    header = models.ImageField(upload_to='classes_header/', blank=True, null=True)
     professor = models.CharField(max_length=100)
     students = models.TextField(null=True, blank=True)
 
@@ -35,7 +34,6 @@ class Classassitens(models.Model):
 class Classevents(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to='classes_events/', blank=True, null=True)
     url = models.TextField(blank=True, null=True)
     frecuenci = models.IntegerField(default=0)
     date_start = models.DateTimeField(blank=True, null=True)
@@ -45,6 +43,5 @@ class Classevents(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='users_pictures/', blank=True, null=True)
     password_update = models.DateField(blank=True, null=True)
     location = models.TextField(null=True, blank=True)
