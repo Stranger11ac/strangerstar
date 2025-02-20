@@ -757,7 +757,7 @@ form .btn {
     min-height: 40px;
     min-width: 40px;
 }
-.tab article,
+.tab .content_min,
 .content_form {
     width: 100%;
     padding: 20px;
@@ -765,7 +765,7 @@ form .btn {
     background: var(--second);
     border-radius: var(--radius);
 }
-.tab article {
+.tab .content_min {
     max-width: fit-content;
     overflow: auto;
 }
