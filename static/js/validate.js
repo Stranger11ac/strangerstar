@@ -70,9 +70,7 @@ $(document).ready(function () {
                         toast("center", 10000, "error", message);
                     }
                 },
-                submitHandler: function (form) {
-                    jsonSubmit.call(form);
-                    
+                submitHandler: function () {
                     $(`${selector} input`).blur();
                     setTimeout(() => {
                         $(`${selector} input`).removeClass("is-invalid is-valid");

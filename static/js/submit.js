@@ -1,11 +1,10 @@
 $(document).ready(function () {
-    $("[data-submit]").on("submit", function (e) {
-        e.preventDefault();
-        jsonSubmit();
-    });
+    $("[data-submit], [data-valid-user]").on("submit", jsonSubmit);
 });
 
-function jsonSubmit() {
+function jsonSubmit(event) {
+    event.preventDefault();
+
     const $form = $(this);
     const formData = new FormData(this);
     const $csrfToken = $("[name=csrfmiddlewaretoken]").val();
