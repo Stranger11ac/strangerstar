@@ -77,37 +77,39 @@
                 <input type="email" name="email" id="email" />
                 <label class="link-input" for="email"><span class="ic-solar letter"></span> Email:</label>
             </div>
-            <div class="input_group validate">
-                <input type="password" name="password1" id="password1" autocomplete="off" />
-                <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
+            <div>
+                <div class="input_group validate">
+                    <input type="password" name="password1" id="password1" autocomplete="off" />
+                    <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
+                </div>
+                <button type="submit" class="btn btn-hover opacity mt-15 w100" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
             </div>
-            <button type="submit" class="btn btn-hover opacity" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
             <input type="hidden" name="is_active" value="true">
         </form>
         <article class="content_min">
             <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Usuario</th>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Email</th>
-                  <th>Grupo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for oneuser in users_list %}
-                <tr id="row-user_{{oneuser.id}}">
-                  <td>{{ oneuser.id }}</td>
-                  <td><strong>{{ oneuser.username }}</strong></td>
-                  <td>{{ oneuser.first_name }}</td>
-                  <td>{{ oneuser.last_name }}</td>
-                  <td>{{ oneuser.email }}</td>
-                  <td>{{ oneuser.groups.name }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>Grupo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for oneuser in users_list %}
+                    <tr id="row-user_{{oneuser.id}}">
+                        <td>{{ oneuser.id }}</td>
+                        <td><strong>{{ oneuser.username }}</strong></td>
+                        <td>{{ oneuser.first_name }}</td>
+                        <td>{{ oneuser.last_name }}</td>
+                        <td>{{ oneuser.email }}</td>
+                        <td>{{ oneuser.groups.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </article>
     </div>
