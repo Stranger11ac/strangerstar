@@ -4,6 +4,7 @@
 {% block titlefirst %} Administracion | {{user}} | Dashboard {% endblock %}
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
+<link rel="stylesheet" href="{% static 'css/grid.css' %}" />
 {% endblock %}
 
 {% block bodyclass %}update_link{% endblock %}
@@ -52,66 +53,188 @@
 
 {% block main %}
 <div class="tabs">
-    <div class="tab will_transparent last-padding flexbox gap2 flex-wrap" data-tab="tabHome">
-        <form class="content_form maxw-450" method="POST" action="{% url 'singup' %}" data-valid-user>
-            <div>
-                <h2 class="center mb-15">Usuarios</h2>
-                <h4 class="center">Nuevo Registro</h4>
-            </div>
-            {% csrf_token %}
-            <div class="flexbox gap2">
-                <div class="input_group validate">
-                    <input type="text" name="first_name" id="first_name" />
-                    <label class="link-input" for="first_name"><span class="ic-solar user"></span> Nombre:</label>
+    <div class="tab will_transparent last-padding" data-tab="tabHome">
+        <div class="grid grid-cols grid-m-450">
+            <form class="content_form" method="POST" action="{% url 'singup' %}" data-submit data-validuser>
+                <div>
+                    <h3 class="center">Nuevo Usuarios</h3>
+                </div>
+                {% csrf_token %}
+                <div class="flexbox gap2">
+                    <div class="input_group validate">
+                        <input type="text" name="first_name" id="first_name" />
+                        <label class="link-input" for="first_name"><span class="ic-solar user"></span> Nombre:</label>
+                    </div>
+                    <div class="input_group validate">
+                        <input type="text" name="last_name" id="last_name" />
+                        <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
+                    </div>
                 </div>
                 <div class="input_group validate">
-                    <input type="text" name="last_name" id="last_name" />
-                    <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
+                    <input type="text" name="username" id="username" autocomplete="off" />
+                    <label class="link-input" for="username"><span class="ic-solar user-circle"></span> Usuario:</label>
                 </div>
-            </div>
-            <div class="input_group validate">
-                <input type="text" name="username" id="username" autocomplete="off" />
-                <label class="link-input" for="username"><span class="ic-solar user-circle"></span> Usuario:</label>
-            </div>
-            <div class="input_group validate">
-                <input type="email" name="email" id="email" />
-                <label class="link-input" for="email"><span class="ic-solar letter"></span> Email:</label>
-            </div>
-            <div>
                 <div class="input_group validate">
-                    <input type="password" name="password1" id="password1" autocomplete="off" />
-                    <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
+                    <input type="email" name="email" id="email" />
+                    <label class="link-input" for="email"><span class="ic-solar letter"></span> Email:</label>
                 </div>
-                <button type="submit" class="btn btn-hover opacity mt-15 w100" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
-            </div>
-            <input type="hidden" name="is_active" value="true">
-        </form>
-        <article class="content_min">
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Usuario</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Email</th>
-                        <th>Grupo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for oneuser in users_list %}
-                    <tr id="row-user_{{oneuser.id}}">
-                        <td>{{ oneuser.id }}</td>
-                        <td><strong>{{ oneuser.username }}</strong></td>
-                        <td>{{ oneuser.first_name }}</td>
-                        <td>{{ oneuser.last_name }}</td>
-                        <td>{{ oneuser.email }}</td>
-                        <td>{{ oneuser.groups.name }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </article>
+                <div>
+                    <div class="input_group validate">
+                        <input type="password" name="password1" id="password1" autocomplete="off" />
+                        <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
+                    </div>
+                    <button type="submit" class="btn btn-hover opacity mt-15 w100" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
+                </div>
+                <input type="hidden" name="is_active" value="true">
+            </form>
+            <article class="content_min">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Usuario</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for oneuser in users_list %}
+                        <tr id="row-user_{{oneuser.id}}">
+                            <td>{{ oneuser.id }}</td>
+                            <td>{{ oneuser.username }}</td>
+                            <td>{{ oneuser.first_name }}</td>
+                            <td>{{ oneuser.last_name }}</td>
+                            <td>{{ oneuser.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </article>
+        </div>
+        <div class="grid grid-cols mt-gap">
+            <form class="content_form" method="POST" action="{% url 'singup' %}" data-submit data-validclass autocomplete="off">
+                <div>
+                    <h3 class="center">Nueva Clase</h3>
+                </div>
+                {% csrf_token %}
+                <div class="input_group validate">
+                    <input type="text" name="class_name" id="class_name" />
+                    <label class="link-input" for="class_name"><span class="ic-solar book-bookmark"></span> Nombre:</label>
+                </div>
+                <div class="input_group validate">
+                    <textarea name="description" id="description" class="input"></textarea>
+                    <label class="link-input" for="description"><span class="ic-solar box-minimalistic"></span> Descripcion:</label>
+                </div>
+                <div class="flexbox gap2">
+                    <div class="input_group validate">
+                        <select name="professor" id="professor" class="input">
+                            <option selected hidden disabled></option>
+                            <option value="Alan">Ing. Alan</option>
+                            <option value="juan">Lic. juan</option>
+                            <option value="Anna">Lic. Anna</option>
+                            <option value="Vanessa">Ing. Vanessa</option>
+                            <option value="Katerine">Ing. Katerine</option>
+                        </select>
+                        <label class="link-input" for="professor"><span class="ic-solar academic-cap"></span> Profesor:</label>
+                    </div>
+                    <div class="input_group validate maxw-120">
+                        <select name="cycle" id="cycle" class="input">
+                            <option selected hidden disabled></option>
+                            <option value="2020-2021">2020 - 2021</option>
+                            <option value="2021-2022">2021 - 2022</option>
+                            <option value="2022-2023">2022 - 2023</option>
+                            <option value="2023-2024">2023 - 2024</option>
+                            <option value="2024-2025">2024 - 2025</option>
+                            <option value="2025-2026">2025 - 2026</option>
+                            <option value="2026-2027">2026 - 2027</option>
+                        </select>
+                        <label class="link-input" for="cycle"><span class="ic-solar calendar"></span> Ciclo:</label>
+                    </div>
+                </div>
+                <div class="flexbox gap2">
+                    <div class="input_group validate maxw-120">
+                        <select name="section" id="section" class="input">
+                            <option selected hidden disabled></option>
+                            <option value="Am">A :Matituno</option>
+                            <option value="Av">A :Vespertino</option>
+                            <option value="Bm">B :Matituno</option>
+                            <option value="Bv">B :Vespertino</option>
+                            <option value="Cm">C :Matituno</option>
+                            <option value="Cv">C :Vespertino</option>
+                            <option value="Dm">D :Matituno</option>
+                            <option value="Dv">D :Vespertino</option>
+                        </select>
+                        <label class="link-input" for="section"><span class="ic-solar folder-cut"></span> Seccion:</label>
+                    </div>
+                    <div class="input_group validate">
+                        <select name="students" id="students" class="input">
+                            <option selected hidden disabled></option>
+                            <option value="1">1) Anna H.</option>
+                            <option value="2">2) Jose C.</option>
+                            <option value="3">3) Fernanda A.</option>
+                            <option value="4">4) Pablo J.</option>
+                            <option value="5">5) Aaron G.</option>
+                        </select>
+                        <label class="link-input" for="students"><span class="ic-solar users-group-two-rounded"></span> Alumnos:</label>
+                    </div>
+                </div>
+                <div class="flexbox gap2">
+                    <div class="input_group validate maxw-120">
+                        <select name="sesion1" id="sesion1" class="input">
+                            <option selected hidden disabled></option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miercoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                        </select>
+                        <label class="link-input" for="sesion1"><span class="ic-solar calendar-mark"></span> Sesion 1:</label>
+                    </div>
+                    <div class="input_group validate">
+                        <input type="time" name="sesion_date1" id="sesion_date1" class="end" min="07:00">
+                        <label class="link-input" for="sesion_date1"><span class="ic-solar hourglass"></span> Horario:</label>
+                    </div>
+                </div>
+                <div class="flexbox gap2">
+                    <div class="input_group validate maxw-120">
+                        <select name="sesion2" id="sesion2" class="input">
+                            <option selected hidden disabled></option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miercoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                        </select>
+                        <label class="link-input" for="sesion2"><span class="ic-solar calendar-mark"></span> Sesion 2:</label>
+                    </div>
+                    <div class="input_group validate">
+                        <input type="time" name="sesion_date2" id="sesion_date2" class="end" min="07:00">
+                        <label class="link-input" for="sesion_date2"><span class="ic-solar hourglass"></span> Horario:</label>
+                    </div>
+                    <button type="button" id="delete_sesion2" class="btn btn-icon" title="Eliminar sesion 2"><span class="ic-solar trash-bin-trash"></span></button>
+                </div>
+                <div class="flexbox gap2">
+                    <div class="input_group validate maxw-120 opacity">
+                        <select name="sesion3" id="sesion3" class="input">
+                            <option selected hidden disabled></option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miercoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                        </select>
+                        <label class="link-input" for="sesion3"><span class="ic-solar calendar-mark"></span> Sesion 3:</label>
+                    </div>
+                    <div class="input_group validate opacity">
+                        <input type="time" name="sesion_date3" id="sesion_date3" class="end" min="07:00">
+                        <label class="link-input" for="sesion_date3"><span class="ic-solar hourglass"></span> Horario:</label>
+                    </div>
+                    <button type="button" id="add_sesion3" class="btn btn-icon" title="Agregar sesion 2"><span class="ic-solar add-circle"></span></button>
+                </div>
+                <button type="submit" class="btn btn-hover opacity" disabled>Registrar Clase <span class="ic-solar plain"></span></button>
+            </form>
+        </div>
     </div>
     <div id="map" class="tab profile-mapbox" data-tab="tabMap"></div>
     <div data-listening="scroll-chil">

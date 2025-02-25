@@ -17,12 +17,16 @@
     --second: #efefef;
     --color: #333;
     --bgA6: var(--whiteA6);
+    --bgA5: var(--whiteA5);
+    --bgA3: var(--whiteA3);
 }
 :root[data-theme="dark"] {
     --bgcolor: #212121;
     --second: #2d2d2d;
     --color: #fff;
     --bgA6: var(--darkA6);
+    --bgA5: var(--darkA5);
+    --bgA3: var(--darkA3);
 }
 :root {
     color-scheme: light dark;
@@ -84,6 +88,8 @@
     --gdbgcolor: linear-gradient(var(--bgcolor), var(--bgcolor));
     --gdcolor: linear-gradient(var(--color), var(--color));
     --bgA6: var(--whiteA6);
+    --bgA5: var(--whiteA5);
+    --bgA3: var(--whiteA3);
     --nav-height: 50px;
     --global-gap: clamp(1vh, 2vh, 4vh);
     --radius: 10px;
@@ -743,6 +749,7 @@ hr.divisor {
 }
 
 /*############# Formularios #############*/
+form .input,
 form input {
     width: 100%;
     min-height: var(--size, 40px);
@@ -752,6 +759,10 @@ form input {
     font-family: inherit;
     color: var(--color);
     padding: 5px 10px;
+}
+form textarea {
+    resize: none;
+    height: calc(var(--size, 40px) * 3);
 }
 form .btn {
     min-height: 40px;
@@ -766,7 +777,7 @@ form .btn {
     border-radius: var(--radius);
 }
 .tab .content_min {
-    max-width: fit-content;
+    /* max-width: fit-content; */
     overflow: auto;
 }
 .content_form {
@@ -806,15 +817,17 @@ form .btn {
     height: calc(var(--size, 40px) - var(--icon));
     margin: 0 calc(var(--icon) / 2);
 }
+.input_group .input:focus,
 .input_group input:focus {
-    background: var(--second);
+    background: var(--bgA5);
 }
-/* .input_group input.is-valid {
-    border-color: lime;
-} */
+.input_group .input.is-invalid,
 .input_group input.is-invalid {
     border-color: tomato;
 }
+.input_group:has(.input.is-valid) .link-input,
+.input_group:has(.input:focus) .link-input,
+.input_group:has(.input.is-invalid) .link-input,
 .input_group:has(input.is-valid) .link-input,
 .input_group:has(input:focus) .link-input,
 .input_group:has(input.is-invalid) .link-input {
@@ -822,6 +835,9 @@ form .btn {
     top: calc(((var(--size, 40px) / 2) * -1) - 4px);
     height: calc(var(--size, 40px) / 2);
 }
+.input_group:has(.input.is-valid) .link-input .ic-solar,
+.input_group:has(.input.is-invalid) .link-input .ic-solar,
+.input_group:has(.input:focus) .link-input .ic-solar,
 .input_group:has(input.is-valid) .link-input .ic-solar,
 .input_group:has(input.is-invalid) .link-input .ic-solar,
 .input_group:has(input:focus) .link-input .ic-solar {
@@ -829,10 +845,13 @@ form .btn {
     height: calc(var(--size, 40px) - var(--icon) - 5px);
     margin: 0 calc((var(--icon) / 2) + 2.5px);
 }
+.input_group.group_icon .input,
 .input_group.group_icon input {
     padding-left: var(--size, 40px);
 }
+.input_group.group_icon:has(.icon-input.last) .input,
 .input_group.group_icon:has(.icon-input.last) input,
+.input_group.group_icon-end .input,
 .input_group.group_icon-end input {
     padding-right: var(--size, 40px);
 }
@@ -869,6 +888,7 @@ form .btn {
     border-radius: var(--radius_inset);
 }
 
+.input_group.without-border .input,
 .input_group.without-border input,
 .input_group.without-border button {
     border: none !important;
@@ -1097,6 +1117,30 @@ form .btn {
     right: 0;
 }
 
+/* Tables / Tablas */
+table {
+    border: 1px solid var(--color);
+    border-radius: 10px;
+    width: 100%;
+}
+thead tr {
+    background: var(--bgA3);
+}
+tbody tr:nth-child(odd) {
+    background: var(--bgA5);
+}
+tbody tr:nth-child(even) {
+    background: var(--bgA3);
+}
+td,
+th {
+    padding: 10px;
+}
+tbody tr:hover {
+    background: var(--detail);
+}
+
+/* Globales */
 .w100 {
     width: 100%;
 }
@@ -1139,7 +1183,6 @@ form .btn {
     border-radius: var(--radius_inset);
 }
 
-/* Globales */
 .p-5 {
     padding: 5px;
 }
@@ -1273,6 +1316,9 @@ form .btn {
 
 .minw-65 {
     min-width: 65px;
+}
+.maxw-120 {
+    max-width: 120px;
 }
 .maxw-450 {
     max-width: 450px;
@@ -1513,6 +1559,8 @@ form .btn {
         --second: #2d2d2d;
         --color: #fff;
         --bgA6: var(--darkA6);
+        --bgA5: var(--darkA5);
+        --bgA3: var(--darkA3);
     }
 }
 

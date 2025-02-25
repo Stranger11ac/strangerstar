@@ -95,12 +95,12 @@ $(document).ready(function () {
 
     var commonMessages = {
         first_name: {
-            required: "Ingresa tu nombre.",
+            required: "Ingresa un nombre.",
             validname: "Escribe palabras sin caracteres especiales (!@#$%^&:)",
-            minlength: "Tu nombre debe tener al menos 3 letras.",
+            minlength: "El nombre debe tener al menos 3 letras.",
         },
         last_name: {
-            required: "Ingresa tus apellidos.",
+            required: "Ingresa los apellidos.",
             validname: "Escribe palabras sin caracteres especiales (!@#$%^&:)",
             minlength: "Escribe al menos 5 letras.",
         },
@@ -110,7 +110,7 @@ $(document).ready(function () {
             minlength: "Escribe al menos 5 letras.",
         },
         email: {
-            required: "Ingresa tu correo electrónico.",
+            required: "Ingresa un correo electrónico.",
             validemail: "Ingresa un correo electrónico válido",
             email: "Ingresa un correo electrónico válido",
         },
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
     // Validación para el formulario de crear usuario
     createValidation(
-        "[data-valid-user]",
+        "[data-validuser]",
         {
             ...commonRules,
             password1: { required: true, minlength: 8, validpassword: true },

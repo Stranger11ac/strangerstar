@@ -481,6 +481,14 @@ const countryFlags = {
     "Nueva Zelanda": "🇳🇿",
 };
 
+// Change theme shortcut ######################################################################
+document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        $("#themeSwitch").click();
+    }
+});
+
 // context menu disabled ######################################################################
 // document.oncontextmenu = () => false;
 // document.addEventListener("keydown", (event) => {

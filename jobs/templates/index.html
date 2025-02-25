@@ -87,7 +87,7 @@
 
 {% block main %}
 <div class="tabs">
-    <div class="tab will_transparent grid-system grid-index" data-tab="tabHome">
+    <div class="tab will_transparent grid grid-index" data-tab="tabHome">
         <div class="grid-item transparent swiper" data-interval="10000">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -138,7 +138,7 @@
         </div>
     </div>
     <div class="tab will_transparent" data-tab="tabProjects">
-        <div class="grid-system">
+        <div class="grid">
             <div class="card">
                 <div class="image-group">
                     <img src="{% static 'img/header_1.jpg' %}" alt="encabezado iconos" />
@@ -308,7 +308,7 @@
     </div>
     <div class="tab will_transparent flexbox-center flex-column gap2" data-tab="tabLogin">
         <form class="content_form maxw-600" action="{% url 'singin' %}" data-submit autocomplete="off">
-            <h2>Iniciar Sesión</h2>
+            <h2 class="center">Iniciar Sesión</h2>
             {% csrf_token %}
 
             <div class="input_group group_icon-end">
@@ -323,7 +323,7 @@
 
             <button type="submit" class="btn btn-hover">Entrar <span class="ic-solar login-3"></span></button>
         </form>
-        <div class="content_form maxw-600">
+        <div class="content_form maxw-600 center">
             <a href="{% url 'forgotten' %}">Olvidaste Tu Contraseña?... <span class="ic-solar square-bottom-up"></span></a>
         </div>
     </div>

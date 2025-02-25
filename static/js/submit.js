@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("[data-submit], [data-valid-user]").on("submit", jsonSubmit);
+    $("[data-submit]").on("submit", jsonSubmit);
 });
 
 function jsonSubmit(event) {
