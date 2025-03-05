@@ -1,10 +1,8 @@
 from django.contrib.auth import login, authenticate, logout
 from django.http import JsonResponse, HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
-from .functions import create_newuser, user_redirect
-from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from .functions import user_redirect
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -16,23 +14,6 @@ def jobicons(request):
     return render(request, 'icons.html', {})
 
 # Administracion ----------------------------------------------------------
-@login_required
-@never_cache
-def singup(request):
-    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        response = create_newuser(
-            first_name=request.POST.get('first_name'),
-            last_name=request.POST.get('last_name'),
-            username=request.POST.get('username'),
-            email=request.POST.get('email'),
-            password1=request.POST.get('password1'),
-            password2=request.POST.get('password2'),
-            is_active = request.POST.get('is_active') in ['true', '1', 'True', 'on']
-        )
-        
-        status = 200 if response['datastatus'] else 400
-        return JsonResponse(response, status=status)
-
 @never_cache
 def singin(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':

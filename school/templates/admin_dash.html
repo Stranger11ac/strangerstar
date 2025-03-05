@@ -5,6 +5,9 @@
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
 <link rel="stylesheet" href="{% static 'css/grid.css' %}" />
+<link rel="stylesheet" href="{% static 'css/dt.css' %}" />
+<link href="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.css" rel="stylesheet"
+    integrity="sha384-2vMryTPZxTZDZ3GnMBDVQV8OtmoutdrfJxnDTg0bVam9mZhi7Zr3J1+lkVFRr71f" crossorigin="anonymous">
 {% endblock %}
 
 {% block bodyclass %}update_link{% endblock %}
@@ -60,6 +63,15 @@
                     <h3 class="center">Nuevo Usuarios</h3>
                 </div>
                 {% csrf_token %}
+                <div class="input_group validate">
+                    <select name="rol" id="rol" class="input">
+                        <option selected hidden disabled></option>
+                        <option value="admin">Administracion</option>
+                        <option value="professor">Profesorado</option>
+                        <option value="student">Estudiante</option>
+                    </select>
+                    <label class="link-input" for="rol"><span class="ic-solar academic-cap"></span> Roles:</label>
+                </div>
                 <div class="flexbox gap2">
                     <div class="input_group validate">
                         <input type="text" name="first_name" id="first_name" />
@@ -68,6 +80,16 @@
                     <div class="input_group validate">
                         <input type="text" name="last_name" id="last_name" />
                         <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
+                    </div>
+                </div>
+                <div class="flexbox gap2">
+                    <div class="input_group validate">
+                        <input type="text" name="group" id="group" />
+                        <label class="link-input" for="group"><span class="ic-solar user"></span> Grupo:</label>
+                    </div>
+                    <div class="input_group validate">
+                        <input type="number" name="num_list" id="num_list" min="1" />
+                        <label class="link-input" for="num_list"><span class="ic-solar user"></span> # Lista:</label>
                     </div>
                 </div>
                 <div class="input_group validate">
@@ -88,7 +110,7 @@
                 <input type="hidden" name="is_active" value="true">
             </form>
             <article class="content_min">
-                <table>
+                <table id="usersTable" class="display">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -100,7 +122,7 @@
                     </thead>
                     <tbody>
                         {% for oneuser in users_list %}
-                        <tr id="row-user_{{oneuser.id}}">
+                        <tr id="row-user_{{ oneuser.id }}">
                             <td>{{ oneuser.id }}</td>
                             <td>{{ oneuser.username }}</td>
                             <td>{{ oneuser.first_name }}</td>
@@ -212,7 +234,8 @@
                         <input type="time" name="sesion_date2" id="sesion_date2" class="end" min="07:00">
                         <label class="link-input" for="sesion_date2"><span class="ic-solar hourglass"></span> Horario:</label>
                     </div>
-                    <button type="button" id="delete_sesion2" class="btn btn-icon" title="Eliminar sesion 2"><span class="ic-solar trash-bin-trash"></span></button>
+                    <button type="button" id="delete_sesion2" class="btn btn-icon" title="Eliminar sesion 2"><span
+                            class="ic-solar trash-bin-trash"></span></button>
                 </div>
                 <div class="flexbox gap2">
                     <div class="input_group validate maxw-120 opacity">
@@ -251,4 +274,7 @@
 <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 <script src="{% static 'js/validate.js' %}"></script>
 <script src="{% static 'js/submit.js' %}"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu"
+    crossorigin="anonymous"></script>
+<script src="{% static 'js/datatable.js' %}"></script>
 {% endblock %}

@@ -1,0 +1,23 @@
+.dt-paging nav {
+    background: transparent;
+    min-height: auto;
+    height: auto;
+    gap: 5px;
+    padding: 5px;
+}
+
+.dt-paging nav button {
+    margin: 0 !important;
+    border: none !important;
+    border-radius: var(--radius2) !important;
+    color: var(--bgcolor) !important;
+    background: var(--color) !important;
+}
+
+.dt-paging nav button.dt-paging-button.current {
+    background: var(--detail) !important;
+}
+
+.dt-paging nav button.dt-paging-button.disabled {
+    opacity: 0.5 !important;
+}

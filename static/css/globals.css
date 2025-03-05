@@ -6,7 +6,7 @@
     border: none;
     box-sizing: border-box;
     font-family: inherit;
-    scrollbar-width: none;
+    scrollbar-width: thin;
     -webkit-tap-highlight-color: transparent;
 }
 ::-webkit-scrollbar {
