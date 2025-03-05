@@ -3,6 +3,7 @@
     min-height: auto;
     height: auto;
     gap: 5px;
+    z-index: 0 !important;
     padding: 5px;
 }
 
