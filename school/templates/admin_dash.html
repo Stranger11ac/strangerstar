@@ -58,7 +58,8 @@
 <div class="tabs">
     <div class="tab will_transparent last-padding" data-tab="tabHome">
         <div class="grid grid-cols grid-m-450">
-            <form class="content_form" method="POST" action="{% url 'singup' %}" data-submit data-validuser>
+            <form class="content_form" method="POST" action="{% url 'singup' %}" data-submit>
+            <!-- <form class="content_form" method="POST" action="{% url 'singup' %}" data-submit data-validuser> -->
                 <div>
                     <h3 class="center">Nuevo Usuarios</h3>
                 </div>
@@ -84,8 +85,8 @@
                 </div>
                 <div class="flexbox gap2">
                     <div class="input_group validate">
-                        <input type="text" name="group" id="group" />
-                        <label class="link-input" for="group"><span class="ic-solar user"></span> Grupo:</label>
+                        <input type="text" name="insignia" id="insignia" />
+                        <label class="link-input" for="insignia"><span class="ic-solar user"></span> Grupo:</label>
                     </div>
                     <div class="input_group validate">
                         <input type="number" name="num_list" id="num_list" min="1" class="end" />

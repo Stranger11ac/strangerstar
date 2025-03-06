@@ -11,14 +11,29 @@ from django.shortcuts import render
 @never_cache
 def singup(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        first_name_post = request.POST.get('first_name')
+        num_list_post = request.POST.get('num_list')
+        last_name_post = request.POST.get('last_name')
+        insignia_post = request.POST.get('insignia')
+        password_new = first_name_post.split()[0].lower() + last_name_post.split()[0].lower() + str(num_list_post)
+
+        user_new = request.POST.get('username')
+        if user_new is None:
+            user_new = first_name_post.split()[0].lower() + str(num_list_post)
+
+        uid_new = user_new + str(insignia_post)
+
         response = create_newuser(
-            first_name=request.POST.get('first_name'),
-            last_name=request.POST.get('last_name'),
-            username=request.POST.get('username'),
-            email=request.POST.get('email'),
-            password1=request.POST.get('password1'),
-            password2=request.POST.get('password2'),
-            is_active = request.POST.get('is_active') in ['true', '1', 'True', 'on']
+            first_name = first_name_post,
+            last_name = last_name_post,
+            username = user_new,
+            email = request.POST.get('email'),
+            password1 = password_new,
+            is_active = request.POST.get('is_active') in ['true', '1', 'True', 'on'],
+            group = request.POST.get('rol'),
+            insignia = insignia_post,
+            num_list = num_list_post,
+            uid = uid_new
         )
         
         status = 200 if response['datastatus'] else 400

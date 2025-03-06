@@ -1,20 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect
 from django.db import IntegrityError
 from .models import UserProfile
 from functools import wraps
 
-def create_newuser(first_name, last_name, username, email, password1, password2=None, is_staff=False, is_active=False, group=None, group_class=None, num_list=None, uid=None, notes=None):
-    if not (password1 and username and email):
-        return {'datastatus': False, 'message': 'Datos incompletos 😅'}
-    if password2 is not None and password1 != password2:
-        return {'datastatus': False, 'message': 'Las contraseñas no coinciden 😬'}
-    if User.objects.filter(username=username).exists():
-        return {'datastatus': False, 'message': f'El usuario <u>{username}</u> ya existe. 😯🤔 <br>Te recomiendo utilizar uno distinto', 'valSelector': 'usernameSelect'}
-    if User.objects.filter(email=email).exists():
-        return {'datastatus': False, 'message': f'El correo electrónico <u>{email}</u> ya está registrado 😯<br>Te recomiendo utilizar uno distinto', 'valSelector': 'emailSelect'}
-
+def create_newuser(first_name, last_name, username, email, password1, password2=None, is_staff=False, is_active=False, group=None, insignia=None, num_list=None, uid=None):
     try:
         if group not in ['admin', 'professor', 'student']:
             group = 'student'
@@ -28,17 +19,22 @@ def create_newuser(first_name, last_name, username, email, password1, password2=
             password=password1,
             is_staff=is_staff,
             is_active=is_active,
-            groups=[group]  # Asignar el grupo al usuario
         )
         new_user.save()
 
         # Actualizar UserProfile con los nuevos campos
         user_profile = UserProfile.objects.get(user=new_user)
-        user_profile.group_class = group_class
+        user_profile.insignia = insignia
         user_profile.num_list = num_list
         user_profile.uid = uid
-        user_profile.notes = notes
         user_profile.save()
+
+        if not Group.objects.filter(name=group).exists():
+            group_obj = Group.objects.create(name=group)
+        else:
+            group_obj = Group.objects.get(name=group)
+
+        new_user.groups.add(group_obj)
 
         aviso = ''
         if password2 is not None:

@@ -18,8 +18,8 @@ $(document).ready(function () {
             zeroRecords: "No se encontraron coincidencias",
             paginate: {
                 first: "<span class='ic-solar double-alt-arrow-left'></span>",
-                previous: "<span class='ic-solar alt-arrow-left'></span>",
-                next: "<span class='ic-solar alt-arrow-right'></span>",
+                previous: "<span class='ic-solar alt-arrow-left-line'></span>",
+                next: "<span class='ic-solar alt-arrow-right-line'></span>",
                 last: "<span class='ic-solar double-alt-arrow-right'></span>",
             },
         },
