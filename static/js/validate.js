@@ -47,11 +47,11 @@ $(document).ready(function () {
     $.validator.addMethod("validpassword", function (value, element) {
         return this.optional(element) || expressions.password.test(value);
     });
-    $.validator.addMethod("validtitle", function (value, element) {
-        return this.optional(element) || expressions.title.test(value);
+    $.validator.addMethod("validnumber", function (value, element) {
+        return this.optional(element) || expressions.number.test(value);
     });
 
-    function createValidation(selector, rules, messages, gapMsg = false, optionals) {
+    function createValidation(selector, rules, messages, optionals) {
         try {
             $(selector).validate({
                 ignore: optionals ? optionals : ":hidden",
@@ -89,8 +89,8 @@ $(document).ready(function () {
     var commonRules = {
         first_name: { required: true, minlength: 3, validname: true },
         last_name: { required: true, minlength: 5, validname: true },
-        username: { required: true, minlength: 5, validusername: true },
-        email: { required: true, validemail: true, email: true },
+        username: { required: false, minlength: 5, validusername: true },
+        email: { required: false, validemail: true, email: true },
     };
 
     var commonMessages = {
@@ -105,13 +105,11 @@ $(document).ready(function () {
             minlength: "Escribe al menos 5 letras.",
         },
         username: {
-            required: "Ingresa un nombre de usuario.",
             validusername: "El nombre de usuario debe contener solo letras, numeros y guiones. No puede comenzar por numeros o guiones.",
             minlength: "Escribe al menos 5 letras.",
         },
         email: {
-            required: "Ingresa un correo electrónico.",
-            validemail: "Ingresa un correo electrónico válido",
+            validemail: "Ingresa un correo electrónico válido...",
             email: "Ingresa un correo electrónico válido",
         },
     };
@@ -121,15 +119,37 @@ $(document).ready(function () {
         "[data-validuser]",
         {
             ...commonRules,
-            password1: { required: true, minlength: 8, validpassword: true },
+            rol: { required: true },
+            insignia: {
+                required: function () {
+                    const isRequired = $("[data-validuser] #insignia").attr("data-required") === "true";
+                    return isRequired;
+                },
+                minlength: 2,
+            },
+            num_list: {
+                required: function () {
+                    const isRequired = $("[data-validuser] #num_list").attr("data-required") === "true";
+                    return isRequired;
+                },
+                minlength: 1,
+                validnumber: true,
+            },
         },
         {
             ...commonMessages,
-            password1: {
-                required: "Ingresa una contraseña.",
-                validpassword:
-                    "La contraseña debe tener al menos: <ul class='m-0'><li>8 caracteres</li><li>1 letra mayúscula</li><li>1 letra minúscula</li><li>1 número <li>1 carácter especial (!@#$%)</li><li>No puede contener guiones</li></ul>",
-                minlength: "Tu contraseña debe tener al menos 8 caracteres.",
+            rol: { required: "Selecciona un rol." },
+            insignia: {
+                required: "Este campo es obligatorio, Escribe al menos 2 letras.",
+                minlength: function () {
+                    const indications = $("[data-validuser] #insignia").attr("data-indications");
+                    return indications ? indications : "Escribe al menos 2 letras.";
+                },
+            },
+            num_list: {
+                required: "Completa este campo.",
+                minlength: "Escribe al menos 1 número.",
+                validnumber: "Escribe solo números.",
             },
         }
     );

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render
+from datetime import datetime
 
 # Administracion ----------------------------------------------------------
 @login_required
@@ -15,13 +16,15 @@ def singup(request):
         num_list_post = request.POST.get('num_list')
         last_name_post = request.POST.get('last_name')
         insignia_post = request.POST.get('insignia')
-        password_new = first_name_post.split()[0].lower() + last_name_post.split()[0].lower() + str(num_list_post)
+        password_new = first_name_post.split()[0].lower() + last_name_post.split()[0].lower() + (str(num_list_post) if num_list_post else '')
 
         user_new = request.POST.get('username')
-        if user_new is None:
-            user_new = first_name_post.split()[0].lower() + str(num_list_post)
+        fecha_actual = datetime.today().strftime('%Y%m%d')
 
-        uid_new = user_new + str(insignia_post)
+        if not user_new:
+            user_new = first_name_post.split()[0].lower() + last_name_post.split()[0].lower() + str(num_list_post)
+        
+        uid_new = first_name_post.split()[0].lower() + (str(num_list_post) if num_list_post else '') + str(insignia_post) + fecha_actual
 
         response = create_newuser(
             first_name = first_name_post,

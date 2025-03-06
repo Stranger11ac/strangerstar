@@ -9,6 +9,11 @@ def create_newuser(first_name, last_name, username, email, password1, password2=
     try:
         if group not in ['admin', 'professor', 'student']:
             group = 'student'
+        
+        is_superuser=False
+        if group == 'admin':
+            is_staff = True
+            is_superuser=True
 
         # Crear usuario
         new_user = User.objects.create_user(
@@ -19,6 +24,7 @@ def create_newuser(first_name, last_name, username, email, password1, password2=
             password=password1,
             is_staff=is_staff,
             is_active=is_active,
+            is_superuser=is_superuser
         )
         new_user.save()
 

@@ -58,56 +58,48 @@
 <div class="tabs">
     <div class="tab will_transparent last-padding" data-tab="tabHome">
         <div class="grid grid-cols grid-m-450">
-            <form class="content_form" method="POST" action="{% url 'singup' %}" data-submit>
-            <!-- <form class="content_form" method="POST" action="{% url 'singup' %}" data-submit data-validuser> -->
+            <form class="content_form gap_15" method="POST" action="{% url 'singup' %}" data-submit data-validuser>
                 <div>
                     <h3 class="center">Nuevo Usuarios</h3>
                 </div>
                 {% csrf_token %}
-                <div class="input_group validate">
+                <div class="input_group group_icon validate">
                     <select name="rol" id="rol" class="input">
-                        <option selected hidden disabled></option>
+                        <option selected hidden disabled>Roles:</option>
                         <option value="admin">Administracion</option>
                         <option value="professor">Profesorado</option>
                         <option value="student">Estudiante</option>
                     </select>
-                    <label class="link-input" for="rol"><span class="ic-solar academic-cap"></span> Roles:</label>
+                    <label class="icon-input first" for="rol"> <span class="ic-solar academic-cap"></span></label>
                 </div>
                 <div class="flexbox gap2">
-                    <div class="input_group validate">
-                        <input type="text" name="first_name" id="first_name" />
-                        <label class="link-input" for="first_name"><span class="ic-solar user"></span> Nombre:</label>
+                    <div class="input_group group_icon validate">
+                        <input type="text" name="first_name" id="first_name" placeholder="Nombre(s):" />
+                        <label class="icon-input first" for="first_name"> <span class="ic-solar user-rounded"></span></label>
                     </div>
-                    <div class="input_group validate">
-                        <input type="text" name="last_name" id="last_name" />
-                        <label class="link-input" for="last_name"><span class="ic-solar user"></span> Apellido:</label>
-                    </div>
-                </div>
-                <div class="flexbox gap2">
-                    <div class="input_group validate">
-                        <input type="text" name="insignia" id="insignia" />
-                        <label class="link-input" for="insignia"><span class="ic-solar user"></span> Grupo:</label>
-                    </div>
-                    <div class="input_group validate">
-                        <input type="number" name="num_list" id="num_list" min="1" class="end" />
-                        <label class="link-input" for="num_list"><span class="ic-solar user"></span> # Lista:</label>
+                    <div class="input_group group_icon validate">
+                        <input type="text" name="last_name" id="last_name" placeholder="Apellido(s):" />
+                        <label class="icon-input first" for="last_name"> <span class="ic-solar user-rounded"></span></label>
                     </div>
                 </div>
-                <div class="input_group validate">
-                    <input type="text" name="username" id="username" autocomplete="off" />
-                    <label class="link-input" for="username"><span class="ic-solar user-circle"></span> Usuario:</label>
-                </div>
-                <div class="input_group validate">
-                    <input type="email" name="email" id="email" />
-                    <label class="link-input" for="email"><span class="ic-solar letter"></span> Email:</label>
-                </div>
-                <div>
-                    <div class="input_group validate">
-                        <input type="password" name="password1" id="password1" autocomplete="off" />
-                        <label class="link-input" for="password1"><span class="ic-solar shield-keyhole"></span> Contraseña:</label>
+                <div class="none" id="user_distintive">
+                    <div class="flexbox gap2">
+                        <div class="input_group group_icon">
+                            <input type="text" name="insignia" id="insignia" placeholder="Grupo:"
+                                data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv" data-required="false" />
+                            <label class="icon-input first" for="insignia"> <span class="ic-solar star"></span></label>
+                        </div>
+                        <div class="input_group group_icon" id="num_list_group">
+                            <input type="tel" name="num_list" id="num_list" placeholder="No. Lista:" min="1" minlength="1" data-required="false" />
+                            <label class="icon-input first" for="num_list"> <span class="ic-solar hashtag-circle"></span></label>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-hover opacity mt-15 w100" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
                 </div>
+                <div class="input_group group_icon">
+                    <input type="email" name="email" id="email" placeholder="Email: (opcional)" />
+                    <label class="icon-input first" for="email"> <span class="ic-solar letter"></span></label>
+                </div>
+                <button type="submit" class="btn btn-hover opacity w100" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
                 <input type="hidden" name="is_active" value="true">
             </form>
             <article class="content_min">
@@ -278,4 +270,5 @@
 <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu"
     crossorigin="anonymous"></script>
 <script src="{% static 'js/datatable.js' %}"></script>
+<script src="{% static 'js/forms.js' %}"></script>
 {% endblock %}
