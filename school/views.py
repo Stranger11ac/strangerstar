@@ -53,7 +53,7 @@ def forgotten(request):
 @group_required('admin')
 def admin_dashboard(request):
     users_objects = User.objects.all().order_by('-id')
-    return render(request, 'admin_dash.html', {
+    return render(request, 'dash_admin.html', {
         'user': request.user,
         'users_list': users_objects,
     })
@@ -61,13 +61,13 @@ def admin_dashboard(request):
 @never_cache
 @group_required('professor')
 def professor_dashboard(request):
-    return render(request, 'professor_dash.html', {
+    return render(request, 'dash_professor.html', {
         'user': request.user,
     })
 
 @never_cache
 @group_required('students')
 def student_dashboard(request):
-    return render(request, 'student_dash.html', {
+    return render(request, 'dash_student.html', {
         'user': request.user,
     })

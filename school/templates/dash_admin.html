@@ -68,7 +68,7 @@
                     <h3 class="center">Nuevo Usuario</h3>
                     {% csrf_token %}
                     <div class="input_group group_icon validate">
-                        <select name="rol" id="rol" class="input">
+                        <select name="rol" id="rol" class="input" title="rol de usuario">
                             <option selected hidden disabled>Roles:</option>
                             <option value="admin">Administracion</option>
                             <option value="professor">Profesorado</option>
@@ -138,13 +138,15 @@
                             <td>{{ oneuser.username }}</td>
                             <td>{{ oneuser.first_name }} {{ oneuser.last_name }}</td>
                             <td>{{ oneuser.email }}</td>
-                            <td class="flexbox gap_10">
-                                <button type="button" class="btn btn-icon hover-red" title="Eliminar Usuario" id="{{ oneuser.id }}">
-                                    <span class="ic-solar trash-bin-trash"></span>
-                                </button>
-                                <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" id="{{ oneuser.id }}">
-                                    <span class="ic-solar pen-bold-duotone"></span>
-                                </button>
+                            <td>
+                                <div class="flexbox gap_15">
+                                    <button type="button" class="btn btn-icon hover-red" title="Eliminar Usuario" id="del{{ oneuser.id }}">
+                                        <span class="ic-solar trash-bin-trash"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" id="upd{{ oneuser.id }}">
+                                        <span class="ic-solar pen-bold-duotone"></span>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
