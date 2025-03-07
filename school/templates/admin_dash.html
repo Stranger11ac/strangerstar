@@ -16,7 +16,7 @@
 <div class="link_submenu">
     <a href="#tabAbout" class="link_item none-xl" data-toggle-tab="tabAbout"><span class="ic-solar user"></span><span class="link_item-title">Perfil</span></a>
     <div class="submenu_box flexbox flex-column gap_15">
-        <span class="none-m"><span class="ic-solar user"></span> Perfil</span>
+        <span class="submenu-title"><span class="ic-solar user"></span> Perfil</span>
         <div id="submenu">
             <a href="{% url 'singout' %}" class="btn btn-submenu btn-content btn-hover">
                 <span class="ic-solar logout-3"></span>
@@ -111,7 +111,7 @@
                         <div class="input_group group_icon flexbox mb-25">
                             <label class="icon-input" for="search_user_excel"><span class="ic-solar folder-cut"></span></label>
                             <input type="text" name="search_user_excel" id="search_user_excel" placeholder="Subir Excel..." />
-                            <button title="Borrar busqueda" type="submit" class="btn-invert btn-icon btn-hover flexbox-center" id="searchClear">
+                            <button title="Borrar busqueda" type="submit" class="btn btn-icon btn-hover flexbox-center opacity" id="searchClear">
                                 <span class="ic-solar plain"></span>
                             </button>
                         </div>
@@ -127,8 +127,8 @@
                             <th>#</th>
                             <th>Usuario</th>
                             <th>Nombre</th>
-                            <th>Apellido</th>
                             <th>Email</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -136,9 +136,16 @@
                         <tr id="row-user_{{ oneuser.id }}">
                             <td>{{ oneuser.id }}</td>
                             <td>{{ oneuser.username }}</td>
-                            <td>{{ oneuser.first_name }}</td>
-                            <td>{{ oneuser.last_name }}</td>
+                            <td>{{ oneuser.first_name }} {{ oneuser.last_name }}</td>
                             <td>{{ oneuser.email }}</td>
+                            <td class="flexbox gap_10">
+                                <button type="button" class="btn btn-icon hover-red" title="Eliminar Usuario" id="{{ oneuser.id }}">
+                                    <span class="ic-solar trash-bin-trash"></span>
+                                </button>
+                                <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" id="{{ oneuser.id }}">
+                                    <span class="ic-solar pen-bold-duotone"></span>
+                                </button>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

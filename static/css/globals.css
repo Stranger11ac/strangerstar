@@ -465,19 +465,93 @@ nav .nav_links .link_submenu .link_item {
     width: 100%;
 }
 nav .nav_links .link_submenu .submenu_box {
+    --submenu-gap: 20px;
     position: absolute;
-    top: calc(100% + 20px);
-    left: 0;
+    right: 0;
     width: fit-content;
     min-width: 120px;
     text-align: center;
     background: var(--second);
     border-radius: var(--radius);
+    visibility: hidden;
     padding: 10px;
+    z-index: 2;
+    opacity: 0;
+    top: 100%;
+    transition: visibility 0.3s ease, opacity 0.3s ease, top 0.3s ease;
+}
+nav .nav_links .link_submenu .submenu_box::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: var(--submenu-gap);
+    top: calc(var(--submenu-gap) * -1);
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+nav .nav_links .link_submenu .submenu_box::after {
+    content: "";
+    position: absolute;
+    border-radius: var(--radius2);
+    height: var(--submenu-gap);
+    width: var(--submenu-gap);
+    background: linear-gradient(135deg, var(--second) 50%, transparent 50%);
+    top: calc((var(--submenu-gap) / 2) * -0.5);
+    left: var(--submenu-gap);
+    transform: rotate(45deg);
+    z-index: 0;
+}
+nav .nav_links .link_submenu:hover .submenu_box {
+    top: calc(100% + var(--submenu-gap));
+    visibility: visible;
+    opacity: 1;
+}
+nav .nav_links .link_submenu .submenu_box .submenu-title {
+    display: none;
 }
 nav .nav_links .link_submenu .submenu_box .btn {
     color: var(--color);
-    background: transparent !important;
+    padding: 0;
+    background: transparent;
+}
+[data-menu-direction="vertical"] nav .nav_links .link_submenu .submenu_box {
+    top: 50%;
+    left: unset;
+    right: 100%;
+    width: max-content;
+    background: var(--color);
+    transition: visibility 0.3s ease, opacity 0.3s ease, right 0.3s ease;
+}
+[data-menu-direction="vertical"] nav .nav_links .link_submenu .submenu_box::before {
+    width: calc(var(--submenu-gap) * 2);
+    height: calc(100% + 20px);
+    bottom: 0;
+    top: unset;
+    left: unset;
+    right: calc(var(--submenu-gap) * -1);
+}
+[data-menu-direction="vertical"] nav .nav_links .link_submenu .submenu_box::after {
+    background: linear-gradient(225deg, var(--color) 50%, transparent 50%);
+    top: calc((var(--submenu-gap) / 2) + 2px);
+    left: unset;
+    right: calc((var(--submenu-gap) / 2) * -0.8);
+    transform: rotate(45deg);
+}
+[data-menu-direction="vertical"] nav .nav_links .link_submenu:hover .submenu_box {
+    right: calc(100% + var(--submenu-gap));
+    opacity: 1;
+    visibility: visible;
+}
+[data-menu-direction="vertical"] nav .nav_links .link_submenu .submenu_box .submenu-title {
+    display: block;
+    color: var(--second);
+}
+[data-menu-direction="vertical"] nav .nav_links .link_submenu .submenu_box .btn {
+    color: var(--second);
+}
+[data-menu-direction="vertical"] nav .nav_links .link_submenu .submenu_box .btn:hover .ic-solar {
+    background: var(--bgcolor);
 }
 
 .overlay {
@@ -958,12 +1032,21 @@ div.dt-container .dt-search,
     color: white;
     background: var(--detail);
 }
+.hover-blue .ic-solar,
+.hover-red .ic-solar,
 .btn-hover .ic-solar {
-    /* background: var(--gdbgcolor); */
     transition: 1s ease;
 }
 .btn-hover:hover .ic-solar {
     background: var(--gdwhite);
+}
+.hover-red:hover {
+    background: tomato;
+    color: var(--gdwhite);
+}
+.hover-blue:hover {
+    background: cornflowerblue;
+    color: var(--gdwhite);
 }
 .btn-second {
     background: var(--second);
