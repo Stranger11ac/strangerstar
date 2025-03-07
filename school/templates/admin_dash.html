@@ -5,16 +5,26 @@
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
 <link rel="stylesheet" href="{% static 'css/grid.css' %}" />
+<link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/dt.css' %}" />
-<link href="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.css" rel="stylesheet"
-    integrity="sha384-2vMryTPZxTZDZ3GnMBDVQV8OtmoutdrfJxnDTg0bVam9mZhi7Zr3J1+lkVFRr71f" crossorigin="anonymous">
 {% endblock %}
 
 {% block bodyclass %}update_link{% endblock %}
 {% block navlinks %}
 <a href="#tabHome" class="link_item" data-toggle-tab="tabHome"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span></a>
 <a href="#tabMap" class="link_item" data-toggle-tab="tabMap"> <span class="ic-solar map"></span><span class="link_item-title">Mapa</span></a>
-<a href="#tabAbout" class="link_item none-xl" data-toggle-tab="tabAbout"> <span class="ic-solar user"></span><span class="link_item-title">Perfil</span></a>
+<div class="link_submenu">
+    <a href="#tabAbout" class="link_item none-xl" data-toggle-tab="tabAbout"><span class="ic-solar user"></span><span class="link_item-title">Perfil</span></a>
+    <div class="submenu_box flexbox flex-column gap_15">
+        <span class="none-m"><span class="ic-solar user"></span> Perfil</span>
+        <div id="submenu">
+            <a href="{% url 'singout' %}" class="btn btn-submenu btn-content btn-hover">
+                <span class="ic-solar logout-3"></span>
+                <span class="btn-title">Cerrar Sesion</span>
+            </a>
+        </div>
+    </div>
+</div>
 <button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
     <span class="ic-solar settings"></span>
     <span class="link_item-title">Configuracion</span>
@@ -44,12 +54,7 @@
             <h2 class="aboutTitle center mb-15">{{user}}</h2>
             <p class="justify">Descripcion para {{user}}.</p>
         </div>
-        <article class="submenu">
-            <a href="{% url 'singout' %}" class="btn btn-submenu btn-hover">
-                <span class="ic-solar logout-3"></span>
-                <span class="btn-title">Cerrar Sesion</span>
-            </a>
-        </article>
+        <article class="submenu" id="asideSubmenu"></article>
     </section>
 </aside>
 {% endblock %}
@@ -58,50 +63,63 @@
 <div class="tabs">
     <div class="tab will_transparent last-padding" data-tab="tabHome">
         <div class="grid grid-cols grid-m-450">
-            <form class="content_form gap_15" method="POST" action="{% url 'singup' %}" data-submit data-validuser>
-                <div>
-                    <h3 class="center">Nuevo Usuarios</h3>
-                </div>
-                {% csrf_token %}
-                <div class="input_group group_icon validate">
-                    <select name="rol" id="rol" class="input">
-                        <option selected hidden disabled>Roles:</option>
-                        <option value="admin">Administracion</option>
-                        <option value="professor">Profesorado</option>
-                        <option value="student">Estudiante</option>
-                    </select>
-                    <label class="icon-input first" for="rol"> <span class="ic-solar academic-cap"></span></label>
-                </div>
-                <div class="flexbox gap2">
+            <div>
+                <form class="content_form gap_15" method="POST" action="{% url 'singup' %}" data-submit data-validuser>
+                    <h3 class="center">Nuevo Usuario</h3>
+                    {% csrf_token %}
                     <div class="input_group group_icon validate">
-                        <input type="text" name="first_name" id="first_name" placeholder="Nombre(s):" />
-                        <label class="icon-input first" for="first_name"> <span class="ic-solar user-rounded"></span></label>
+                        <select name="rol" id="rol" class="input">
+                            <option selected hidden disabled>Roles:</option>
+                            <option value="admin">Administracion</option>
+                            <option value="professor">Profesorado</option>
+                            <option value="student">Estudiante</option>
+                        </select>
+                        <label class="icon-input first" for="rol"> <span class="ic-solar academic-cap"></span></label>
                     </div>
-                    <div class="input_group group_icon validate">
-                        <input type="text" name="last_name" id="last_name" placeholder="Apellido(s):" />
-                        <label class="icon-input first" for="last_name"> <span class="ic-solar user-rounded"></span></label>
-                    </div>
-                </div>
-                <div class="none" id="user_distintive">
                     <div class="flexbox gap2">
-                        <div class="input_group group_icon">
-                            <input type="text" name="insignia" id="insignia" placeholder="Grupo:"
-                                data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv" data-required="false" />
-                            <label class="icon-input first" for="insignia"> <span class="ic-solar star"></span></label>
+                        <div class="input_group group_icon validate">
+                            <input type="text" name="first_name" id="first_name" placeholder="Nombre(s):" />
+                            <label class="icon-input first" for="first_name"> <span class="ic-solar user-rounded"></span></label>
                         </div>
-                        <div class="input_group group_icon" id="num_list_group">
-                            <input type="tel" name="num_list" id="num_list" placeholder="No. Lista:" min="1" minlength="1" data-required="false" />
-                            <label class="icon-input first" for="num_list"> <span class="ic-solar hashtag-circle"></span></label>
+                        <div class="input_group group_icon validate">
+                            <input type="text" name="last_name" id="last_name" placeholder="Apellido(s):" />
+                            <label class="icon-input first" for="last_name"> <span class="ic-solar user-rounded"></span></label>
                         </div>
                     </div>
-                </div>
-                <div class="input_group group_icon">
-                    <input type="email" name="email" id="email" placeholder="Email: (opcional)" />
-                    <label class="icon-input first" for="email"> <span class="ic-solar letter"></span></label>
-                </div>
-                <button type="submit" class="btn btn-hover opacity w100" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
-                <input type="hidden" name="is_active" value="true">
-            </form>
+                    <div class="none" id="user_distintive">
+                        <div class="flexbox gap2">
+                            <div class="input_group group_icon">
+                                <input type="text" name="insignia" id="insignia" placeholder="Grupo:"
+                                    data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv" data-required="false" />
+                                <label class="icon-input first" for="insignia"> <span class="ic-solar star"></span></label>
+                            </div>
+                            <div class="input_group group_icon" id="num_list_group">
+                                <input type="tel" name="num_list" id="num_list" placeholder="No. Lista:" min="1" minlength="1" data-required="false" />
+                                <label class="icon-input first" for="num_list"> <span class="ic-solar hashtag-circle"></span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input_group group_icon">
+                        <input type="email" name="email" id="email" placeholder="Email: (opcional)" />
+                        <label class="icon-input first" for="email"> <span class="ic-solar letter"></span></label>
+                    </div>
+                    <button type="submit" class="btn btn-hover opacity w100" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
+                    <input type="hidden" name="is_active" value="true">
+                </form>
+                <section class="mt-gap">
+                    <form action="" method="post" data-submit>
+                        <div class="input_group group_icon flexbox mb-25">
+                            <label class="icon-input" for="search_user_excel"><span class="ic-solar folder-cut"></span></label>
+                            <input type="text" name="search_user_excel" id="search_user_excel" placeholder="Subir Excel..." />
+                            <button title="Borrar busqueda" type="submit" class="btn-invert btn-icon btn-hover flexbox-center" id="searchClear">
+                                <span class="ic-solar plain"></span>
+                            </button>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-content btn-hover w100">Descargar Excel de Usuarios <span
+                            class="ic-solar file-download-bold-duotone"></span></button>
+                </section>
+            </div>
             <article class="content_min">
                 <table id="usersTable" class="display">
                     <thead>

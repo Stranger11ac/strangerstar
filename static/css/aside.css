@@ -152,9 +152,6 @@ aside.container .content,
 .submenu .btn.btn-icon {
     padding: 0;
 }
-.submenu .btn {
-    padding: 10px;
-}
 .submenu .btn.btn-stack .btn-stack_title {
     padding: 0;
     opacity: 1;

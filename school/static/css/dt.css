@@ -1,3 +1,7 @@
+.dt-paging, .dt-layout-row {
+    margin-top: 10px;
+    margin-bottom: 0 !important;
+}
 .dt-paging nav {
     background: transparent;
     min-height: auto;
@@ -7,6 +11,8 @@
     padding: 5px;
 }
 
+div.dt-container .dt-paging .dt-paging-button,
+.dt-paging nav button.dt-paging-button,
 .dt-paging nav button {
     margin: 0 !important;
     border: none !important;
@@ -21,4 +27,11 @@
 
 .dt-paging nav button.dt-paging-button.disabled {
     opacity: 0.5 !important;
+}
+
+div.dt-container .dt-search {
+    margin-bottom: 15px !important;
+}
+div.dt-container .dt-search label {
+    display: none;
 }

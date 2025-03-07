@@ -59,3 +59,7 @@ updateActiveTab();
 
 const count = $(".link_item").length;
 $("nav").css("--num-btns", count);
+
+// Transfered Submenu Content #############################################
+const contSubmenu = $("#submenu").html();
+$("#asideSubmenu").html(contSubmenu);

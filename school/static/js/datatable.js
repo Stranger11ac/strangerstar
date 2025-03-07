@@ -1,8 +1,5 @@
 $(document).ready(function () {
     $("#usersTable").DataTable({
-        // "language": {
-        //     "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-MX.json"
-        // },
         lengthChange: false,
         pageLength: 10, // Cantidad de registros por página
         order: [[0, "asc"]], // Ordenar por ID de forma descendente
@@ -24,4 +21,7 @@ $(document).ready(function () {
             },
         },
     });
+
+    
+    $("#dt-search-0").attr("placeholder", "Buscar:");
 });

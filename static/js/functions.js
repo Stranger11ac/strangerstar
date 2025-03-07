@@ -135,11 +135,11 @@ $(document).ready(function () {
         const $menuDirection = localStorage.getItem("menu_direction");
 
         if (idBtnDirection === "window") {
-            $linkSettings.addClass("hidden");
+            $linkSettings.addClass("none");
             $settingsBox.removeClass("hidden");
             $settingsModal.removeClass("modal_left");
         } else {
-            $linkSettings.removeClass("hidden");
+            $linkSettings.removeClass("none");
             $settingsBox.addClass("hidden");
             if ($menuDirection === "vertical") {
                 $settingsModal.addClass("modal_left");
