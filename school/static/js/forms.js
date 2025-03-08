@@ -46,4 +46,23 @@ $(document).ready(function () {
             }
         }
     }
+
+    $(".delete-user").click(function () {
+        let userId = $(this).data("id");
+        let action = $(this).data("action");
+
+        Swal.fire({
+            title: "¿Eliminar usuario?",
+            text: "No podrás deshacer esta acción",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post(action, { user_id: userId, csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val() }, function (response) {
+                    Swal.fire("Eliminado", response.message, "success").then(() => location.reload());
+                });
+            }
+        });
+    });
 });
