@@ -13,18 +13,18 @@ def create_newuser(first_name, last_name, username, email, password1, password2=
         is_superuser=False
         if group == 'admin':
             is_staff = True
-            is_superuser=True
+            is_superuser = True
 
         # Crear usuario
         new_user = User.objects.create_user(
-            first_name=first_name.lower(),
-            last_name=last_name.lower(),
-            username=username,
-            email=email,
-            password=password1,
-            is_staff=is_staff,
-            is_active=is_active,
-            is_superuser=is_superuser
+            first_name = first_name.lower(),
+            last_name = last_name.lower(),
+            username = username,
+            email = email,
+            password = password1,
+            is_staff = is_staff,
+            is_active = is_active,
+            is_superuser = is_superuser
         )
         new_user.save()
 

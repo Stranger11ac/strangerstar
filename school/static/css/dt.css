@@ -23,6 +23,7 @@ div.dt-container .dt-paging .dt-paging-button,
 
 .dt-paging nav button.dt-paging-button.current {
     background: var(--detail) !important;
+    color: white !important;
 }
 
 .dt-paging nav button.dt-paging-button.disabled {

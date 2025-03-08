@@ -1,26 +1,49 @@
 $(document).ready(function () {
     $("[data-validuser] #rol").on("change", function () {
         const valueRol = $(this).val();
-        if (valueRol == "admin") {
-            $("[data-validuser] #user_distintive").slideUp();
-            $("[data-validuser] #insignia").attr("data-required", "false");
-            $("[data-validuser] #num_list").attr("data-required", "false");
 
-        } else if (valueRol == "student") {
-            $("[data-validuser] #user_distintive").slideDown();
-            $("[data-validuser] #user_distintive #num_list_group").slideDown("fast");
-            $("[data-validuser] #insignia").attr("placeholder", "Grupo:");
-            $("[data-validuser] #insignia").attr("data-indications", "Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv");
-            $("[data-validuser] #insignia").attr("data-required", "true");
-            $("[data-validuser] #num_list").attr("data-required", "true");
+        const $userDistintive = $("[data-validuser] #user_distintive");
+        const $numListGroup = $("[data-validuser] #user_distintive #num_list_group");
+        const $insignia = $("[data-validuser] #insignia");
+        const $numList = $("[data-validuser] #num_list");
 
-        } else if (valueRol == "professor") {
-            $("[data-validuser] #user_distintive").slideDown();
-            $("[data-validuser] #user_distintive #num_list_group").slideUp("fast");
-            $("[data-validuser] #insignia").attr("placeholder", "Titulo Profesional:");
-            $("[data-validuser] #insignia").attr("data-indications", "Escribe la contraccion del titulo: Ing., Lic., Mtro., Dr...");
-            $("[data-validuser] #insignia").attr("data-required", "true");
-            $("[data-validuser] #num_list").attr("data-required", "true");
-        }
+        toggleStudentInputs(valueRol, $userDistintive, $numListGroup, $insignia, $numList);
     });
+    $("[data-validupuser] #up_rol").on("change", function () {
+        const valueRol = $(this).val();
+
+        const $distintive = $("[data-validupuser] #user_distintive");
+        const $numListGroup = $("[data-validupuser] #user_distintive #num_list_group");
+        const $insignia = $("[data-validupuser] #up_insignia");
+        const $numList = $("[data-validupuser] #up_num_list");
+
+        toggleStudentInputs(valueRol, $distintive, $numListGroup, $insignia, $numList);
+    });
+
+    function toggleStudentInputs(valueRol, distintive, numListGroup, insignia, numList) {
+        if (valueRol === "admin") {
+            distintive.slideUp();
+            insignia.attr("data-required", "false");
+            numList.attr("data-required", "false");
+        } else {
+            distintive.slideDown();
+            if (valueRol === "student") {
+                numListGroup.slideDown("fast");
+                insignia.attr({
+                    placeholder: "Grupo:",
+                    "data-indications": "Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv",
+                    "data-required": "true",
+                });
+                numList.attr("data-required", "true");
+            } else {
+                numListGroup.slideUp("fast");
+                insignia.attr({
+                    placeholder: "Título Profesional:",
+                    "data-indications": "Escribe la contracción del título: Ing., Lic., Mtro., Dr...",
+                    "data-required": "true",
+                });
+                numList.attr("data-required", "true");
+            }
+        }
+    }
 });

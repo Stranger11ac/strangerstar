@@ -52,7 +52,7 @@ def forgotten(request):
 @never_cache
 @group_required('admin')
 def admin_dashboard(request):
-    users_objects = User.objects.all().order_by('-id')
+    users_objects = User.objects.all().order_by('-id').select_related('userprofile').prefetch_related('groups')
     return render(request, 'dash_admin.html', {
         'user': request.user,
         'users_list': users_objects,

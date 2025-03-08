@@ -1,11 +1,11 @@
 $(document).ready(function () {
     $("#usersTable").DataTable({
         lengthChange: false,
-        pageLength: 10, // Cantidad de registros por página
+        pageLength: 8, // Cantidad de registros por página
         order: [[0, "asc"]], // Ordenar por ID de forma descendente
         columnDefs: [
-            { orderable: false, targets: 4 }, // Desactiva ordenación en la columna 4
-            { searchable: false, targets: [0, 4] }, // Desactiva búsqueda en las columnas
+            { orderable: false, targets: 7 }, // Desactiva ordenación en la columna 7
+            { searchable: false, targets: [0, 7] }, // Desactiva búsqueda en las columnas
         ],
         responsive: true, // Adaptar a pantallas pequeñas
         autoWidth: false, // Evitar que DataTables altere los anchos de columna

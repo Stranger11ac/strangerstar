@@ -13,8 +13,8 @@
 {% block navlinks %}
 <a href="#tabHome" class="link_item" data-toggle-tab="tabHome"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span></a>
 <a href="#tabMap" class="link_item" data-toggle-tab="tabMap"> <span class="ic-solar map"></span><span class="link_item-title">Mapa</span></a>
-<div class="link_submenu">
-    <a href="#tabAbout" class="link_item none-xl" data-toggle-tab="tabAbout"><span class="ic-solar user"></span><span class="link_item-title">Perfil</span></a>
+<div class="link_submenu none-xl">
+    <a href="#tabAbout" class="link_item" data-toggle-tab="tabAbout"><span class="ic-solar user"></span><span class="link_item-title">Perfil</span></a>
     <div class="submenu_box flexbox flex-column gap_15">
         <span class="submenu-title"><span class="ic-solar user"></span> Perfil</span>
         <div id="submenu">
@@ -68,7 +68,7 @@
                     <h3 class="center">Nuevo Usuario</h3>
                     {% csrf_token %}
                     <div class="input_group group_icon validate">
-                        <select name="rol" id="rol" class="input" title="rol de usuario">
+                        <select name="rol" id="rol" class="input valinput" title="rol de usuario">
                             <option selected hidden disabled>Roles:</option>
                             <option value="admin">Administracion</option>
                             <option value="professor">Profesorado</option>
@@ -78,11 +78,11 @@
                     </div>
                     <div class="flexbox gap2">
                         <div class="input_group group_icon validate">
-                            <input type="text" name="first_name" id="first_name" placeholder="Nombre(s):" />
+                            <input type="text" name="first_name" id="first_name" placeholder="Nombre(s):" class="valinput" />
                             <label class="icon-input first" for="first_name"> <span class="ic-solar user-rounded"></span></label>
                         </div>
                         <div class="input_group group_icon validate">
-                            <input type="text" name="last_name" id="last_name" placeholder="Apellido(s):" />
+                            <input type="text" name="last_name" id="last_name" placeholder="Apellido(s):" class="valinput" />
                             <label class="icon-input first" for="last_name"> <span class="ic-solar user-rounded"></span></label>
                         </div>
                     </div>
@@ -128,6 +128,9 @@
                             <th>Usuario</th>
                             <th>Nombre</th>
                             <th>Email</th>
+                            <th>Distintivo</th>
+                            <th>No. Lista</th>
+                            <th>Rol</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -138,12 +141,25 @@
                             <td>{{ oneuser.username }}</td>
                             <td>{{ oneuser.first_name }} {{ oneuser.last_name }}</td>
                             <td>{{ oneuser.email }}</td>
+                            <td>{{ oneuser.userprofile.insignia|default:"-" }}</td>
+                            <td>{{ oneuser.userprofile.num_list|default:"-" }}</td>
+                            <td>
+                                {% for group in oneuser.groups.all %}
+                                {{ group.name }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                -
+                                {% endfor %}
+                            </td>
                             <td>
                                 <div class="flexbox gap_15">
+                                    <button type="button" class="btn btn-icon hover-orange" title="Desactivar Usuario" id="btnActive{{ oneuser.id }}">
+                                        <span class="ic-solar sleeping-circle-bold-duotone"></span>
+                                    </button>
                                     <button type="button" class="btn btn-icon hover-red" title="Eliminar Usuario" id="del{{ oneuser.id }}">
                                         <span class="ic-solar trash-bin-trash"></span>
                                     </button>
-                                    <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" id="upd{{ oneuser.id }}">
+                                    <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" id="upd{{ oneuser.id }}"
+                                        data-toggle="#modalUser-visible">
                                         <span class="ic-solar pen-bold-duotone"></span>
                                     </button>
                                 </div>
@@ -155,7 +171,7 @@
             </article>
         </div>
         <div class="grid grid-cols mt-gap">
-            <form class="content_form" method="POST" action="{% url 'singup' %}" data-submit data-validclass autocomplete="off">
+            <form class="content_form" method="POST" action="" data-submit data-validclass autocomplete="off">
                 <div>
                     <h3 class="center">Nueva Clase</h3>
                 </div>
@@ -285,6 +301,64 @@
             <div id="tabAbout"></div>
         </div>
     </div>
+</div>
+{% endblock %}
+
+{% block endContent %}
+<div class="fixed flexbox-center" id="modalUser">
+    <form class="modal gap_20" method="POST" action="" data-submit data-validupuser>
+        <h2 class="center" id="upUser">Stranger11</h2>
+        <h3 class="center">Actualizar Datos</h3>
+        {% csrf_token %}
+        <div class="input_group group_icon validate">
+            <select name="rol" id="up_rol" class="input valinput" title="rol de usuario">
+                <option selected hidden disabled>Roles:</option>
+                <option value="admin">Administracion</option>
+                <option value="professor">Profesorado</option>
+                <option value="student">Estudiante</option>
+            </select>
+            <label class="icon-input first" for="up_rol"> <span class="ic-solar academic-cap"></span></label>
+        </div>
+        <div class="flexbox gap2">
+            <div class="input_group group_icon validate">
+                <input type="text" name="first_name" id="up_first_name" placeholder="Nombre(s):" class="valinput" />
+                <label class="icon-input first" for="up_first_name"> <span class="ic-solar user-rounded"></span></label>
+            </div>
+            <div class="input_group group_icon validate">
+                <input type="text" name="last_name" id="up_last_name" placeholder="Apellido(s):" class="valinput" />
+                <label class="icon-input first" for="up_last_name"> <span class="ic-solar user-rounded"></span></label>
+            </div>
+        </div>
+        <div class="none" id="user_distintive">
+            <div class="flexbox gap2">
+                <div class="input_group group_icon">
+                    <input type="text" name="insignia" id="up_insignia" placeholder="Grupo:" data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv"
+                        data-required="false" />
+                    <label class="icon-input first" for="up_insignia"> <span class="ic-solar star"></span></label>
+                </div>
+                <div class="input_group group_icon" id="num_list_group">
+                    <input type="tel" name="num_list" id="up_num_list" placeholder="No. Lista:" min="1" minlength="1" data-required="false" />
+                    <label class="icon-input first" for="up_num_list"> <span class="ic-solar hashtag-circle"></span></label>
+                </div>
+            </div>
+        </div>
+        <div class="input_group group_icon validate">
+            <input type="text" name="username" id="up_username" placeholder="Usuario:" class="valinput" />
+            <label class="icon-input first" for="up_username"> <span class="ic-solar user-circle"></span></label>
+        </div>
+        <div class="input_group group_icon">
+            <input type="email" name="email" id="up_email" placeholder="Email:" />
+            <label class="icon-input first" for="up_email"> <span class="ic-solar letter"></span></label>
+        </div>
+        <div>
+            <p class="input flexbox a-center fs-08">UID: <span id="up_uid">salvador1A20250307</span></p>
+        </div>
+        <div class="flexbox between gap2">
+            <button type="button" class="btn btn-content hover-red" data-toggle="#modalUser-visible">Cancelar <span class="ic-solar close-circle-bold-duotone"></span></button>
+            <button type="submit" class="btn btn-content btn-hover opacity" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
+        </div>
+        <input type="hidden" name="is_active" value="true">
+    </form>
 </div>
 {% endblock %}
 

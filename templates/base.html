@@ -114,6 +114,8 @@
         </section>
     </section>
 
+    {% block endContent %}{% endblock %}
+
     <script src="{% static 'libraries/libraries.min.js' %}"></script>
     <script src="{% static 'js/functions.js' %}"></script>
     {% block scriptsextra %}{% endblock %}

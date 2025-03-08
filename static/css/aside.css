@@ -254,7 +254,7 @@ aside.container .content,
     }
     aside.close .submenu .btn .ic-solar,
     aside.close .submenu .btn-submenu .ic-solar {
-        background: var(--gdwhite);
+        background: var(--color);
     }
     aside.close .submenu .btn-submenu {
         min-height: var(--size, 40px);

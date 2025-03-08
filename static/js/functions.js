@@ -59,7 +59,7 @@ $(document).ready(function () {
         const partsClass = parts[1];
 
         const partsFunction = parts[2];
-        $("[data-toggle]").removeClass(partsClass);
+        // $("[data-toggle]").removeClass(partsClass);
         $(partsSelector).toggleClass(partsClass);
         $(".overlay").toggleClass(partsClass);
 
