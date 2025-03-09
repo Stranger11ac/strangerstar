@@ -138,14 +138,14 @@ $(document).ready(function () {
                 $userActive = !$userActive;
                 $btn.attr("data-actuser", `${$userId}-${$userAction}-${$userActive}`);
 
-                if ($userActive) {
+                if (!$userActive) {
                     $btn.attr("title", "Desactivar usuario");
-                    $(`#row-user_${$userId} .username span`).addClass("radius orange");
-                    $btn.find("span").addClass("emoji-funny-circle-bold-duotone").removeClass("sleeping-circle-bold-duotone");
+                    $(`#row-user_${$userId} .username span`).removeClass("radius orange")
+                    $btn.find("span").addClass("sleeping-circle-bold-duotone").removeClass("emoji-funny-circle-bold-duotone");
                 } else {
                     $btn.attr("title", "Activar usuario");
-                    $(`#row-user_${$userId} .username span`).removeClass("radius orange");
-                    $btn.find("span").addClass("sleeping-circle-bold-duotone").removeClass("emoji-funny-circle-bold-duotone");
+                    $(`#row-user_${$userId} .username span`).addClass("radius orange")
+                    $btn.find("span").addClass("emoji-funny-circle-bold-duotone").removeClass("sleeping-circle-bold-duotone");
                 }
             })
             .fail(function (xhr) {
