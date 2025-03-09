@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from .functions import group_required, create_newuser
+from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -54,6 +54,7 @@ def singuppage(request):
 @group_required('admin')
 def admin_dashboard(request):
     users_objects = User.objects.all().order_by('-id').select_related('userprofile').prefetch_related('groups')
+    
     return render(request, 'dash_admin.html', {
         'user': request.user,
         'users_list': users_objects,
@@ -75,7 +76,7 @@ def student_dashboard(request):
 
 @never_cache
 @group_required('admin')
-def get_user_data(request):
+def user_get_data(request):
     if request.method == "POST":
         user_id = request.POST.get("user_id")
         user = get_object_or_404(User, id=user_id)
@@ -90,4 +91,95 @@ def get_user_data(request):
             "num_list": user.userprofile.num_list if hasattr(user, "userprofile") else "",
         }
         return JsonResponse(data)
-    return JsonResponse({"error": "Solicitud inválida"}, status=400)
+    return JsonResponse({"datastatus": False, "message": "Solicitud inválida"}, status=400)
+
+@never_cache
+@group_required('admin')
+def user_update(request):
+    if request.method == "POST":
+        user_id = request.POST.get("user_id")
+        user = get_object_or_404(User, id=user_id)
+        
+        rol_post = request.POST.get("rol")
+        first_name_post = request.POST.get("first_name")
+        last_name_post = request.POST.get("last_name")
+        email_post = request.POST.get("email")
+        username_post = request.POST.get("username")
+        insignia_post = request.POST.get("insignia")
+        num_list_post = request.POST.get("num_list")
+        uid_post = request.POST.get("up_uid")
+
+        if first_name_post:
+            user.first_name = first_name_post.lower()
+        if last_name_post:
+            user.last_name = last_name_post.lower()
+        if email_post:
+            user.email = email_post.lower()
+        if username_post:
+            user.username = username_post.lower()
+        if insignia_post:
+            user.userprofile.insignia = insignia_post.lower()
+        if num_list_post:
+            user.userprofile.num_list = num_list_post.lower()
+        if uid_post:
+            user.userprofile.uid = uid_post
+        else:    
+            fecha_actual = datetime.today().strftime('%Y%m%d')
+            uid_new = first_name_post.split()[0].lower() + (str(num_list_post) if num_list_post else '') + str(insignia_post) + fecha_actual
+            user.userprofile.uid = uid_new
+        
+        if rol_post:
+            rol = rol_post.lower()
+            user.groups.clear()
+            try:
+                if rol == "admin":
+                    admin_group = Group.objects.get(name="admin")
+                    user.groups.add(admin_group)
+                elif rol == "student":
+                    student_group = Group.objects.get(name="student")
+                    user.groups.add(student_group)
+                elif rol == "professor":
+                    professor_group = Group.objects.get(name="professor")
+                    user.groups.add(professor_group)
+                else:
+                    return JsonResponse({"datastatus": False, "message": "Rol inválido."})
+            except Group.DoesNotExist:
+                return JsonResponse({"datastatus": False, "message": "Grupo no encontrado."})
+        
+        user.save()
+        user.userprofile.save()
+        
+        return JsonResponse({"datastatus": True, "message": f"Usuario {username_post} actualizado correctamente."})
+    
+    return JsonResponse({"datastatus": False, "message": "Solicitud inválida."})
+
+@never_cache
+@group_required('admin')
+def user_delete(request):
+    if request.method == "POST":
+        user_id = request.POST.get("user_id")
+        user = get_object_or_404(User, id=user_id)
+        user.delete()
+        return JsonResponse({"datastatus": True, "message": f"Usuario {user.username} eliminado correctamente."})
+    return JsonResponse({"datastatus": False, "message": "Solicitud inválida."})
+
+
+@never_cache
+@group_required('admin')
+def user_active(request):
+    if request.method == "POST":
+        user_id = request.POST.get("user_id")
+        user = get_object_or_404(User, id=user_id)
+
+        is_active_post = request.POST.get("is_active") in ['true', '1', 'True', 'on']
+        user.is_active = is_active_post
+        user.save()
+        user.userprofile.save()
+
+        isactive = "Desactivado"
+        if is_active_post:
+            isactive = "Activado"
+        
+        return JsonResponse({"datastatus": True, "message": f"Usuario {user.username} {isactive}."})
+    
+    return JsonResponse({"datastatus": False, "message": "Solicitud inválida."})

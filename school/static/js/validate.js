@@ -21,10 +21,10 @@ $(document).ready(function () {
 
     function validAllInputs(formSelector) {
         var allValid = $(formSelector)
-            .find(".validate .valinput")
+            .find(".valinput")
             .toArray()
             .every(function (input) {
-                return $(input).hasClass("is-valid");
+                return !$(input).hasClass("is-invalid");
             });
 
         if (allValid) {

@@ -67,7 +67,7 @@
                 <form class="content_form gap_15" method="POST" action="{% url 'singup' %}" data-submit data-validuser>
                     <h3 class="center">Nuevo Usuario</h3>
                     {% csrf_token %}
-                    <div class="input_group group_icon validate">
+                    <div class="input_group group_icon">
                         <select name="rol" id="rol" class="input valinput" title="rol de usuario">
                             <option selected hidden disabled>Roles:</option>
                             <option value="admin">Administracion</option>
@@ -77,11 +77,11 @@
                         <label class="icon-input first" for="rol"> <span class="ic-solar academic-cap"></span></label>
                     </div>
                     <div class="flexbox gap2">
-                        <div class="input_group group_icon validate">
+                        <div class="input_group group_icon">
                             <input type="text" name="first_name" id="first_name" placeholder="Nombre(s):" class="valinput" />
                             <label class="icon-input first" for="first_name"> <span class="ic-solar user-rounded"></span></label>
                         </div>
-                        <div class="input_group group_icon validate">
+                        <div class="input_group group_icon">
                             <input type="text" name="last_name" id="last_name" placeholder="Apellido(s):" class="valinput" />
                             <label class="icon-input first" for="last_name"> <span class="ic-solar user-rounded"></span></label>
                         </div>
@@ -89,8 +89,8 @@
                     <div class="none" id="user_distintive">
                         <div class="flexbox gap2">
                             <div class="input_group group_icon">
-                                <input type="text" name="insignia" id="insignia" placeholder="Grupo:"
-                                    data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv" data-required="false" />
+                                <input type="text" name="insignia" id="insignia" placeholder="Grupo:" data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv"
+                                    data-required="false" />
                                 <label class="icon-input first" for="insignia"> <span class="ic-solar star"></span></label>
                             </div>
                             <div class="input_group group_icon" id="num_list_group">
@@ -116,12 +116,11 @@
                             </button>
                         </div>
                     </form>
-                    <button type="button" class="btn btn-content btn-hover w100">Descargar Excel de Usuarios <span
-                            class="ic-solar file-download-bold-duotone"></span></button>
+                    <button type="button" class="btn btn-content btn-hover w100">Descargar Excel de Usuarios <span class="ic-solar file-download-bold-duotone"></span></button>
                 </section>
             </div>
             <article class="content_min">
-                <table id="usersTable" class="display">
+                <table id="usersTable" class="display" data-getuser-url="{% url 'user_get_data' %}">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -138,27 +137,44 @@
                         {% for oneuser in users_list %}
                         <tr id="row-user_{{ oneuser.id }}">
                             <td>{{ oneuser.id }}</td>
-                            <td>{{ oneuser.username }}</td>
+                            <td class="username">
+                                <span class="{% if not oneuser.is_active %}radius orange{% endif %} p-5">
+                                    {{ oneuser.username }}
+                                </span>
+                            </td>
                             <td>{{ oneuser.first_name }} {{ oneuser.last_name }}</td>
                             <td>{{ oneuser.email }}</td>
                             <td>{{ oneuser.userprofile.insignia|default:"-" }}</td>
                             <td>{{ oneuser.userprofile.num_list|default:"-" }}</td>
                             <td>
-                                {% for group in oneuser.groups.all %}
-                                {{ group.name }}{% if not forloop.last %}, {% endif %}
-                                {% empty %}
-                                -
-                                {% endfor %}
+                                {% if oneuser.groups.first.name == "student" %}
+                                Estudiante
+                                {% elif oneuser.groups.first.name == "professor" %}
+                                Profesor
+                                {% elif oneuser.groups.first.name == "admin" %}
+                                Admin
+                                {% else %}
+                                Desconocido
+                                {% endif %}
                             </td>
                             <td>
                                 <div class="flexbox gap_15">
-                                    <button type="button" class="btn btn-icon hover-orange" title="Desactivar Usuario" data-actuser="{{ oneuser.id }}">
+                                    {% if oneuser.is_active %}
+                                    <button type="button" class="btn btn-icon hover-orange" title="Desactivar Usuario"
+                                        data-actuser="{{ oneuser.id }}-{% url 'user_active' %}-false">
                                         <span class="ic-solar sleeping-circle-bold-duotone"></span>
                                     </button>
-                                    <button type="button" class="btn btn-icon hover-red" title="Eliminar Usuario" data-deluser="{{ oneuser.id }}">
+                                    {% else %}
+                                    <!-- Cuando Esta Desactivado -->
+                                    <button type="button" class="btn btn-icon hover-orange" title="Activar Usuario" data-actuser="{{ oneuser.id }}-{% url 'user_active' %}-true">
+                                        <span class="ic-solar emoji-funny-circle-bold-duotone"></span>
+                                    </button>
+                                    {% endif %}
+                                    <button type="button" class="btn btn-icon hover-red" title="Eliminar Usuario" data-deluser="{{ oneuser.id }}-{% url 'user_delete' %}">
                                         <span class="ic-solar trash-bin-trash"></span>
                                     </button>
-                                    <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" data-getuser="{{ oneuser.id }}-{% url 'get_user_data' %}" data-toggle="#modalUser-visible">
+                                    <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" data-getuser="{{ oneuser.id }}"
+                                        data-toggle="#modalUser-visible">
                                         <span class="ic-solar pen-bold-duotone"></span>
                                     </button>
                                 </div>
@@ -175,16 +191,16 @@
                     <h3 class="center">Nueva Clase</h3>
                 </div>
                 {% csrf_token %}
-                <div class="input_group validate">
+                <div class="input_group">
                     <input type="text" name="class_name" id="class_name" />
                     <label class="link-input" for="class_name"><span class="ic-solar book-bookmark"></span> Nombre:</label>
                 </div>
-                <div class="input_group validate">
+                <div class="input_group">
                     <textarea name="description" id="description" class="input"></textarea>
                     <label class="link-input" for="description"><span class="ic-solar box-minimalistic"></span> Descripcion:</label>
                 </div>
                 <div class="flexbox gap2">
-                    <div class="input_group validate">
+                    <div class="input_group">
                         <select name="professor" id="professor" class="input">
                             <option selected hidden disabled></option>
                             <option value="Alan">Ing. Alan</option>
@@ -195,7 +211,7 @@
                         </select>
                         <label class="link-input" for="professor"><span class="ic-solar academic-cap"></span> Profesor:</label>
                     </div>
-                    <div class="input_group validate maxw-120">
+                    <div class="input_group maxw-120">
                         <select name="cycle" id="cycle" class="input">
                             <option selected hidden disabled></option>
                             <option value="2020-2021">2020 - 2021</option>
@@ -210,7 +226,7 @@
                     </div>
                 </div>
                 <div class="flexbox gap2">
-                    <div class="input_group validate maxw-120">
+                    <div class="input_group maxw-120">
                         <select name="section" id="section" class="input">
                             <option selected hidden disabled></option>
                             <option value="Am">A :Matituno</option>
@@ -224,7 +240,7 @@
                         </select>
                         <label class="link-input" for="section"><span class="ic-solar folder-cut"></span> Seccion:</label>
                     </div>
-                    <div class="input_group validate">
+                    <div class="input_group">
                         <select name="students" id="students" class="input">
                             <option selected hidden disabled></option>
                             <option value="1">1) Anna H.</option>
@@ -237,7 +253,7 @@
                     </div>
                 </div>
                 <div class="flexbox gap2">
-                    <div class="input_group validate maxw-120">
+                    <div class="input_group maxw-120">
                         <select name="sesion1" id="sesion1" class="input">
                             <option selected hidden disabled></option>
                             <option value="1">Lunes</option>
@@ -248,13 +264,13 @@
                         </select>
                         <label class="link-input" for="sesion1"><span class="ic-solar calendar-mark"></span> Sesion 1:</label>
                     </div>
-                    <div class="input_group validate">
+                    <div class="input_group">
                         <input type="time" name="sesion_date1" id="sesion_date1" class="end" min="07:00">
                         <label class="link-input" for="sesion_date1"><span class="ic-solar hourglass"></span> Horario:</label>
                     </div>
                 </div>
                 <div class="flexbox gap2">
-                    <div class="input_group validate maxw-120">
+                    <div class="input_group maxw-120">
                         <select name="sesion2" id="sesion2" class="input">
                             <option selected hidden disabled></option>
                             <option value="1">Lunes</option>
@@ -265,15 +281,14 @@
                         </select>
                         <label class="link-input" for="sesion2"><span class="ic-solar calendar-mark"></span> Sesion 2:</label>
                     </div>
-                    <div class="input_group validate">
+                    <div class="input_group">
                         <input type="time" name="sesion_date2" id="sesion_date2" class="end" min="07:00">
                         <label class="link-input" for="sesion_date2"><span class="ic-solar hourglass"></span> Horario:</label>
                     </div>
-                    <button type="button" id="delete_sesion2" class="btn btn-icon" title="Eliminar sesion 2"><span
-                            class="ic-solar trash-bin-trash"></span></button>
+                    <button type="button" id="delete_sesion2" class="btn btn-icon" title="Eliminar sesion 2"><span class="ic-solar trash-bin-trash"></span></button>
                 </div>
                 <div class="flexbox gap2">
-                    <div class="input_group validate maxw-120 opacity">
+                    <div class="input_group maxw-120 opacity">
                         <select name="sesion3" id="sesion3" class="input">
                             <option selected hidden disabled></option>
                             <option value="1">Lunes</option>
@@ -284,7 +299,7 @@
                         </select>
                         <label class="link-input" for="sesion3"><span class="ic-solar calendar-mark"></span> Sesion 3:</label>
                     </div>
-                    <div class="input_group validate opacity">
+                    <div class="input_group opacity">
                         <input type="time" name="sesion_date3" id="sesion_date3" class="end" min="07:00">
                         <label class="link-input" for="sesion_date3"><span class="ic-solar hourglass"></span> Horario:</label>
                     </div>
@@ -305,11 +320,11 @@
 
 {% block endContent %}
 <div class="fixed flexbox-center" id="modalUser">
-    <form id="updateUser" class="modal gap_20" method="POST" action="" data-submit data-validupuser>
+    <form id="updateUser" class="modal gap_20" method="POST" action="{% url 'user_update' %}" data-submit data-validupuser data-reset="false">
         <h2 class="center" id="upUser">Stranger11</h2>
         <h3 class="center">Actualizar Datos</h3>
         {% csrf_token %}
-        <div class="input_group group_icon validate">
+        <div class="input_group group_icon">
             <select name="rol" id="up_rol" class="input valinput" title="rol de usuario">
                 <option selected hidden disabled>Roles:</option>
                 <option value="admin">Administracion</option>
@@ -319,11 +334,11 @@
             <label class="icon-input first" for="up_rol"> <span class="ic-solar academic-cap"></span></label>
         </div>
         <div class="flexbox gap2">
-            <div class="input_group group_icon validate">
+            <div class="input_group group_icon">
                 <input type="text" name="first_name" id="up_first_name" placeholder="Nombre(s):" class="valinput" />
                 <label class="icon-input first" for="up_first_name"> <span class="ic-solar user-rounded"></span></label>
             </div>
-            <div class="input_group group_icon validate">
+            <div class="input_group group_icon">
                 <input type="text" name="last_name" id="up_last_name" placeholder="Apellido(s):" class="valinput" />
                 <label class="icon-input first" for="up_last_name"> <span class="ic-solar user-rounded"></span></label>
             </div>
@@ -331,8 +346,8 @@
         <div class="none" id="user_distintive">
             <div class="flexbox gap2">
                 <div class="input_group group_icon">
-                    <input type="text" name="insignia" id="up_insignia" placeholder="Grupo:"
-                        data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv" data-required="false" />
+                    <input type="text" name="insignia" id="up_insignia" placeholder="Grupo:" data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv"
+                        data-required="false" />
                     <label class="icon-input first" for="up_insignia"> <span class="ic-solar star"></span></label>
                 </div>
                 <div class="input_group group_icon" id="num_list_group">
@@ -341,7 +356,7 @@
                 </div>
             </div>
         </div>
-        <div class="input_group group_icon validate">
+        <div class="input_group group_icon">
             <input type="text" name="username" id="up_username" placeholder="Usuario:" class="valinput" />
             <label class="icon-input first" for="up_username"> <span class="ic-solar user-circle"></span></label>
         </div>
@@ -350,13 +365,15 @@
             <label class="icon-input first" for="up_email"> <span class="ic-solar letter"></span></label>
         </div>
         <div>
-            <p class="input flexbox a-center fs-08">UID: <span id="up_uid">salvador1A20250307</span></p>
+            <p class="input flexbox a-center fs-08">UID: <span id="up_uid_text">salvador1A20250307</span></p>
         </div>
         <div class="flexbox between gap2">
-            <button type="button" class="btn btn-content hover-red" data-toggle="#modalUser-visible" data-clearform="updateUser">Cancelar <span
+            <button type="button" class="btn btn-content hover-red" data-toggle="#modalUser-visible" data-clearform="updateUser">Cerrar <span
                     class="ic-solar close-circle-bold-duotone"></span></button>
             <button type="submit" class="btn btn-content btn-hover opacity" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
         </div>
+        <input type="hidden" name="user_id" id="up_user_id">
+        <input type="hidden" name="up_uid" id="up_uid">
     </form>
 </div>
 {% endblock %}

@@ -53,26 +53,26 @@ $(document).ready(function () {
     }
 
     $(document).on("click", "[data-getuser]", function () {
-        const $dataGetAll = $(this).data("getuser").split("-");
-        const $userAction = $dataGetAll[1];
-        const $userId = $dataGetAll[0];
+        const $userAction = $("#usersTable").data("getuser-url");
+        const $userId = $(this).data("getuser");
 
         $.post($userAction, {
             user_id: $userId,
             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
         })
             .done(function (response) {
-                console.log(response);
-
                 $("#upUser").text(response.username);
+                $("#up_user_id").val($userId);
 
                 $("#up_first_name").val(response.first_name);
                 $("#up_last_name").val(response.last_name);
                 $("#up_username").val(response.username);
                 $("#up_email").val(response.email);
-                $("#up_uid").text(response.uid);
                 $("#up_insignia").val(response.insignia);
                 $("#up_num_list").val(response.num_list);
+
+                $("#up_uid").val(response.uid);
+                $("#up_uid_text").text(response.uid);
 
                 const valueRol = response.rol;
                 $(`#up_rol option[selected]`).removeAttr("selected");
@@ -91,22 +91,66 @@ $(document).ready(function () {
             });
     });
 
-    $(".delete-user").click(function () {
-        let userId = $(this).data("id");
-        let action = $(this).data("action");
+    $(document).on("click", "[data-deluser]", function () {
+        const dataBtn = $(this).data("deluser").split("-");
+        const $userId = dataBtn[0];
+        const $actionDel = dataBtn[1];
+        const usernameGet = $(`#row-user_${$userId} .username`).text();
 
         Swal.fire({
-            title: "¿Eliminar usuario?",
+            title: `¿Eliminar usuario ${usernameGet}?`,
             text: "No podrás deshacer esta acción",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Sí, eliminar",
         }).then((result) => {
             if (result.isConfirmed) {
-                $.post(action, { user_id: userId, csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val() }, function (response) {
-                    Swal.fire("Eliminado", response.message, "success").then(() => location.reload());
-                });
+                $.post($actionDel, {
+                    user_id: $userId,
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                })
+                    .done(function (response) {
+                        $(`#row-user_${$userId}`).remove();
+                        toast("center", 8000, "success", response.message);
+                    })
+                    .fail(function (xhr) {
+                        message = xhr.responseJSON?.error || "No se pudo obtener la información del usuario.";
+                        toast("center", 8000, "error", message);
+                    });
             }
         });
+    });
+
+    $(document).on("click", "[data-actuser]", function () {
+        const $btn = $(this);
+        const dataBtn = $btn.attr("data-actuser").split("-");
+        const $userId = dataBtn[0];
+        const $userAction = dataBtn[1];
+        let $userActive = dataBtn[2] === "true";
+
+        $.post($userAction, {
+            user_id: $userId,
+            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            is_active: $userActive,
+        })
+            .done(function (response) {
+                toast("bottom", 4000, "success", response.message);
+                $userActive = !$userActive;
+                $btn.attr("data-actuser", `${$userId}-${$userAction}-${$userActive}`);
+
+                if ($userActive) {
+                    $btn.attr("title", "Desactivar usuario");
+                    $(`#row-user_${$userId} .username span`).addClass("radius orange");
+                    $btn.find("span").addClass("emoji-funny-circle-bold-duotone").removeClass("sleeping-circle-bold-duotone");
+                } else {
+                    $btn.attr("title", "Activar usuario");
+                    $(`#row-user_${$userId} .username span`).removeClass("radius orange");
+                    $btn.find("span").addClass("sleeping-circle-bold-duotone").removeClass("emoji-funny-circle-bold-duotone");
+                }
+            })
+            .fail(function (xhr) {
+                const message = xhr.responseJSON?.error || "No se pudo obtener la información del usuario.";
+                toast("center", 8000, "error", message);
+            });
     });
 });

@@ -515,6 +515,9 @@ nav .nav_links .link_submenu .submenu_box .btn {
     padding: 0;
     background: transparent;
 }
+nav .nav_links .link_submenu .submenu_box .btn:hover .ic-solar {
+    background: var(--bgcolor) !important;
+}
 [data-menu-direction="vertical"] nav .nav_links .link_submenu .submenu_box {
     top: 50%;
     left: unset;

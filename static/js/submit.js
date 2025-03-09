@@ -9,6 +9,7 @@ function jsonSubmit(event) {
     const formData = new FormData(this);
     const $csrfToken = $("[name=csrfmiddlewaretoken]").val();
     const $formUrlAct = $form.attr("action");
+    const $formReset = $form.data("reset");
 
     const $submitButton = $form.find('button[type="submit"]');
     if ($submitButton.length) {
@@ -37,9 +38,18 @@ function jsonSubmit(event) {
                     toast("top", 8000, "success", dataMsg);
                 }
             } else {
-                toast("center", 8000, "error", dataMsg);
+                toast("center", 8000, "info", dataMsg);
             }
-            $form.trigger("reset");
+
+            if ($formReset === true || $formReset === undefined) {
+                $form.trigger("reset");
+            }
+
+            if ($submitButton.length) {
+                $submitButton.prop("disabled", true);
+            } else {
+                console.warn("Advertencia: Botón de envío no encontrado...");
+            }
         },
         error: function (jqXHR) {
             const response = jqXHR.responseJSON;
