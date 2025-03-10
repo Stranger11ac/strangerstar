@@ -6,30 +6,34 @@ $(document).ready(function () {
     let ctx = canvas.getContext("2d");
     let angle = 0;
 
-    function drawRoulette() {
+    function drawRoulette(rotAngle = 0) {
         let totalOptions = activeOptions.length;
         let arcSize = (2 * Math.PI) / totalOptions;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(150, 150);
+        ctx.rotate(rotAngle);
 
         for (let i = 0; i < totalOptions; i++) {
             let startAngle = i * arcSize;
             let endAngle = startAngle + arcSize;
             ctx.beginPath();
-            ctx.moveTo(150, 150);
-            ctx.arc(150, 150, 150, startAngle, endAngle);
+            ctx.moveTo(0, 0);
+            ctx.arc(0, 0, 150, startAngle, endAngle);
             ctx.fillStyle = `hsl(${i * (360 / totalOptions)}, 100%, 50%)`;
             ctx.fill();
             ctx.stroke();
 
             // Dibujar texto
             ctx.save();
-            ctx.translate(150, 150);
             ctx.rotate(startAngle + arcSize / 2);
             ctx.fillStyle = "white";
             ctx.font = "14px Arial";
             ctx.fillText(activeOptions[i], 70, 5);
             ctx.restore();
         }
+
+        ctx.restore();
     }
 
     function renderOptions() {
@@ -69,18 +73,13 @@ $(document).ready(function () {
             let progress = (timestamp - startTime) / 3000;
             angle = progress * finalAngle;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save();
-            ctx.translate(150, 150);
-            ctx.rotate(angle);
-            ctx.translate(-150, -150);
-            drawRoulette();
-            ctx.restore();
+            drawRoulette(angle);
 
             if (progress < 1) {
                 requestAnimationFrame(animateRotation);
             } else {
                 let selectedOption = activeOptions[randomIndex];
-                alert(`La opción seleccionada es: ${selectedOption}`);
+                // alert(`La opción seleccionada es: ${selectedOption}`);
                 $("#result").text(`Resultado: ${selectedOption}`);
             }
         }
