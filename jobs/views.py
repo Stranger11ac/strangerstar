@@ -10,9 +10,6 @@ def index(request):
     logout(request)
     return render(request, 'index.html', {})
 
-def jobicons(request):
-    return render(request, 'icons.html', {})
-
 # Administracion ----------------------------------------------------------
 @never_cache
 def singin(request):
