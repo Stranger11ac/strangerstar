@@ -27,48 +27,50 @@ function getColor(index, max) {
 }
 
 function drawRouletteWheel() {
+    var canvas = document.getElementById("canvas");
+    var size = canvas.width;
+    var ctx = canvas.getContext("2d");
+
+    var outsideRadius = size * 0.4;
+    var textRadius = size * 0.32;
+    var insideRadius = size * 0.25;
+
+    ctx.clearRect(0, 0, size, size);
+    ctx.font = `${Math.max(12, size * 0.03)}px Helvetica, Arial`; // Escala el tamaño del texto
+
     var filteredOptions = getFilteredOptions();
     arc = Math.PI / (filteredOptions.length / 2);
-    var canvas = document.getElementById("canvas");
-    if (canvas.getContext) {
-        var outsideRadius = 200,
-            textRadius = 160,
-            insideRadius = 125;
-        ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, 500, 500);
-        ctx.font = "bold 12px Helvetica, Arial";
 
-        for (var i = 0; i < filteredOptions.length; i++) {
-            var angle = startAngle + i * arc;
-            ctx.fillStyle = getColor(i, filteredOptions.length);
+    for (var i = 0; i < filteredOptions.length; i++) {
+        var angle = startAngle + i * arc;
+        ctx.fillStyle = getColor(i, filteredOptions.length);
 
-            ctx.beginPath();
-            ctx.arc(250, 250, outsideRadius, angle, angle + arc, false);
-            ctx.arc(250, 250, insideRadius, angle + arc, angle, true);
-            ctx.fill();
-
-            ctx.save();
-            ctx.fillStyle = "#fff";
-            ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 250 + Math.sin(angle + arc / 2) * textRadius);
-            ctx.rotate(angle + arc / 2 + Math.PI / 2);
-            var text = filteredOptions[i];
-            ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
-            ctx.restore();
-        }
-
-        //Arrow
-        ctx.fillStyle = "#fff";
         ctx.beginPath();
-        ctx.moveTo(250 - 5, 250 - (outsideRadius + 5));
-        ctx.lineTo(250 + 5, 250 - (outsideRadius + 5));
-        ctx.lineTo(250 + 5, 250 - (outsideRadius - 8));
-        ctx.lineTo(250 + 10, 250 - (outsideRadius - 8));
-        ctx.lineTo(250 + 0, 250 - (outsideRadius - 20));
-        ctx.lineTo(250 - 10, 250 - (outsideRadius - 8));
-        ctx.lineTo(250 - 5, 250 - (outsideRadius - 8));
-        ctx.lineTo(250 - 5, 250 - (outsideRadius + 5));
+        ctx.arc(size / 2, size / 2, outsideRadius, angle, angle + arc, false);
+        ctx.arc(size / 2, size / 2, insideRadius, angle + arc, angle, true);
         ctx.fill();
+
+        ctx.save();
+        ctx.fillStyle = "#fff";
+        ctx.translate(size / 2 + Math.cos(angle + arc / 2) * textRadius, size / 2 + Math.sin(angle + arc / 2) * textRadius);
+        ctx.rotate(angle + arc / 2 + Math.PI / 2);
+        var text = filteredOptions[i];
+        ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+        ctx.restore();
     }
+
+    // Flecha
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.moveTo(size / 2 - 5, size / 2 - (outsideRadius + 5));
+    ctx.lineTo(size / 2 + 5, size / 2 - (outsideRadius + 5));
+    ctx.lineTo(size / 2 + 5, size / 2 - (outsideRadius - 8));
+    ctx.lineTo(size / 2 + 10, size / 2 - (outsideRadius - 8));
+    ctx.lineTo(size / 2 + 0, size / 2 - (outsideRadius - 20));
+    ctx.lineTo(size / 2 - 10, size / 2 - (outsideRadius - 8));
+    ctx.lineTo(size / 2 - 5, size / 2 - (outsideRadius - 8));
+    ctx.lineTo(size / 2 - 5, size / 2 - (outsideRadius + 5));
+    ctx.fill();
 }
 
 function spin() {
@@ -98,9 +100,14 @@ function stopRotateWheel() {
     var index = Math.floor((360 - (degrees % 360)) / arcd);
     var response = filteredOptions[index];
 
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var size = canvas.width;
+
     ctx.save();
-    ctx.font = "bold 30px Helvetica, Arial";
-    ctx.fillText(response, 250 - ctx.measureText(response).width / 2, 250 + 8);
+    ctx.font = `${Math.max(20, size * 0.05)}px Helvetica, Arial`; // Ajusta el tamaño del texto
+    ctx.fillStyle = "#fff";
+    ctx.fillText(response, size / 2 - ctx.measureText(response).width / 2, size / 2 + 8);
     ctx.restore();
     document.getElementById("resultado").textContent = "Resultado: " + response;
 }
@@ -163,3 +170,19 @@ function updateOptionsList() {
 }
 
 updateOptionsList();
+
+function resizeCanvas() {
+    var canvas = document.getElementById("canvas");
+    var container = canvas.parentElement;
+
+    // Ajusta el tamaño del canvas al contenedor o a un tamaño máximo deseado
+    var size = Math.min(container.clientWidth, container.clientHeight, 500); // Máximo 500px para mantener proporción
+    canvas.width = size;
+    canvas.height = size;
+
+    drawRouletteWheel(); // Redibujar la ruleta después de cambiar el tamaño
+}
+
+// Llamar a la función en la carga y cuando se redimensiona la ventana
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
