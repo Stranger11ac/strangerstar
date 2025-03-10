@@ -175,14 +175,12 @@ function resizeCanvas() {
     var canvas = document.getElementById("canvas");
     var container = canvas.parentElement;
 
-    // Ajusta el tamaño del canvas al contenedor o a un tamaño máximo deseado
-    var size = Math.min(container.clientWidth, container.clientHeight, 500); // Máximo 500px para mantener proporción
+    var size = Math.min(container.clientWidth, container.clientHeight, 800);
     canvas.width = size;
     canvas.height = size;
 
-    drawRouletteWheel(); // Redibujar la ruleta después de cambiar el tamaño
+    drawRouletteWheel();
 }
 
-// Llamar a la función en la carga y cuando se redimensiona la ventana
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
