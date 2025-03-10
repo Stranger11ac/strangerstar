@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titlefirst %}Clima | Proyectos{% endblock %}
+{% block linksextra %}
+<link rel="stylesheet" href="{% static 'css/grid.css' %}" />
+<link rel="stylesheet" href="{% static 'css/weather.css' %}" />
+{% endblock %}
+
+{% block navlinks %}
+<a href="{% url 'index' %}#tabHome" class="link_item"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span> </a>
+<a href="{% url 'index' %}#tabProjects" class="link_item"> <span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span> </a>
+<a href="{% url 'index' %}#tabLogin" class="link_item"> <span class="ic-solar login-3"></span><span class="link_item-title">Iniciar Sesión</span></a>
+<a href="{% url 'index' %}#tabAbout" class="link_item none-xl"> <span class="ic-solar user"></span><span class="link_item-title">Acerca de</span> </a>
+<button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
+    <span class="ic-solar settings"></span>
+    <span class="link_item-title">Configuracion</span>
+</button>
+{% endblock %}
+
+{% block sectchildclass %}container transparent{% endblock %}
+{% block main %}
+<div class="content last-padding">
+    <div id="wInst" class="grid grid-small pb-gap">
+        <div class="card">
+            <div class="card-header flexbox between">
+                <h4>Instrucciones</h4>
+                <button type="button" data-remove="#wInst" title="Cerrar Instrucciones">
+                    <span class="ic-solar close-rounded"></span>
+                </button>
+            </div>
+            <div class="card-body m0">
+                <ul class="ml-25">
+                    <li>Busca el clima de una ciudad específica</li>
+                    <li>Puedes presionar ENTER o presionar el botón</li>
+                    <li>Tus datos no se comparten ni utilizan de ninguna forma</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <form autocomplete="off" class="sticky-top" data-nosubmit>
+        <div class="flexbox between gap2 pb-gap bg-bgcolor bgcolor-coners_b" style="--size: 50px">
+            <div id="searchCoords" class="btn btn-second btn-icon btn-hover flexbox-center">
+                <span class="ic-solar gps-bold-duotone"></span>
+            </div>
+            <div class="input_group group_icon without-border w100">
+                <input type="text" list="locationsugg" class="bg-second capitalize" name="location" id="location" placeholder="Buscar Ciudad:" />
+                <label class="icon-input" for="location"> <span class="ic-solar map-point-search"></span></label>
+            </div>
+            <datalist id="locationsugg"></datalist>
+            <div id="btnLocation" class="btn btn-second btn-icon btn-hover flexbox-center">
+                <span class="ic-solar minimalistic-magnifer"></span>
+            </div>
+        </div>
+    </form>
+    <div id="weatherInfo" class="grid grid-small fadetop-delay" style="--size: 130px">
+        <div class="grid-item col-2 between p-15 pt-20" id="weatherCurrent" style="--i: 1">
+            <h1 id="cityLocation" class="w100 center capitalize fs-1-2">Ciudad</h1>
+            <div class="flexbox a-center evenly">
+                <div class="size flexbox flex-column flex-center a-end gap_0">
+                    <h2 id="temperature" class="fs-3">°C</h2>
+                    <div id="description" class="end capitalize fs-1-2"></div>
+                </div>
+                <img id="mainIcon" class="size" src="" alt="Icono del Clima" />
+            </div>
+        </div>
+        <div class="grid-item inset-scrollx" id="hoursListParent" style="--i: 2; --padd: 10px">
+            <div class="inset-item flexbox flex-row" id="hoursList"></div>
+        </div>
+        <div class="grid-item flexbox flex-column between gap_0 transparent" id="dayList" style="--i: 2"></div>
+        <div class="grid-item p-15" style="--i: 4" id="cloudsParent">
+            <div class="center my-center">
+                <div class="fs-08 mb-15">Nubosidad:</div>
+                <div class="fs-2"><span id="clouds">10%</span>&nbsp;<span class="fs-2-5 ic-solar cloud"></span></div>
+            </div>
+        </div>
+        <div class="grid-item col-2-mq4" id="humidityParent" style="--i: 4">
+            <div class="center my-center">
+                <div class="fs-08 mb-15">Humedad:</div>
+                <div class="fs-2"><span id="humidity">50%</span>&nbsp;<span class="fs-2-5 ic-solar waterdrops"></span></div>
+            </div>
+        </div>
+        <div class="grid-item p-20 flexbox-center gap_0" id="compassParent" style="--i: 3">
+            <div id="compass" class="compass_box" style="--deg: 45deg">
+                <span class="flexbox-center">N</span>
+                <span class="flexbox-center">E</span>
+                <span class="flexbox-center">S</span>
+                <span class="flexbox-center">O</span>
+                <div class="compass-info"></div>
+                <div class="compass_arrow flexbox-center">
+                    <div class="ic-solar map-arrow-down detail"></div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item col-medium p-30" id="sunOrbitParent" style="--i: 5">
+            <div class="orbit-path flexbox flex-center mx-center">
+                <div id="sunOrbit" class="astro-box" style="--i: 6">
+                    <div class="ic-box">
+                        <span class="ic-solar sun orange"></span>
+                    </div>
+                </div>
+                <div class="mt-30">
+                    <div class="mt-30">
+                        <span>Amanecer </span>
+                        <span id="sunrise"></span>
+                    </div>
+                    <hr class="divisor" />
+                    <div>
+                        <span>Anochecer </span>
+                        <span id="sunset"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item" id="pressureParent" style="--i: 7">
+            <div class="center my-center">
+                <div class="fs-08 mb-15">Presión atmosférica:</div>
+                <div class="fs-2"><span id="pressure">1021</span><span class="fs-1-2">hPa</span></div>
+            </div>
+        </div>
+        <div class="grid-item" id="uvParent" style="--i: 8">
+            <div class="center my-center">
+                <div class="fs-08 mb-15">Índice UV:</div>
+                <div class="fs-2"><span id="uv">50</span>&nbsp;<span class="fs-2-5 ic-solar sun-big"></span></div>
+            </div>
+        </div>
+        <div class="grid-item" id="dewpointParent" style="--i: 9">
+            <div class="center my-center">
+                <div class="fs-08 mb-15">Punto de rocío:</div>
+                <div class="fs-2"><span id="dewpoint">0.7°</span>&nbsp;<span class="fs-2-5 ic-solar waterdrops-line"></span></div>
+            </div>
+        </div>
+        <div class="grid-item" id="visinilityParent" style="--i: 10">
+            <div class="center my-center">
+                <div class="fs-08 mb-15">Visibilidad:</div>
+                <div class="fs-2">
+                    <span id="visinility">16</span><span class="fs-1-2">km</span>
+                    <span class="fs-2-5 ic-solar eye-scan"></span>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item" style="--i: 9" id="chanceRainParent">
+            <div class="center my-center">
+                <div class="fs-08 mb-15">
+                    Probabilidad <br />
+                    de lluvia:
+                </div>
+                <div class="fs-2"><span id="chanceRain">0%</span>&nbsp;<span class="fs-2-5 ic-solar cloud-rain-bold-duotone"></span></div>
+            </div>
+        </div>
+        <div class="grid-item" style="--i: 10" id="chanceSnowParent">
+            <div class="center my-center">
+                <div class="fs-08 mb-15">
+                    Probabilidad <br />
+                    de nieve:
+                </div>
+                <div class="fs-2"><span id="chanceSnow">0%</span>&nbsp;<span class="fs-2-5 ic-solar cloud-snowfall-bold-duotone"></span></div>
+            </div>
+        </div>
+    </div>
+    <p class="center mt-30">
+        <a href="http://weatherapi.com" target="_blank" rel="noopener noreferrer">weatherapi.com</a>
+    </p>
+    <div id="wIndications" class="grid-system grid-small mt-30">
+        <div class="card">
+            <div class="card-header flexbox between">
+                <h4>Informacion adicional</h4>
+                <button type="button" data-remove="#wIndications" title="Cerrar Informacion">
+                    <span class="ic-solar close-rounded"></span>
+                </button>
+            </div>
+            <div class="card-body m0">
+                Los datos de esta app pueden ser incorrectos, esto se debe a que se utilizan datos publicos y pueden varias segun la regio de 3 a 2 grados. Se recomienda consultar mas fuentes para corroborar el clima de tu ciudad.
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scriptsextra %}
+<script src="{% static 'js/weather.js' %}"></script>
+{% endblock %}

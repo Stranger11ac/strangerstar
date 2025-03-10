@@ -12,12 +12,7 @@ locationInput.on("keypress", (event) => {
 
 $("#btnLocation").on("click", () => {
     if (!locationInput.val()) {
-        return toast(
-            "center",
-            9000,
-            "error",
-            "Por favor ingresar una Ciudad <span class='ic-solar map-point-search'></span> o busca por tu Ubicación <span class='ic-solar gps-bold-duotone'></span>."
-        );
+        return toast("center", 9000, "error", "Por favor ingresar una Ciudad <span class='ic-solar map-point-search'></span> o busca por tu Ubicación <span class='ic-solar gps-bold-duotone'></span>.");
     }
     searchWeather();
 });
@@ -89,6 +84,7 @@ function iconToCondition(condition, sunUp) {
         nublado: "clouds-bold-duotone",
         cubierto: "clouds-bold-duotone",
         tormenta: "cloud-storm-bold-duotone",
+        tormentosos: "cloud-storm-bold-duotone",
         trueno: "cloud-storm-bold-duotone",
         viento: "wind-broken",
         ventoso: "wind-broken",
@@ -131,7 +127,7 @@ function createForecastItem({ date, temp_c, condition, isNow, isDay }) {
     const classNow = isNow ? "detail radius-inset now" : "";
     const icon = iconToCondition(condition.toLowerCase(), isDay);
     return `
-        <div class="flexbox flex-column between p-5 center ${classNow}">
+        <div class="flexbox flex-column between p-5 center ${classNow}" title="${condition}">
             <strong>${Math.floor(temp_c)}°</strong>
             <span class="ic-solar ${icon} size" style="--size: 50px;"></span>
             <strong>${date.split(" ")[1]}</strong>
@@ -286,8 +282,6 @@ locationInput.on("input", () => {
             return response.json();
         })
         .then((data) => {
-            console.table(data);
-
             locationSugg.empty();
             const uniqueLocations = new Set(); // Crear un conjunto para evitar duplicados
 

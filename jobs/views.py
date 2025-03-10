@@ -10,6 +10,9 @@ def index(request):
     logout(request)
     return render(request, 'index.html', {})
 
+def weather_app(request):
+    return render(request, 'weather.html', {})
+
 # Administracion ----------------------------------------------------------
 @never_cache
 def singin(request):
