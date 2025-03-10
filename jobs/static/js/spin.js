@@ -1,11 +1,11 @@
-var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45"];
+var options = ["$100", "$5"];
 var options2 = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "Lose", "$1000000", "Lose", "$350", "$5", "$99"];
 
 var startAngle = 0;
 var arc = Math.PI / (options.length / 2);
 var spinTimeout = null;
 
-var spinArcStart = 10;
+var spinAngleStart = 10;
 var spinTime = 0;
 var spinTimeTotal = 0;
 
@@ -28,9 +28,9 @@ function getColor(item, maxitem) {
     var width = 127;
     var frequency = (Math.PI * 2) / maxitem;
 
-    red = Math.sin(frequency * item + 2 + phase) * width + center;
-    green = Math.sin(frequency * item + 0 + phase) * width + center;
-    blue = Math.sin(frequency * item + 4 + phase) * width + center;
+    var red = Math.sin(frequency * item + 2 + phase) * width + center;
+    var green = Math.sin(frequency * item + 0 + phase) * width + center;
+    var blue = Math.sin(frequency * item + 4 + phase) * width + center;
 
     return RGB2Color(red, green, blue);
 }
@@ -71,14 +71,14 @@ function drawRouletteWheel() {
         //Arrow
         ctx.fillStyle = "#fff";
         ctx.beginPath();
-        ctx.moveTo(250 - 4, 250 - (outsideRadius + 5));
-        ctx.lineTo(250 + 4, 250 - (outsideRadius + 5));
-        ctx.lineTo(250 + 4, 250 - (outsideRadius - 5));
-        ctx.lineTo(250 + 9, 250 - (outsideRadius - 5));
-        ctx.lineTo(250 + 0, 250 - (outsideRadius - 13));
-        ctx.lineTo(250 - 9, 250 - (outsideRadius - 5));
-        ctx.lineTo(250 - 4, 250 - (outsideRadius - 5));
-        ctx.lineTo(250 - 4, 250 - (outsideRadius + 5));
+        ctx.moveTo(250 - 5, 250 - (outsideRadius + 5));
+        ctx.lineTo(250 + 5, 250 - (outsideRadius + 5));
+        ctx.lineTo(250 + 5, 250 - (outsideRadius - 8));
+        ctx.lineTo(250 + 10, 250 - (outsideRadius - 8));
+        ctx.lineTo(250 + 0, 250 - (outsideRadius - 20));
+        ctx.lineTo(250 - 10, 250 - (outsideRadius - 8));
+        ctx.lineTo(250 - 5, 250 - (outsideRadius - 8));
+        ctx.lineTo(250 - 5, 250 - (outsideRadius + 5));
         ctx.fill();
     }
 }
@@ -99,7 +99,7 @@ function rotateWheel() {
     var spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
     startAngle += (spinAngle * Math.PI) / 180;
     drawRouletteWheel();
-    spinTimeout = setTimeout("rotateWheel()", 30);
+    spinTimeout = setTimeout(rotateWheel, 30); // Usar referencia de la función en lugar de "eval"
 }
 
 function stopRotateWheel() {
