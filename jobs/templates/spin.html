@@ -20,8 +20,16 @@
 {% block sectchildclass %}container{% endblock %}
 {% block main %}
 <div class="content last-padding">
-    <input type="button" value="Spin" id="spin" />
+    <div id="resultado"></div>
+    <input type="button" value="Girar" id="spin" />
     <canvas id="canvas" width="500" height="500"></canvas>
+
+    <form id="addOptionForm">
+        <input type="text" id="newOption" placeholder="Nueva opción" required />
+        <button type="submit">Agregar</button>
+    </form>
+
+    <ul id="optionsList"></ul>
 </div>
 {% endblock %}
 
