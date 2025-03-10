@@ -52,8 +52,8 @@
                 <span class="ic-solar github-icon"></span>
                 <span class="btn-title">GitHub</span>
             </a>
-            <a href="mailto:salvahdzcep@gmail.com?subject=Propuesta%20de%20proyecto&body=Hola,%20me%20gustaría%20saber%20más%20sobre..." target="_blank"
-                rel="noopener noreferrer" class="btn btn-submenu btn-content btn-hover">
+            <a href="mailto:salvahdzcep@gmail.com?subject=Propuesta%20de%20proyecto&body=Hola,%20me%20gustaría%20saber%20más%20sobre..." target="_blank" rel="noopener noreferrer"
+                class="btn btn-submenu btn-content btn-hover">
                 <span class="ic-solar letter"></span>
                 <span class="btn-title">Email</span>
             </a>
@@ -170,6 +170,20 @@
                 </div>
             </div>
             <div class="card">
+                <div class="image-group a-end">
+                    <img src="{% static 'img/header_2.jpg' %}" alt="Imagen encabezado de la app Ruleta" />
+                    <div class="image_header">
+                        <h2>Ruleta</h2>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <span class="dot-progress purple"></span> Ruleta con tados editables, con la posibilidad de agregar datos naminalmente o meidnate un archivo CSV o EXS, los datos se pueden volver a editar, tachar o descartrar al ser seleccionados.
+                </div>
+                <div class="card-footer flexbox flex-end">
+                    <a href="{% url 'spin_app' %}" class="btn btn-content btn-hover">Ver más <span class="ic-solar square-bottom-up"></span></a>
+                </div>
+            </div>
+            <div class="card">
                 <div class="image-group a-center">
                     <img src="{% static 'img/header_4.jpg' %}" alt="Imagen encabezado de la app Calendario" />
                     <div class="image_header">
@@ -177,9 +191,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <span class="dot-progress purple"></span> Calendario interactivo, se pueden crear eventos y recordatorios, agregar titulo, description, 1
-                    imagen, ubicacion, personas invilucradas.
-                    Crear notificacion para el evento. Agregar eventos desde Google Calendar.
+                    <span class="dot-progress purple"></span> Calendario interactivo, se pueden crear eventos y recordatorios, agregar titulo, description, 1 imagen, ubicacion, personas invilucradas. Crear notificacion para el evento. Agregar eventos desde Google Calendar.
                 </div>
                 <div class="card-footer flexbox flex-end">
                     <a href="projects/calendar.html" class="btn btn-content btn-hover">Ver más <span class="ic-solar square-bottom-up"></span></a>
@@ -238,22 +250,6 @@
                 <div class="card-body">
                     <span class="dot-progress orange"></span> Sistema para subir imagenes y editarlas segun las posisbilidades de edicion con CSS, ademas de
                     dibujar encima de ellas.
-                </div>
-                <div class="card-footer flexbox flex-end">
-                    <a href="#tabProjects" class="btn btn-content btn-hover btn-disable">Ver más <span class="ic-solar square-bottom-up"></span></a>
-                </div>
-            </div>
-            <div class="card">
-                <div class="image-group a-end">
-                    <img src="{% static 'img/header_2.jpg' %}" alt="Imagen encabezado de la app Ruleta" />
-                    <div class="image_header">
-                        <h2>Ruleta</h2>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <span class="dot-progress orange"></span> Ruleta con tados editables, con la posibilidad de agregar datos naminalmente o meidnate un archivo
-                    CSV o EXS, los datos se pueden volver a
-                    editar, tachar o descartrar al ser seleccionados.
                 </div>
                 <div class="card-footer flexbox flex-end">
                     <a href="#tabProjects" class="btn btn-content btn-hover btn-disable">Ver más <span class="ic-solar square-bottom-up"></span></a>

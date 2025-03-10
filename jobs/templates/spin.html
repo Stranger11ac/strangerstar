@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titlefirst %}Ruleta Interactiva | Proyectos{% endblock %}
+{% block linksextra %}
+<link rel="stylesheet" href="{% static 'css/grid.css' %}" />
+<link rel="stylesheet" href="{% static 'css/spin.css' %}" />
+{% endblock %}
+
+{% block navlinks %}
+<a href="{% url 'index' %}#tabHome" class="link_item"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span> </a>
+<a href="{% url 'index' %}#tabProjects" class="link_item"> <span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span> </a>
+<a href="{% url 'index' %}#tabLogin" class="link_item"> <span class="ic-solar login-3"></span><span class="link_item-title">Iniciar Sesión</span></a>
+<a href="{% url 'index' %}#tabAbout" class="link_item none-xl"> <span class="ic-solar user"></span><span class="link_item-title">Acerca de</span> </a>
+<button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
+    <span class="ic-solar settings"></span>
+    <span class="link_item-title">Configuracion</span>
+</button>
+{% endblock %}
+
+{% block sectchildclass %}container{% endblock %}
+{% block main %}
+<div class="content last-padding">
+    <div>
+        <div class="add-option">
+            <input type="text" id="newOption" placeholder="Nueva opción">
+            <button id="addOption">Agregar</button>
+        </div>
+
+        <div class="roulette-container">
+            <canvas id="rouletteCanvas" width="300" height="300"></canvas>
+            <button id="spin">Girar</button>
+            <p id="result"></p>
+        </div>
+
+        <ul id="optionList"></ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block scriptsextra %}
+<script src="{% static 'js/spin.js' %}"></script>
+{% endblock %}

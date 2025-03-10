@@ -7,4 +7,5 @@ urlpatterns = [
     path("singout/", views.singout, name="singout"),
 
     path("proyectos/app_clima/", views.weather_app, name="weather_app"),
+    path("proyectos/spin/", views.spin_app, name="spin_app"),
 ]

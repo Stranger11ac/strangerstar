@@ -12,6 +12,8 @@ def index(request):
 
 def weather_app(request):
     return render(request, 'weather.html', {})
+def spin_app(request):
+    return render(request, 'spin.html', {})
 
 # Administracion ----------------------------------------------------------
 @never_cache
