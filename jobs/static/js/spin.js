@@ -1,4 +1,5 @@
-var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "Lose", "$1000000", "Lose", "$350", "$5", "$99"];
+var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45"];
+var options2 = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "Lose", "$1000000", "Lose", "$350", "$5", "$99"];
 
 var startAngle = 0;
 var arc = Math.PI / (options.length / 2);
@@ -43,10 +44,6 @@ function drawRouletteWheel() {
 
         ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, 500, 500);
-
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 2;
-
         ctx.font = "bold 12px Helvetica, Arial";
 
         for (var i = 0; i < options.length; i++) {
@@ -63,8 +60,7 @@ function drawRouletteWheel() {
             ctx.shadowOffsetX = -1;
             ctx.shadowOffsetY = -1;
             ctx.shadowBlur = 0;
-            ctx.shadowColor = "rgb(220,220,220)";
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "#fff";
             ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 250 + Math.sin(angle + arc / 2) * textRadius);
             ctx.rotate(angle + arc / 2 + Math.PI / 2);
             var text = options[i];
@@ -73,7 +69,7 @@ function drawRouletteWheel() {
         }
 
         //Arrow
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "#fff";
         ctx.beginPath();
         ctx.moveTo(250 - 4, 250 - (outsideRadius + 5));
         ctx.lineTo(250 + 4, 250 - (outsideRadius + 5));
@@ -88,7 +84,7 @@ function drawRouletteWheel() {
 }
 
 function spin() {
-    spinAngleStart = Math.random() * 10 + 10;
+    spinAngleStart = Math.random() * 150;
     spinTime = 0;
     spinTimeTotal = Math.random() * 3 + 4 * 1000;
     rotateWheel();
