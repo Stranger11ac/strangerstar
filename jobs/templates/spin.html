@@ -20,15 +20,20 @@
 {% block sectchildclass %}container{% endblock %}
 {% block main %}
 <div class="content last-padding">
-    <input type="button" value="Girar" id="spin" />
-    <canvas id="canvas" width="300" height="300"></canvas>
+    <div class="canvas_box">
+        <canvas id="canvas" width="300" height="300" class="flexbox-center"></canvas>
+        <button type="button" id="spin" class="btn-invert btn-icon transparent"><span class="ic-solar play-circle"></span></button>
+        <span id="arrow" class="ic-solar map-arrow-down"></span>
+    </div>
 
-    <form id="addOptionForm">
-        <input type="text" id="newOption" placeholder="Nueva opción" required />
-        <button type="submit">Agregar</button>
-    </form>
-    <div id="resultado">Resultado</div>
-    <ul id="optionsList"></ul>
+    <div>
+        <form id="addOptionForm" class="flexbox gap2">
+            <input type="text" id="newOption" placeholder="Nueva opción" required />
+            <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
+        </form>
+        <div id="resultado">Resultado</div>
+        <ul id="optionsList"></ul>
+    </div>
 </div>
 {% endblock %}
 

@@ -1,4 +1,4 @@
-var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "Lose", "$1000000", "Lose", "$350", "$5", "$99"];
+var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "Lose", "$1000000", "$350", "$99"];
 var hiddenOptions = new Set(); // Almacena opciones ocultas
 
 var startAngle = 0;
@@ -9,7 +9,11 @@ var spinTime = 0;
 var spinTimeTotal = 0;
 var ctx;
 
-document.getElementById("spin").addEventListener("click", spin);
+const btnSpin = document.getElementById("spin");
+btnSpin.addEventListener("click", function () {
+    this.classList.add("hide");
+    spin();
+});
 
 function getFilteredOptions() {
     return options.filter((opt) => !hiddenOptions.has(opt)); // Excluye opciones ocultas
@@ -58,19 +62,6 @@ function drawRouletteWheel() {
         ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
         ctx.restore();
     }
-
-    // Flecha
-    ctx.fillStyle = "#fff";
-    ctx.beginPath();
-    ctx.moveTo(size / 2 - 5, size / 2 - (outsideRadius + 5));
-    ctx.lineTo(size / 2 + 5, size / 2 - (outsideRadius + 5));
-    ctx.lineTo(size / 2 + 5, size / 2 - (outsideRadius - 8));
-    ctx.lineTo(size / 2 + 10, size / 2 - (outsideRadius - 8));
-    ctx.lineTo(size / 2 + 0, size / 2 - (outsideRadius - 20));
-    ctx.lineTo(size / 2 - 10, size / 2 - (outsideRadius - 8));
-    ctx.lineTo(size / 2 - 5, size / 2 - (outsideRadius - 8));
-    ctx.lineTo(size / 2 - 5, size / 2 - (outsideRadius + 5));
-    ctx.fill();
 }
 
 function spin() {
@@ -110,6 +101,10 @@ function stopRotateWheel() {
     ctx.fillText(response, size / 2 - ctx.measureText(response).width / 2, size / 2 + 8);
     ctx.restore();
     document.getElementById("resultado").textContent = "Resultado: " + response;
+
+    setTimeout(() => {
+        btnSpin.classList.remove("hide");
+    }, 2500);
 }
 
 function easeOut(t, b, c, d) {
@@ -129,6 +124,8 @@ function addOption(event) {
         updateOptionsList();
         drawRouletteWheel();
     }
+
+    event.target.reset();
 }
 
 function updateOptionsList() {
@@ -142,10 +139,10 @@ function updateOptionsList() {
         checkbox.checked = hiddenOptions.has(option);
         checkbox.addEventListener("change", function () {
             if (this.checked) {
-                li.classList.add("subrayado");
+                li.classList.add("line-through", "opacity");
                 hiddenOptions.add(option);
             } else {
-                li.classList.remove("subrayado");
+                li.classList.remove("line-through", "opacity");
                 hiddenOptions.delete(option);
             }
             drawRouletteWheel();

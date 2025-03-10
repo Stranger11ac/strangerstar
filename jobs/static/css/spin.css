@@ -1,0 +1,35 @@
+.canvas_box {
+    position: relative;
+    aspect-ratio: 1/1;
+    max-width: 800px;
+    max-height: 800px;
+}
+
+.canvas_box button {
+    --size: 30vh;
+    position: absolute;
+    top: calc(50% - (var(--size) / 2));
+    left: calc(50% - (var(--size) / 2));
+    scale: 1;
+    opacity: 1;
+    visibility: visible;
+    transition: scale 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    transition-delay: 0, 0, 0.3s;
+}
+
+.canvas_box button.hide {
+    scale: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.canvas_box span#arrow {
+    --size: 6vh;
+    position: absolute;
+    top: clamp(2vw, 5vw, 6vw);
+    width: var(--size);
+    height: var(--size);
+    aspect-ratio: 1/1;
+    background: var(--gdcolor);
+    left: calc(50% - (var(--size) / 2));
+}
