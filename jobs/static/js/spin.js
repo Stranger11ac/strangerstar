@@ -1,66 +1,57 @@
-var options2 = ["$100", "$5"];
 var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "Lose", "$1000000", "Lose", "$350", "$5", "$99"];
+var hiddenOptions = new Set(); // Almacena opciones ocultas
 
 var startAngle = 0;
-var arc = Math.PI / (options.length / 2);
+var arc;
 var spinTimeout = null;
-
 var spinAngleStart = 10;
 var spinTime = 0;
 var spinTimeTotal = 0;
-
 var ctx;
 
 document.getElementById("spin").addEventListener("click", spin);
 
-function byte2Hex(n) {
-    var nybHexString = "0123456789ABCDEF";
-    return nybHexString[(n >> 4) & 0x0f] + nybHexString[n & 0x0f];
+function getFilteredOptions() {
+    return options.filter((opt) => !hiddenOptions.has(opt)); // Excluye opciones ocultas
 }
 
-function RGB2Color(r, g, b) {
-    return "#" + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
-}
-
-function getColor(item, maxitem) {
-    var phase = 0;
-    var center = 128;
-    var width = 127;
-    var frequency = (Math.PI * 2) / maxitem;
-
-    var red = Math.sin(frequency * item + 2 + phase) * width + center;
-    var green = Math.sin(frequency * item + 0 + phase) * width + center;
-    var blue = Math.sin(frequency * item + 4 + phase) * width + center;
-
-    return RGB2Color(red, green, blue);
+function getColor(index, max) {
+    var phase = 0,
+        center = 128,
+        width = 127;
+    var frequency = (Math.PI * 2) / max;
+    var red = Math.sin(frequency * index + 2 + phase) * width + center;
+    var green = Math.sin(frequency * index + 0 + phase) * width + center;
+    var blue = Math.sin(frequency * index + 4 + phase) * width + center;
+    return `rgb(${Math.round(red)},${Math.round(green)},${Math.round(blue)})`;
 }
 
 function drawRouletteWheel() {
+    var filteredOptions = getFilteredOptions();
+    arc = Math.PI / (filteredOptions.length / 2);
     var canvas = document.getElementById("canvas");
     if (canvas.getContext) {
-        var outsideRadius = 200;
-        var textRadius = 160;
-        var insideRadius = 125;
-
+        var outsideRadius = 200,
+            textRadius = 160,
+            insideRadius = 125;
         ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, 500, 500);
         ctx.font = "bold 12px Helvetica, Arial";
 
-        for (var i = 0; i < options.length; i++) {
+        for (var i = 0; i < filteredOptions.length; i++) {
             var angle = startAngle + i * arc;
-            ctx.fillStyle = getColor(i, options.length);
+            ctx.fillStyle = getColor(i, filteredOptions.length);
 
             ctx.beginPath();
             ctx.arc(250, 250, outsideRadius, angle, angle + arc, false);
             ctx.arc(250, 250, insideRadius, angle + arc, angle, true);
-            ctx.stroke();
             ctx.fill();
 
             ctx.save();
             ctx.fillStyle = "#fff";
             ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 250 + Math.sin(angle + arc / 2) * textRadius);
             ctx.rotate(angle + arc / 2 + Math.PI / 2);
-            var text = options[i];
+            var text = filteredOptions[i];
             ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
             ctx.restore();
         }
@@ -101,20 +92,22 @@ function rotateWheel() {
 
 function stopRotateWheel() {
     clearTimeout(spinTimeout);
+    var filteredOptions = getFilteredOptions();
     var degrees = (startAngle * 180) / Math.PI + 90;
     var arcd = (arc * 180) / Math.PI;
     var index = Math.floor((360 - (degrees % 360)) / arcd);
+    var response = filteredOptions[index];
+
     ctx.save();
     ctx.font = "bold 30px Helvetica, Arial";
-    var response = options[index];
-    ctx.fillText(response, 250 - ctx.measureText(response).width / 2, 250);
+    ctx.fillText(response, 250 - ctx.measureText(response).width / 2, 250 + 8);
     ctx.restore();
     document.getElementById("resultado").textContent = "Resultado: " + response;
 }
 
 function easeOut(t, b, c, d) {
-    var ts = (t /= d) * t;
-    var tc = ts * t;
+    var ts = (t /= d) * t,
+        tc = ts * t;
     return b + c * (tc + -3 * ts + 3 * t);
 }
 
@@ -136,14 +129,19 @@ function updateOptionsList() {
     list.innerHTML = "";
     options.forEach((option, index) => {
         var li = document.createElement("li");
+
         var checkbox = document.createElement("input");
         checkbox.type = "checkbox";
+        checkbox.checked = hiddenOptions.has(option);
         checkbox.addEventListener("change", function () {
             if (this.checked) {
                 li.classList.add("subrayado");
+                hiddenOptions.add(option);
             } else {
                 li.classList.remove("subrayado");
+                hiddenOptions.delete(option);
             }
+            drawRouletteWheel();
         });
 
         var text = document.createTextNode(" " + option + " ");
@@ -152,6 +150,7 @@ function updateOptionsList() {
         deleteButton.textContent = "X";
         deleteButton.addEventListener("click", function () {
             options.splice(index, 1);
+            hiddenOptions.delete(option);
             updateOptionsList();
             drawRouletteWheel();
         });
