@@ -1,24 +1,25 @@
-function startIntro() {
+function spinIntro() {
     introJs()
         .setOptions({
             steps: [
                 {
-                    intro: "Esta es la ruleta interactiva de Stranger Star.",
+                    title: "Bienvenidos 👋😋",
+                    intro: "Esta es la ruleta interactiva. Te recomiendo hacer este pequeño tutorial. <i class='ic-solar play-circle'></i>",
                 },
                 {
-                    element: "#newOption",
-                    intro: "Agrega Nuevas opciones a la lista actual.",
+                    element: "#groupNewOp",
+                    intro: "Agrega nuevas opciones a la lista actual. <i class='ic-solar donut-bitten'></i>",
                 },
                 {
                     element: "#upList",
-                    intro: "Sube una lista nueva seleccionando un archivo Excel.",
+                    intro: "Sube una lista nueva seleccionando un archivo Excel. <i class='ic-solar folder-cut'></i><i class='ic-solar file-send-bold-duotone'></i>",
                 },
                 {
                     element: "#historyBtn",
-                    intro: "Cada resultado se Guarda temporalmente.",
+                    intro: "Cada resultado se Guarda temporalmente. <i class='ic-solar history-line-duotone'></i>",
                 },
                 {
-                    intro: "Listo! Disfruta el juego!",
+                    intro: "Listo!!! 🎉🎉🎉 <br/> Disfruta el juego! 😋👋 <br/> Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>",
                 },
             ],
             showBullets: true,
@@ -26,23 +27,20 @@ function startIntro() {
             prevLabel: '<i class="ic-solar alt-arrow-left"></i>',
             doneLabel: '<i class="ic-solar check-circle-bold-duotone"></i>',
         })
-        .oncomplete(function () {
-            localStorage.setItem("viewIntro", "true");
-        })
+        .start()
         .onexit(function () {
-            localStorage.setItem("viewIntro", "true");
-        })
-        .start();
+            localStorage.setItem("viewSpinIntro", "true");
+        });
 }
 
-if (!localStorage.getItem("viewIntro")) {
-    startIntro();
+if (!localStorage.getItem("viewSpinIntro")) {
+    spinIntro();
 }
 
 document.getElementById("startTour").addEventListener("click", function () {
-    localStorage.removeItem("viewIntro");
+    localStorage.removeItem("viewSpinIntro");
 
     setTimeout(() => {
-        startIntro();
+        spinIntro();
     }, 2000);
 });

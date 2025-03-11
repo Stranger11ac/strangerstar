@@ -29,15 +29,16 @@
 
         <div>
             <form id="addOptionForm" class="flexbox">
-                <div class="input_group group_icon">
+                <div class="input_group group_icon" id="groupNewOp">
                     <label class="icon-input" for="newOption"> <span class="ic-solar donut-bitten"></span></label>
                     <input type="text" id="newOption" placeholder="Nueva opción:" required />
                 </div>
                 <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
                 <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList" id="upList"><span class="ic-solar folder-cut"></span></button>
-                <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible" id="historyBtn"><span class="ic-solar history-line-duotone"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible" id="historyBtn"><span
+                        class="ic-solar history-line-duotone"></span></button>
             </form>
-            <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}">
+            <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}" accept=".xlsx,.xls">
             <form class="mt-gap">
                 <ul id="optionsList" class="flexbox flex-column column-invert list_ul"></ul>
             </form>

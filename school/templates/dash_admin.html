@@ -1,16 +1,9 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block titlefirst %} Administracion | {{user}} | Dashboard {% endblock %}
-{% block linksextra %}
+{% extends "base.html" %} {% load static %} {% block titlefirst %} Administracion | {{user}} | Dashboard {% endblock %} {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/aside.css' %}" />
 <link rel="stylesheet" href="{% static 'css/grid.css' %}" />
-<link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/datatables.min.css' %}" />
 <link rel="stylesheet" href="{% static 'css/dt.css' %}" />
-{% endblock %}
-
-{% block bodyclass %}update_link{% endblock %}
-{% block navlinks %}
+{% endblock %} {% block bodyclass %}update_link{% endblock %} {% block navlinks %}
 <a href="#tabHome" class="link_item" data-toggle-tab="tabHome"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span></a>
 <a href="#tabMap" class="link_item" data-toggle-tab="tabMap"> <span class="ic-solar map"></span><span class="link_item-title">Mapa</span></a>
 <a href="#tabIcons" class="link_item" data-toggle-tab="tabIcons"> <span class="ic-solar star"></span><span class="link_item-title">Iconos</span></a>
@@ -30,12 +23,7 @@
     <span class="ic-solar settings"></span>
     <span class="link_item-title">Configuracion</span>
 </button>
-{% endblock %}
-
-{% block sectparentclass %}flexbox gap{% endblock %}
-{% block sectchildid %}id="containerTabs"{% endblock %}
-{% block sectchildclass %}container transparent{% endblock %}
-{% block aside %}
+{% endblock %} {% block sectparentclass %}flexbox gap{% endblock %} {% block sectchildid %}id="containerTabs"{% endblock %} {% block sectchildclass %}container transparent{% endblock %} {% block aside %}
 <aside id="userAside" class="container close" data-listening="scroll">
     <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close" title="Cerrar Aside">
         <span class="ic-solar alt-arrow-right"></span>
@@ -58,9 +46,7 @@
         <article class="submenu" id="asideSubmenu"></article>
     </section>
 </aside>
-{% endblock %}
-
-{% block main %}
+{% endblock %} {% block main %}
 <div class="tabs">
     <div class="tab will_transparent last-padding" data-tab="tabHome">
         <div class="grid grid-cols grid-m-450">
@@ -90,8 +76,7 @@
                     <div class="none" id="user_distintive">
                         <div class="flexbox gap2">
                             <div class="input_group group_icon">
-                                <input type="text" name="insignia" id="insignia" placeholder="Grupo:" data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv"
-                                    data-required="false" />
+                                <input type="text" name="insignia" id="insignia" placeholder="Grupo:" data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv" data-required="false" />
                                 <label class="icon-input first" for="insignia"> <span class="ic-solar star"></span></label>
                             </div>
                             <div class="input_group group_icon" id="num_list_group">
@@ -105,7 +90,7 @@
                         <label class="icon-input first" for="email"> <span class="ic-solar letter"></span></label>
                     </div>
                     <button type="submit" class="btn btn-hover opacity w100" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
-                    <input type="hidden" name="is_active" value="true">
+                    <input type="hidden" name="is_active" value="true" />
                 </form>
                 <section class="mt-gap">
                     <form action="" method="post" data-submit>
@@ -139,30 +124,20 @@
                         <tr id="row-user_{{ oneuser.id }}">
                             <td>{{ oneuser.id }}</td>
                             <td class="username">
-                                <span class="{% if not oneuser.is_active %}radius orange{% endif %} p-5">
-                                    {{ oneuser.username }}
-                                </span>
+                                <span class="{% if not oneuser.is_active %}radius orange{% endif %} p-5"> {{ oneuser.username }} </span>
                             </td>
                             <td>{{ oneuser.first_name }} {{ oneuser.last_name }}</td>
                             <td>{{ oneuser.email }}</td>
                             <td>{{ oneuser.userprofile.insignia|default:"-" }}</td>
                             <td>{{ oneuser.userprofile.num_list|default:"-" }}</td>
                             <td>
-                                {% if oneuser.groups.first.name == "student" %}
-                                Estudiante
-                                {% elif oneuser.groups.first.name == "professor" %}
-                                Profesor
-                                {% elif oneuser.groups.first.name == "admin" %}
-                                Admin
-                                {% else %}
-                                Desconocido
-                                {% endif %}
+                                {% if oneuser.groups.first.name == "student" %} Estudiante {% elif oneuser.groups.first.name == "professor" %} Profesor {% elif oneuser.groups.first.name == "admin" %} Admin {%
+                                else %} Desconocido {% endif %}
                             </td>
                             <td>
                                 <div class="flexbox gap_15">
                                     {% if oneuser.is_active %}
-                                    <button type="button" class="btn btn-icon hover-orange" title="Desactivar Usuario"
-                                        data-actuser="{{ oneuser.id }}-{% url 'user_active' %}-false">
+                                    <button type="button" class="btn btn-icon hover-orange" title="Desactivar Usuario" data-actuser="{{ oneuser.id }}-{% url 'user_active' %}-false">
                                         <span class="ic-solar sleeping-circle-bold-duotone"></span>
                                     </button>
                                     {% else %}
@@ -174,8 +149,7 @@
                                     <button type="button" class="btn btn-icon hover-red" title="Eliminar Usuario" data-deluser="{{ oneuser.id }}-{% url 'user_delete' %}">
                                         <span class="ic-solar trash-bin-trash"></span>
                                     </button>
-                                    <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" data-getuser="{{ oneuser.id }}"
-                                        data-toggle="#modalUser-visible">
+                                    <button type="button" class="btn btn-icon hover-blue" title="Modificar Usuario" data-getuser="{{ oneuser.id }}" data-toggle="#modalUser-visible">
                                         <span class="ic-solar pen-bold-duotone"></span>
                                     </button>
                                 </div>
@@ -266,7 +240,7 @@
                         <label class="link-input" for="sesion1"><span class="ic-solar calendar-mark"></span> Sesion 1:</label>
                     </div>
                     <div class="input_group">
-                        <input type="time" name="sesion_date1" id="sesion_date1" class="end" min="07:00">
+                        <input type="time" name="sesion_date1" id="sesion_date1" class="end" min="07:00" />
                         <label class="link-input" for="sesion_date1"><span class="ic-solar hourglass"></span> Horario:</label>
                     </div>
                 </div>
@@ -283,7 +257,7 @@
                         <label class="link-input" for="sesion2"><span class="ic-solar calendar-mark"></span> Sesion 2:</label>
                     </div>
                     <div class="input_group">
-                        <input type="time" name="sesion_date2" id="sesion_date2" class="end" min="07:00">
+                        <input type="time" name="sesion_date2" id="sesion_date2" class="end" min="07:00" />
                         <label class="link-input" for="sesion_date2"><span class="ic-solar hourglass"></span> Horario:</label>
                     </div>
                     <button type="button" id="delete_sesion2" class="btn btn-icon" title="Eliminar sesion 2"><span class="ic-solar trash-bin-trash"></span></button>
@@ -301,7 +275,7 @@
                         <label class="link-input" for="sesion3"><span class="ic-solar calendar-mark"></span> Sesion 3:</label>
                     </div>
                     <div class="input_group opacity">
-                        <input type="time" name="sesion_date3" id="sesion_date3" class="end" min="07:00">
+                        <input type="time" name="sesion_date3" id="sesion_date3" class="end" min="07:00" />
                         <label class="link-input" for="sesion_date3"><span class="ic-solar hourglass"></span> Horario:</label>
                     </div>
                     <button type="button" id="add_sesion3" class="btn btn-icon" title="Agregar sesion 2"><span class="ic-solar add-circle"></span></button>
@@ -495,6 +469,7 @@
             <button title="icono" type="button" data-copy="ic-solar alt-arrow-right-line"><span class="ic-solar alt-arrow-right-line"></span></button>
             <button title="icono" type="button" data-copy="ic-solar double-alt-arrow-right"><span class="ic-solar double-alt-arrow-right"></span></button>
             <button title="icono" type="button" data-copy="ic-solar file-download-bold-duotone"><span class="ic-solar file-download-bold-duotone"></span></button>
+            <button title="icono" type="button" data-copy="ic-solar file-send-bold-duotone"><span class="ic-solar file-send-bold-duotone"></span></button>
             <button title="icono" type="button" data-copy="ic-solar pen-bold-duotone"><span class="ic-solar pen-bold-duotone"></span></button>
             <button title="icono" type="button" data-copy="ic-solar history-bold-duotone"><span class="ic-solar history-bold-duotone"></span></button>
             <button title="icono" type="button" data-copy="ic-solar history-broken"><span class="ic-solar history-broken"></span></button>
@@ -507,9 +482,7 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block endContent %}
+{% endblock %} {% block endContent %}
 <div class="fixed flexbox-center" id="modalUser">
     <form id="updateUser" class="modal gap_20" method="POST" action="{% url 'user_update' %}" data-submit data-validupuser data-reset="false">
         <h2 class="center" id="upUser">Stranger11</h2>
@@ -537,8 +510,7 @@
         <div class="none" id="user_distintive">
             <div class="flexbox gap2">
                 <div class="input_group group_icon">
-                    <input type="text" name="insignia" id="up_insignia" placeholder="Grupo:" data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv"
-                        data-required="false" />
+                    <input type="text" name="insignia" id="up_insignia" placeholder="Grupo:" data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv" data-required="false" />
                     <label class="icon-input first" for="up_insignia"> <span class="ic-solar star"></span></label>
                 </div>
                 <div class="input_group group_icon" id="num_list_group">
@@ -559,24 +531,20 @@
             <p class="input flexbox a-center fs-08">UID: <span id="up_uid_text">salvador1A20250307</span></p>
         </div>
         <div class="flexbox between gap2">
-            <button type="button" class="btn btn-content hover-red" data-toggle="#modalUser-visible" data-clearform="updateUser">Cerrar <span
-                    class="ic-solar close-circle-bold-duotone"></span></button>
+            <button type="button" class="btn btn-content hover-red" data-toggle="#modalUser-visible" data-clearform="updateUser">Cerrar <span class="ic-solar close-circle-bold-duotone"></span></button>
             <button type="submit" class="btn btn-content btn-hover opacity" disabled>Enviar Registro <span class="ic-solar plain"></span></button>
         </div>
-        <input type="hidden" name="user_id" id="up_user_id">
-        <input type="hidden" name="up_uid" id="up_uid">
+        <input type="hidden" name="user_id" id="up_user_id" />
+        <input type="hidden" name="up_uid" id="up_uid" />
     </form>
 </div>
-{% endblock %}
-
-{% block scriptsextra %}
+{% endblock %} {% block scriptsextra %}
 <script src="{% static 'js/tabs.js' %}"></script>
 <script src="{% static 'js/aside.js' %}"></script>
 <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 <script src="{% static 'js/validate.js' %}"></script>
 <script src="{% static 'js/submit.js' %}"></script>
-<script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu" crossorigin="anonymous"></script>
 <script src="{% static 'js/datatable.js' %}"></script>
 <script src="{% static 'js/forms.js' %}"></script>
 {% endblock %}
