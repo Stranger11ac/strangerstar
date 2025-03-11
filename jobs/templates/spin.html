@@ -2,7 +2,6 @@
 {% load static %}
 {% block titlefirst %}Ruleta Interactiva | Proyectos{% endblock %}
 {% block linksextra %}
-<link rel="stylesheet" href="{% static 'css/grid.css' %}" />
 <link rel="stylesheet" href="{% static 'css/spin.css' %}" />
 {% endblock %}
 
@@ -20,19 +19,27 @@
 {% block sectchildclass %}container{% endblock %}
 {% block main %}
 <div class="content last-padding">
-    <div class="canvas_box">
-        <canvas id="canvas" width="300" height="300" class="flexbox-center"></canvas>
-        <button type="button" id="spin" class="btn-invert btn-icon transparent"><span class="ic-solar play-circle"></span></button>
-        <span id="arrow" class="ic-solar map-arrow-down"></span>
-    </div>
+    <div class="content_spin flexbox flex-column">
+        <div class="canvas_box">
+            <canvas id="canvas" width="300" height="300" class="flexbox-center"></canvas>
+            <button type="button" id="spin" class="btn-invert btn-icon transparent"><span class="ic-solar play-circle"></span></button>
+            <span id="arrow" class="ic-solar map-arrow-down"></span>
+        </div>
 
-    <div>
-        <form id="addOptionForm" class="flexbox gap2">
-            <input type="text" id="newOption" placeholder="Nueva opción" required />
-            <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
-        </form>
-        <div id="resultado">Resultado</div>
-        <ul id="optionsList"></ul>
+        <div>
+            <form id="addOptionForm" class="flexbox">
+                <div class="input_group group_icon">
+                    <label class="icon-input" for="newOption"> <span class="ic-solar donut-bitten"></span></label>
+                    <input type="text" id="newOption" placeholder="Nueva opción:" required />
+                </div>
+                <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover"><span class="ic-solar folder-cut"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover"><span class="ic-solar history-line-duotone"></span></button>
+            </form>
+            <form class="mt-gap">
+                <ul id="optionsList" class="flexbox flex-column column-invert"></ul>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

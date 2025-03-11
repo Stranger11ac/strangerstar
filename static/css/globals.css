@@ -875,9 +875,16 @@ form input {
     color: var(--color);
     padding: 5px 10px;
 }
+form input[type="checkbox"] {
+    min-height: var(--size, 30px);
+    width: var(--size, 30px);
+}
 form textarea {
     resize: none;
     height: calc(var(--size, 40px) * 3);
+}
+form label {
+    cursor: pointer;
 }
 form .btn {
     min-height: 40px;
@@ -1028,6 +1035,7 @@ div.dt-container .dt-search,
     padding: 10px 15px;
     min-width: 85px;
 }
+.hover-detail:hover,
 .btn-hover:hover {
     color: white;
     background: var(--detail);
@@ -1362,8 +1370,8 @@ tbody tr:hover {
 .pb-80 {
     padding-bottom: 80px;
 }
-.pl-15 {
-    padding-left: 15px;
+.pl-10 {
+    padding-left: 10px;
 }
 .mx-center {
     margin: 0 auto;
@@ -1530,6 +1538,9 @@ tbody tr:hover {
 .flexbox.a-start {
     align-items: start !important;
 }
+.column-invert {
+    flex-direction: column-reverse;
+}
 
 .gap {
     gap: 0;
@@ -1637,7 +1648,7 @@ tbody tr:hover {
     background: var(--detail) !important;
 }
 .bg-bgcolor {
-    background: var(--bgcolor) !important;
+    background: var(--bgcolor);
 }
 .bg-second {
     background: var(--second) !important;

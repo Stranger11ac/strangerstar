@@ -16,7 +16,7 @@ btnSpin.addEventListener("click", function () {
 });
 
 function getFilteredOptions() {
-    return options.filter((opt) => !hiddenOptions.has(opt)); // Excluye opciones ocultas
+    return options.filter((opt) => !hiddenOptions.has(opt));
 }
 
 function getColor(index, max) {
@@ -132,26 +132,35 @@ function updateOptionsList() {
     var list = document.getElementById("optionsList");
     list.innerHTML = "";
     options.forEach((option, index) => {
+        var div = document.createElement("div");
+        div.classList = "flexbox a-center p-5 w100";
+
         var li = document.createElement("li");
+        li.classList = "flexbox between a-center bg-bgcolor hover-detail radius";
+
+        var label = document.createElement("label");
+        label.textContent = option;
+        label.classList = "w100";
+        label.htmlFor = option;
 
         var checkbox = document.createElement("input");
         checkbox.type = "checkbox";
+        checkbox.id = option;
         checkbox.checked = hiddenOptions.has(option);
         checkbox.addEventListener("change", function () {
             if (this.checked) {
-                li.classList.add("line-through", "opacity");
+                label.classList.add("line-through", "opacity");
                 hiddenOptions.add(option);
             } else {
-                li.classList.remove("line-through", "opacity");
+                label.classList.remove("line-through", "opacity");
                 hiddenOptions.delete(option);
             }
             drawRouletteWheel();
         });
 
-        var text = document.createTextNode(" " + option + " ");
-
         var deleteButton = document.createElement("button");
-        deleteButton.textContent = "X";
+        deleteButton.classList = "btn-invert btn-icon hover-red";
+        deleteButton.innerHTML = "<span class='ic-solar trash-bin-trash'></span>";
         deleteButton.addEventListener("click", function () {
             options.splice(index, 1);
             hiddenOptions.delete(option);
@@ -159,8 +168,9 @@ function updateOptionsList() {
             drawRouletteWheel();
         });
 
-        li.appendChild(checkbox);
-        li.appendChild(text);
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        li.appendChild(div);
         li.appendChild(deleteButton);
         list.appendChild(li);
     });
@@ -168,16 +178,16 @@ function updateOptionsList() {
 
 updateOptionsList();
 
-function resizeCanvas() {
-    var canvas = document.getElementById("canvas");
-    var container = canvas.parentElement;
+// function resizeCanvas() {
+//     var canvas = document.getElementById("canvas");
+//     var container = canvas.parentElement;
 
-    var size = Math.min(container.clientWidth, container.clientHeight, 800);
-    canvas.width = size;
-    canvas.height = size;
+//     var size = Math.min(container.clientWidth, container.clientHeight, 800);
+//     canvas.width = size;
+//     canvas.height = size;
 
-    drawRouletteWheel();
-}
+//     drawRouletteWheel();
+// }
 
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+// window.addEventListener("resize", resizeCanvas);
+// resizeCanvas();
