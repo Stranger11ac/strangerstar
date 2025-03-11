@@ -51,3 +51,18 @@ def singout(request):
     logout(request)
     url = reverse('index') + '#tabLogin'
     return HttpResponseRedirect(url)
+
+import pandas as pd
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def spin_up_list(request):
+    if request.method == "POST" and request.FILES.get("file"):
+        excel_file = request.FILES["file"]
+        try:
+            df = pd.read_excel(excel_file, usecols=[0])
+            options = df.iloc[:, 0].dropna().tolist()
+            return JsonResponse({"success": True, "options": options})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
+    return JsonResponse({"success": False, "error": "No se envió un archivo válido."})

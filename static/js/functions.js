@@ -130,7 +130,7 @@ $(document).ready(function () {
         const $linkSettings = $(".link_settings");
         const $settingsBox = $(".settings_box");
         const $settingsModal = $("#modalSettings");
-        
+
         $("body").attr("data-settings", idBtnDirection);
         const $menuDirection = localStorage.getItem("menu_direction");
 
@@ -246,6 +246,12 @@ $(document).ready(function () {
         const $item = $(this);
         const textCopy = $item.attr("data-copy");
         copyToClipboard(textCopy);
+    });
+
+    // Transfer click #####################################################
+    $(document).on("click", "[data-click]", function () {
+        const thisElement = $(this).data("click");
+        $(thisElement).click();
     });
 });
 

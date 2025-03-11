@@ -97,7 +97,7 @@ function stopRotateWheel() {
     var size = canvas.width;
 
     ctx.save();
-    ctx.font = `${Math.max(20, size * 0.05)}px Helvetica, Arial`; // Ajusta el tamaño del texto
+    ctx.font = `${Math.max(20, size * 0.1)}px Helvetica, Arial`;
     ctx.fillStyle = "#fff";
     ctx.fillText(response, size / 2 - ctx.measureText(response).width / 2, size / 2 + 8);
     ctx.restore();
@@ -147,7 +147,6 @@ function addOption(event) {
         updateOptionsList();
         drawRouletteWheel();
     }
-
     event.target.reset();
 }
 
@@ -196,5 +195,37 @@ function updateOptionsList() {
         list.appendChild(li);
     });
 }
+
+var fileInput = document.getElementById("fileList");
+fileInput.addEventListener("change", function () {
+    var sendFile = fileInput.getAttribute("data-post");
+    var file = fileInput.files[0];
+    if (!file) {
+        toast('center', 8000, 'error', "Selecciona un archivo Excel primero.");
+        return;
+    }
+
+    var formData = new FormData();
+    formData.append("file", file);
+
+    fetch(sendFile, {
+        method: "POST",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                options = [...data.options];
+                // options = [...options, ...data.options];
+                updateOptionsList();
+                drawRouletteWheel();
+
+                toast('top-end', 8000, 'success', 'Se subió una lista correctamente');
+            } else {
+                alert("Error al procesar el archivo: " + data.error);
+            }
+        })
+        .catch((error) => console.error("Error en la solicitud:", error));
+});
 
 updateOptionsList();

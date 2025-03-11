@@ -33,9 +33,10 @@
                     <input type="text" id="newOption" placeholder="Nueva opción:" required />
                 </div>
                 <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
-                <button type="button" class="btn-invert btn-icon btn-hover"><span class="ic-solar folder-cut"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList"><span class="ic-solar folder-cut"></span></button>
                 <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible"><span class="ic-solar history-line-duotone"></span></button>
             </form>
+            <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}">
             <form class="mt-gap">
                 <ul id="optionsList" class="flexbox flex-column column-invert"></ul>
             </form>
