@@ -1,4 +1,11 @@
-var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "Lose", "$1000000", "$350", "$99"];
+var options = [
+    "$100", "$10","$25",
+    "$250", "$30", "$1000",
+    "$1", "$200", "$45",
+    "$500", "$5", "$20",
+    "$1000000", "$350", "$99",
+    "Lose"
+];
 var hiddenOptions = new Set(); // Almacena opciones ocultas
 
 var startAngle = 0;
@@ -177,17 +184,3 @@ function updateOptionsList() {
 }
 
 updateOptionsList();
-
-// function resizeCanvas() {
-//     var canvas = document.getElementById("canvas");
-//     var container = canvas.parentElement;
-
-//     var size = Math.min(container.clientWidth, container.clientHeight, 800);
-//     canvas.width = size;
-//     canvas.height = size;
-
-//     drawRouletteWheel();
-// }
-
-// window.addEventListener("resize", resizeCanvas);
-// resizeCanvas();

@@ -885,6 +885,7 @@ form textarea {
 }
 form label {
     cursor: pointer;
+    user-select: none;
 }
 form .btn {
     min-height: 40px;
