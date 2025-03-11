@@ -103,10 +103,11 @@
                             <span id="window-Ventana" class="ic-solar window-frame"></span>
                         </button>
                     </div>
+                    {% block endSettings %}{% endblock %}
                     <div class="settings_group">
                         <div>Datos Almacenados:&nbsp;<span id="storageSize">0B</span></div>
                         <button type="button" class="btn btn-hover btn-icon" id="deleteStorage" title="Eliminar Cache">
-                            <span id="menu-Menu" class="ic-solar trash-bin-trash"></span>
+                            <span class="ic-solar trash-bin-trash"></span>
                         </button>
                     </div>
                 </div>

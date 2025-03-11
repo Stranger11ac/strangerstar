@@ -3,7 +3,7 @@
 {% block titlefirst %}Ruleta Interactiva | Proyectos{% endblock %}
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/spin.css' %}" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css">
+<link rel="stylesheet" href="{% static 'css/introjs.min.css' %}" />
 {% endblock %}
 
 {% block navlinks %}
@@ -35,14 +35,23 @@
                 </div>
                 <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
                 <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList" id="upList"><span class="ic-solar folder-cut"></span></button>
-                <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible"><span class="ic-solar history-line-duotone"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible" id="historyBtn"><span class="ic-solar history-line-duotone"></span></button>
             </form>
             <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}">
             <form class="mt-gap">
-                <ul id="optionsList" class="flexbox flex-column column-invert"></ul>
+                <ul id="optionsList" class="flexbox flex-column column-invert list_ul"></ul>
             </form>
         </div>
     </div>
+</div>
+{% endblock %}
+
+{% block endSettings %}
+<div class="settings_group">
+    <div>Activar Tutorial:</div>
+    <button type="button" class="btn btn-icon btn-hover" id="startTour" title="Activar Tutorial" data-click="[data-close]">
+        <span class="ic-solar widget-5"></span>
+    </button>
 </div>
 {% endblock %}
 
@@ -53,7 +62,7 @@
             <h2>Historial <span class="ic-solar history-line-duotone"></span></h2>
         </div>
         <div class="modal_body">
-            <ul id="history" class="flexbox flex-column"></ul>
+            <ul id="history" class="flexbox flex-column list_ul"></ul>
         </div>
         <div class="modal_footer flex-end">
             <button type="button" class="btn btn-content hover-red" data-toggle="#modalHistory-visible">Cerrar <span class="ic-solar close-circle-bold-duotone"></span></button>
@@ -63,7 +72,7 @@
 {% endblock %}
 
 {% block scriptsextra %}
-<script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
+<script src="{% static 'js/intro.min.js' %}"></script>
 <script src="{% static 'js/intro.js' %}"></script>
 <script src="{% static 'js/spin.js' %}"></script>
 {% endblock %}

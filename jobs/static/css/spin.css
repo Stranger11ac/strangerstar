@@ -44,7 +44,7 @@
     left: calc(50% - (var(--size) / 2));
 }
 
-ul li {
+.list_ul li {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -54,18 +54,18 @@ ul li {
     min-height: 20px;
     width: 100%;
 }
-ul li:hover {
+.list_ul li:hover {
     background: var(--detail);
     color: white;
 }
-ul li div {
+.list_ul li div {
     --size: 30px;
     padding: 5px;
     display: flex;
     align-items: center;
     gap: 15px;
 }
-ul li div span.count {
+.list_ul li div span.count {
     width: 25px;
     height: 25px;
     display: flex;

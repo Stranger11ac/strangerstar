@@ -3,11 +3,22 @@ function startIntro() {
         .setOptions({
             steps: [
                 {
-                    intro: "Bienvenido al tutorial interactivo con Intro.js.",
+                    intro: "Esta es la ruleta interactiva de Stranger Star.",
+                },
+                {
+                    element: "#newOption",
+                    intro: "Agrega Nuevas opciones a la lista actual.",
                 },
                 {
                     element: "#upList",
-                    intro: "Haz clic en este botón si quieres repetir el tutorial.",
+                    intro: "Sube una lista nueva seleccionando un archivo Excel.",
+                },
+                {
+                    element: "#historyBtn",
+                    intro: "Cada resultado se Guarda temporalmente.",
+                },
+                {
+                    intro: "Listo! Disfruta el juego!",
                 },
             ],
             showBullets: true,
@@ -24,12 +35,14 @@ function startIntro() {
         .start();
 }
 
-// if (!localStorage.getItem("viewIntro")) {
-//     startIntro();
-// }
+if (!localStorage.getItem("viewIntro")) {
     startIntro();
+}
 
-// document.getElementById("startTour").addEventListener("click", function () {
-//     localStorage.removeItem("viewIntro");
-//     startIntro();
-// });
+document.getElementById("startTour").addEventListener("click", function () {
+    localStorage.removeItem("viewIntro");
+
+    setTimeout(() => {
+        startIntro();
+    }, 2000);
+});
