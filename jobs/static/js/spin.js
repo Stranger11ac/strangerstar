@@ -98,7 +98,14 @@ function stopRotateWheel() {
 
     ctx.save();
     ctx.font = `${Math.max(20, size * 0.1)}px Helvetica, Arial`;
-    ctx.fillStyle = "#fff";
+
+    const getTheme = localStorage.getItem("theme")
+    if (getTheme == 'light') {
+        ctx.fillStyle = "#333";
+    } else {
+        ctx.fillStyle = "#fff";
+    }
+
     ctx.fillText(response, size / 2 - ctx.measureText(response).width / 2, size / 2 + 8);
     ctx.restore();
 
@@ -216,13 +223,12 @@ fileInput.addEventListener("change", function () {
         .then((data) => {
             if (data.success) {
                 options = [...data.options];
-                // options = [...options, ...data.options];
                 updateOptionsList();
                 drawRouletteWheel();
 
                 toast('top-end', 8000, 'success', 'Se subió una lista correctamente');
             } else {
-                alert("Error al procesar el archivo: " + data.error);
+                toast('center', 8000, 'error', "Error al procesar el archivo: " + data.error);
             }
         })
         .catch((error) => console.error("Error en la solicitud:", error));

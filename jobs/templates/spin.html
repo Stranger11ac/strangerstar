@@ -3,13 +3,14 @@
 {% block titlefirst %}Ruleta Interactiva | Proyectos{% endblock %}
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/spin.css' %}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css">
 {% endblock %}
 
 {% block navlinks %}
-<a href="{% url 'index' %}#tabHome" class="link_item"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span> </a>
-<a href="{% url 'index' %}#tabProjects" class="link_item"> <span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span> </a>
-<a href="{% url 'index' %}#tabLogin" class="link_item"> <span class="ic-solar login-3"></span><span class="link_item-title">Iniciar Sesión</span></a>
-<a href="{% url 'index' %}#tabAbout" class="link_item none-xl"> <span class="ic-solar user"></span><span class="link_item-title">Acerca de</span> </a>
+<a href="{% url 'index' %}#tabHome" class="link_item"><span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span></a>
+<a href="{% url 'index' %}#tabProjects" class="link_item"><span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span></a>
+<a href="{% url 'index' %}#tabLogin" class="link_item"><span class="ic-solar login-3"></span><span class="link_item-title">Iniciar Sesión</span></a>
+<a href="{% url 'index' %}#tabAbout" class="link_item none-xl"><span class="ic-solar user"></span><span class="link_item-title">Acerca de</span></a>
 <button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
     <span class="ic-solar settings"></span>
     <span class="link_item-title">Configuracion</span>
@@ -33,7 +34,7 @@
                     <input type="text" id="newOption" placeholder="Nueva opción:" required />
                 </div>
                 <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
-                <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList"><span class="ic-solar folder-cut"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList" id="upList"><span class="ic-solar folder-cut"></span></button>
                 <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible"><span class="ic-solar history-line-duotone"></span></button>
             </form>
             <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}">
@@ -62,5 +63,7 @@
 {% endblock %}
 
 {% block scriptsextra %}
+<script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
+<script src="{% static 'js/intro.js' %}"></script>
 <script src="{% static 'js/spin.js' %}"></script>
 {% endblock %}

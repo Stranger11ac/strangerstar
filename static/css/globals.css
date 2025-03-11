@@ -1047,9 +1047,6 @@ div.dt-container .dt-search,
 .btn-hover .ic-solar {
     transition: 1s ease;
 }
-.btn-hover:hover .ic-solar {
-    background: var(--gdwhite) !important;
-}
 .hover-red:hover {
     background: tomato;
     color: #fff;
@@ -1061,6 +1058,12 @@ div.dt-container .dt-search,
 .hover-orange:hover {
     background: orange;
     color: #fff;
+}
+.hover-red:hover .ic-solar,
+.hover-blue:hover .ic-solar,
+.hover-orange:hover .ic-solar,
+.btn-hover:hover .ic-solar {
+    background: var(--gdwhite) !important;
 }
 .btn-second {
     background: var(--second);
