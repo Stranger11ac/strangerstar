@@ -27,10 +27,10 @@ function spinIntro() {
             prevLabel: '<i class="ic-solar alt-arrow-left"></i>',
             doneLabel: '<i class="ic-solar check-circle-bold-duotone"></i>',
         })
-        .start()
         .onexit(function () {
             localStorage.setItem("viewSpinIntro", "true");
-        });
+        })
+        .start();
 }
 
 if (!localStorage.getItem("viewSpinIntro")) {

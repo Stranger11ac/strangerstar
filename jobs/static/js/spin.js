@@ -99,14 +99,14 @@ function stopRotateWheel() {
     ctx.save();
     ctx.font = `${Math.max(20, size * 0.1)}px Helvetica, Arial`;
 
-    const getTheme = localStorage.getItem("theme")
-    if (getTheme == 'light') {
+    const getTheme = localStorage.getItem("theme");
+    if (getTheme == "light") {
         ctx.fillStyle = "#333";
     } else {
         ctx.fillStyle = "#fff";
     }
 
-    ctx.fillText(response, size / 2 - ctx.measureText(response).width / 2, size / 2 + 8);
+    ctx.fillText(response, size / 2 - ctx.measureText(response).width / 2, size / 2 + 12);
     ctx.restore();
 
     var list = document.getElementById("history");
@@ -207,8 +207,17 @@ var fileInput = document.getElementById("fileList");
 fileInput.addEventListener("change", function () {
     var sendFile = fileInput.getAttribute("data-post");
     var file = fileInput.files[0];
+    var toastTime = 8000;
+
     if (!file) {
-        toast('center', 8000, 'error', "Selecciona un archivo Excel primero.");
+        toast("center", toastTime, "error", "Selecciona un archivo Excel primero.");
+        return;
+    }
+
+    var allowedExtensions = ["application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
+    if (!allowedExtensions.includes(file.type)) {
+        toast("center", toastTime, "error", "Solo se permiten archivos Excel (.xls, .xlsx).");
+        fileInput.value = "";
         return;
     }
 
@@ -226,12 +235,15 @@ fileInput.addEventListener("change", function () {
                 updateOptionsList();
                 drawRouletteWheel();
 
-                toast('top-end', 8000, 'success', 'Se subió una lista correctamente');
+                toast("top-end", 3000, "success", "Se subió una lista correctamente");
             } else {
-                toast('center', 8000, 'error', "Error al procesar el archivo: " + data.error);
+                toast("center", toastTime, "error", "Error al procesar el archivo: " + data.error);
             }
         })
-        .catch((error) => console.error("Error en la solicitud:", error));
+        .catch((error) => {
+            console.error("Error en la solicitud:", error);
+            toast("center", toastTime, "error", "Hubo un problema al subir el archivo.");
+        });
 });
 
 updateOptionsList();
