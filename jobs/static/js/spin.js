@@ -1,12 +1,6 @@
-var options = [
-    "$100", "$10","$25",
-    "$250", "$30", "$1000",
-    "$1", "$200", "$45",
-    "$500", "$5", "$20",
-    "$1000000", "$350", "$99",
-    "Lose"
-];
-var hiddenOptions = new Set(); // Almacena opciones ocultas
+var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "$1000000", "$350", "$99", "Lose"];
+var hiddenOptions = new Set();
+var counter = 1;
 
 var startAngle = 0;
 var arc;
@@ -107,7 +101,29 @@ function stopRotateWheel() {
     ctx.fillStyle = "#fff";
     ctx.fillText(response, size / 2 - ctx.measureText(response).width / 2, size / 2 + 8);
     ctx.restore();
-    document.getElementById("resultado").textContent = "Resultado: " + response;
+
+    var list = document.getElementById("history");
+    var li = document.createElement("li");
+    var date = document.createElement("div");
+    var result = document.createElement("div");
+
+    var now = new Date();
+    var formattedDate = now.toLocaleString("es-MX", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+    });
+
+    li.classList = "p-10";
+    date.innerHTML = `<span class="count">${counter}</span> ${formattedDate}`;
+    date.classList = "hostory_date";
+    result.textContent = response;
+    counter++;
+
+    li.appendChild(date);
+    li.appendChild(result);
+    list.appendChild(li);
 
     setTimeout(() => {
         btnSpin.classList.remove("hide");
@@ -140,12 +156,10 @@ function updateOptionsList() {
     list.innerHTML = "";
     options.forEach((option, index) => {
         var div = document.createElement("div");
-        div.classList = "flexbox a-center p-5 w100";
-
         var li = document.createElement("li");
-        li.classList = "flexbox between a-center bg-bgcolor hover-detail radius";
-
         var label = document.createElement("label");
+
+        div.classList = "w100";
         label.textContent = option;
         label.classList = "w100";
         label.htmlFor = option;

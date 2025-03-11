@@ -34,13 +34,29 @@
                 </div>
                 <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
                 <button type="button" class="btn-invert btn-icon btn-hover"><span class="ic-solar folder-cut"></span></button>
-                <button type="button" class="btn-invert btn-icon btn-hover"><span class="ic-solar history-line-duotone"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible"><span class="ic-solar history-line-duotone"></span></button>
             </form>
             <form class="mt-gap">
                 <ul id="optionsList" class="flexbox flex-column column-invert"></ul>
             </form>
         </div>
     </div>
+</div>
+{% endblock %}
+
+{% block endContent %}
+<div class="fixed flexbox-center" id="modalHistory">
+    <article class="modal">
+        <div class="modal_header center">
+            <h2>Historial <span class="ic-solar history-line-duotone"></span></h2>
+        </div>
+        <div class="modal_body">
+            <ul id="history" class="flexbox flex-column"></ul>
+        </div>
+        <div class="modal_footer flex-end">
+            <button type="button" class="btn btn-content hover-red" data-toggle="#modalHistory-visible">Cerrar <span class="ic-solar close-circle-bold-duotone"></span></button>
+        </div>
+    </article>
 </div>
 {% endblock %}
 

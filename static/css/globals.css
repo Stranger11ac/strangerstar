@@ -1268,9 +1268,8 @@ tbody tr:hover {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    padding: 15px 25px;
+    padding: 25px;
     visibility: hidden;
-    overflow-y: auto;
     z-index: -1;
     opacity: 0;
     inset: 0;
@@ -1288,11 +1287,31 @@ tbody tr:hover {
     transition-delay: 0.3s, 0s, 0s, 0s;
 }
 .fixed .modal {
+    padding: 0;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-20%);
     transition: transform 0.3s var(--transitionCubicVal), opacity 0.3s ease;
     transition-delay: 0s, 0s;
+    min-height: 300px;
+    max-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 0;
+}
+.fixed .modal .modal_header {
+    border-bottom: 1px solid var(--color);
+    padding: 15px;
+}
+.fixed .modal .modal_body {
+    padding: 20px 25px;
+    overflow-y: auto;
+}
+.fixed .modal .modal_footer {
+    border-top: 1px solid var(--color);
+    padding: 15px;
+    display: flex;
 }
 .fixed.visible .modal {
     transform: translateY(0);
@@ -1514,6 +1533,7 @@ tbody tr:hover {
 .flexbox.flex-center {
     justify-content: center;
 }
+.flex-end,
 .flexbox.flex-end {
     justify-content: flex-end;
 }
