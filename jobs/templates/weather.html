@@ -4,6 +4,7 @@
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/grid.css' %}" />
 <link rel="stylesheet" href="{% static 'css/weather.css' %}" />
+<link rel="stylesheet" href="{% static 'css/introjs.min.css' %}" />
 {% endblock %}
 
 {% block navlinks %}
@@ -20,29 +21,12 @@
 {% block sectchildclass %}container transparent{% endblock %}
 {% block main %}
 <div class="content last-padding">
-    <div id="wInst" class="grid grid-small pb-gap">
-        <div class="card">
-            <div class="card-header flexbox between">
-                <h4>Instrucciones</h4>
-                <button type="button" data-remove="#wInst" title="Cerrar Instrucciones">
-                    <span class="ic-solar close-rounded"></span>
-                </button>
-            </div>
-            <div class="card-body m0">
-                <ul class="ml-25">
-                    <li>Busca el clima de una ciudad específica</li>
-                    <li>Puedes presionar ENTER o presionar el botón</li>
-                    <li>Tus datos no se comparten ni utilizan de ninguna forma</li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <form autocomplete="off" class="sticky-top" data-nosubmit>
         <div class="flexbox between gap2 pb-gap bg-bgcolor bgcolor-coners_b" style="--size: 50px">
             <div id="searchCoords" class="btn btn-second btn-icon btn-hover flexbox-center">
                 <span class="ic-solar gps-bold-duotone"></span>
             </div>
-            <div class="input_group group_icon without-border w100">
+            <div class="input_group group_icon without-border w100" id="locationGroup">
                 <input type="text" list="locationsugg" class="bg-second capitalize" name="location" id="location" placeholder="Buscar Ciudad:" />
                 <label class="icon-input" for="location"> <span class="ic-solar map-point-search"></span></label>
             </div>
@@ -160,23 +144,20 @@
     <p class="center mt-30">
         <a href="http://weatherapi.com" target="_blank" rel="noopener noreferrer">weatherapi.com</a>
     </p>
-    <div id="wIndications" class="grid-system grid-small mt-30">
-        <div class="card">
-            <div class="card-header flexbox between">
-                <h4>Informacion adicional</h4>
-                <button type="button" data-remove="#wIndications" title="Cerrar Informacion">
-                    <span class="ic-solar close-rounded"></span>
-                </button>
-            </div>
-            <div class="card-body m0">
-                Los datos de esta app pueden ser incorrectos, esto se debe a que se utilizan datos publicos y pueden varias segun la regio de 3 a 2 grados. Se recomienda consultar mas fuentes para corroborar el clima de tu ciudad.
-            </div>
-        </div>
-    </div>
+</div>
+{% endblock %}
 
+{% block endSettings %}
+<div class="settings_group">
+    <div>Activar Tutorial:</div>
+    <button type="button" class="btn btn-icon btn-hover" id="startWeatherTour" title="Activar Tutorial" data-click="[data-close]">
+        <span class="ic-solar widget-5"></span>
+    </button>
 </div>
 {% endblock %}
 
 {% block scriptsextra %}
+<script src="{% static 'js/intro.min.js' %}"></script>
+<script src="{% static 'js/intro.js' %}"></script>
 <script src="{% static 'js/weather.js' %}"></script>
 {% endblock %}

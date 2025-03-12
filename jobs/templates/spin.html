@@ -23,7 +23,7 @@
     <div class="content_spin flexbox flex-column">
         <div class="canvas_box">
             <canvas id="canvas" width="300" height="300" class="flexbox-center"></canvas>
-            <button type="button" id="spin" class="btn-invert btn-icon transparent"><span class="ic-solar play-circle"></span></button>
+            <button type="button" id="spin" class="btn-invert btn-icon transparent" title="Iniciar Ruleta"><span class="ic-solar play-circle"></span></button>
             <span id="arrow" class="ic-solar map-arrow-down"></span>
         </div>
 
@@ -33,12 +33,12 @@
                     <label class="icon-input" for="newOption"> <span class="ic-solar donut-bitten"></span></label>
                     <input type="text" id="newOption" placeholder="Nueva opción:" required />
                 </div>
-                <button type="submit" class="btn-invert btn-icon btn-hover"><span class="ic-solar plain"></span></button>
-                <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList" id="upList"><span class="ic-solar folder-cut"></span></button>
-                <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible" id="historyBtn"><span
+                <button type="submit" class="btn-invert btn-icon btn-hover" title="Enviar opcion"><span class="ic-solar plain"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList" id="upList" title="Subir Lista"><span class="ic-solar folder-cut"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible" id="historyBtn" title="Abrir historial"><span
                         class="ic-solar history-line-duotone"></span></button>
             </form>
-            <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}" accept=".xlsx,.xls">
+            <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}" accept=".xlsx,.xls" placeholder="Subir Excel">
             <form class="mt-gap">
                 <ul id="optionsList" class="flexbox flex-column column-invert list_ul"></ul>
             </form>
@@ -50,7 +50,7 @@
 {% block endSettings %}
 <div class="settings_group">
     <div>Activar Tutorial:</div>
-    <button type="button" class="btn btn-icon btn-hover" id="startTour" title="Activar Tutorial" data-click="[data-close]">
+    <button type="button" class="btn btn-icon btn-hover" id="startSpinTour" title="Activar Tutorial" data-click="[data-close]">
         <span class="ic-solar widget-5"></span>
     </button>
 </div>
