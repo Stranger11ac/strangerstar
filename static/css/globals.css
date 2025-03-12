@@ -892,6 +892,20 @@ form .btn {
     min-width: 40px;
 }
 
+form input[type="number"].input_square {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Otros navegadores */
+}
+form input[type="number"].input_square::-webkit-outer-spin-button,
+form input[type="number"].input_square::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+form .input_square {
+    min-height: var(--size, 40px);
+    width: var(--size, 40px);
+}
+
 /*
 * --icon es la cantidad que se le resta a size
 * Ayuda a centrar el icono en el boton cuadrado

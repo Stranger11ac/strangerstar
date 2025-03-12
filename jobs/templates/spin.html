@@ -34,11 +34,19 @@
                     <label class="icon-input" for="newOption"> <span class="ic-solar donut-bitten"></span></label>
                     <input type="text" id="newOption" placeholder="Nueva opción:" required />
                 </div>
-                <button type="submit" class="btn-invert btn-icon btn-hover" title="Enviar opcion"><span class="ic-solar plain"></span></button>
+                <button type="submit" class="btn-invert btn-icon btn-hover" title="Enviar opcion"><span class="ic-solar add-circle"></span></button>
                 <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList" id="upList" title="Subir Lista"><span
                         class="ic-solar folder-cut"></span></button>
                 <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible" id="historyBtn" title="Abrir historial"><span
                         class="ic-solar history-line-duotone"></span></button>
+            </form>
+            <form id="createList" class="flexbox mt-gap">
+                <div class="input_group group_icon" id="createListGroup">
+                    <label class="icon-input" for="list_theme" name="list_theme"> <span class="ic-solar layers"></span></label>
+                    <input type="text" id="list_theme" placeholder="Crear Lista del Tema:" required />
+                </div>
+                <input type="number" name="list_count" id="list_count" class="center input_square" min="1" value="10" max="40" title="Cantidad de objetos de la lista">
+                <button type="submit" class="btn-invert btn-icon btn-hover" title="Enviar tema"><span class="ic-solar alt-arrow-right"></span></button>
             </form>
             <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}" accept=".xlsx,.xls" placeholder="Subir Excel">
             <form class="mt-gap box_list">

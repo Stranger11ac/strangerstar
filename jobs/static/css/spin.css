@@ -75,6 +75,10 @@
     color: var(--bgcolor);
     border-radius: 50%;
 }
+.list_ul li div:has(input:checked) label {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
 
 .content_spin {
     display: grid;
@@ -89,7 +93,7 @@
         grid-template-columns: 2fr 1fr;
     }
     .box_list {
-        max-height: 76vh;
+        max-height: 69vh;
         overflow: hidden;
         overflow-y: auto;
         border-radius: var(--radius);
