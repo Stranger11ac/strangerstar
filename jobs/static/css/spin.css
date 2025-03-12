@@ -1,14 +1,14 @@
 .canvas_box {
     position: relative;
     aspect-ratio: 1/1;
-    max-width: 85vh;
-    max-height: 85vh;
+    max-width: 83vh;
+    max-height: 83vh;
 }
 .canvas_box canvas {
     width: 100%;
     height: 100%;
-    max-width: 85vh;
-    max-height: 85vh;
+    max-width: 83vh;
+    max-height: 83vh;
     aspect-ratio: 1/1;
 }
 .canvas_box button {
@@ -76,9 +76,22 @@
     border-radius: 50%;
 }
 
-/*
-@media (min-width: 1150px) {
-    .content_spin {
-        flex-direction: row;
+.content_spin {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 800px) {
+    .last-padding {
+        padding-bottom: 0 !important;
     }
-} */
+    .content_spin {
+        grid-template-columns: 2fr 1fr;
+    }
+    .box_list {
+        max-height: 76vh;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: var(--radius);
+    }
+}

@@ -1,5 +1,6 @@
 var options = ["$100", "$10", "$25", "$250", "$30", "$1000", "$1", "$200", "$45", "$500", "$5", "$20", "$1000000", "$350", "$99", "Lose"];
 var hiddenOptions = new Set();
+var lastOption = 0;
 var counter = 1;
 
 var startAngle = 0;
@@ -165,9 +166,10 @@ function updateOptionsList() {
         var li = document.createElement("li");
         var label = document.createElement("label");
 
-        div.classList = "w100";
+        div.classList.add("w100");
+        div.id = `op${index}`;
         label.textContent = option;
-        label.classList = "w100";
+        label.classList.add("w100");
         label.htmlFor = option;
 
         var checkbox = document.createElement("input");
@@ -186,8 +188,9 @@ function updateOptionsList() {
         });
 
         var deleteButton = document.createElement("button");
-        deleteButton.classList = "btn-invert btn-icon hover-red";
+        deleteButton.classList.add("btn-invert", "btn-icon", "hover-red");
         deleteButton.innerHTML = "<span class='ic-solar trash-bin-trash'></span>";
+        deleteButton.id = `delBtn${index}`;
         deleteButton.addEventListener("click", function () {
             options.splice(index, 1);
             hiddenOptions.delete(option);
@@ -201,6 +204,9 @@ function updateOptionsList() {
         li.appendChild(deleteButton);
         list.appendChild(li);
     });
+
+    // list.setAttribute("data-optionsLenght", options.length - 1);
+    // lastOption = options.length - 1;
 }
 
 var fileInput = document.getElementById("fileList");

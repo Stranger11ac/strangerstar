@@ -1,6 +1,6 @@
 function startIntro(introKey, steps) {
     const introState = JSON.parse(localStorage.getItem("introState")) || {};
-    introJs()
+    const intro = introJs()
         .setOptions({
             steps,
             showBullets: true,
@@ -11,8 +11,9 @@ function startIntro(introKey, steps) {
         .onexit(() => {
             introState[introKey] = true;
             localStorage.setItem("introState", JSON.stringify(introState));
-        })
-        .start();
+        });
+
+    intro.start();
 }
 
 const spinSteps = [
@@ -20,6 +21,13 @@ const spinSteps = [
     { element: "#groupNewOp", intro: "Agrega nuevas opciones a la lista actual. <i class='ic-solar donut-bitten'></i>" },
     { element: "#upList", intro: "Sube una lista nueva seleccionando un archivo Excel. <i class='ic-solar folder-cut'></i><i class='ic-solar file-send-bold-duotone'></i>" },
     { element: "#historyBtn", intro: "Cada resultado se Guarda temporalmente. <i class='ic-solar history-line-duotone'></i>" },
+    { element: `#op15`, intro: "Activa o desactiva las opciones temporalmente" },
+    { element: `#delBtn15`, intro: "Elimina la opcion de la lista." },
+    {
+        element: "#spin",
+        intro: `Al comenzar la ruleta el boton se descativa y muestra el resultado temporalmente, pero este se guarda en el historial. <i class='ic-solar history-line-duotone'></i>`,
+        position: "right",
+    },
     { intro: "Listo!!! 🎉🎉🎉 <br/> Disfruta el juego! 😋👋 <br/> Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
 ];
 
@@ -45,27 +53,29 @@ const weatherSteps = [
 ];
 
 const introState = JSON.parse(localStorage.getItem("introState")) || {};
-const bodyIntro = $('body').attr("data-intro")
+const bodyIntro = $("body").attr("data-intro");
 
-switch (bodyIntro) {
-    case "viewSpinIntro":
-        if (!introState.viewSpinIntro) startIntro("viewSpinIntro", spinSteps);
-        break;
-    case "viewWeatherIntro":
-        if (!introState.viewWeatherIntro) startIntro("viewWeatherIntro", weatherSteps);
-        break;
-    default:
-        break;
+function queryViewIntro() {
+    switch (bodyIntro) {
+        case "viewSpinIntro":
+            if (!introState.viewSpinIntro) startIntro("viewSpinIntro", spinSteps);
+            break;
+        case "viewWeatherIntro":
+            if (!introState.viewWeatherIntro) startIntro("viewWeatherIntro", weatherSteps);
+            break;
+        default:
+            break;
+    }
 }
 
-$("#startSpinTour").on("click", () => {
+queryViewIntro();
+
+$("#startTour").on("click", () => {
     introState.viewSpinIntro = false;
     localStorage.setItem("introState", JSON.stringify(introState));
-    setTimeout(() => startIntro("viewSpinIntro", spinSteps), 2000);
+    setTimeout(() => queryViewIntro(), 2000);
 });
 
-$("#startWeatherTour").on("click", () => {
-    introState.viewWeatherIntro = false;
-    localStorage.setItem("introState", JSON.stringify(introState));
-    setTimeout(() => startIntro("viewWeatherIntro", weatherSteps), 2000);
-});
+function queryWidth(widthWindow, widthBefore, widthAfter) {
+    return $(window).width() > widthWindow ? widthAfter : widthBefore;
+}

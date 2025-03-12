@@ -242,7 +242,7 @@ $(document).ready(function () {
     });
 
     // Copy To Clipboard #####################################################
-    $("[data-copy]").on("click", function () {
+    $(document).on("click", "[data-copy]", function () {
         const $item = $(this);
         const textCopy = $item.attr("data-copy");
         copyToClipboard(textCopy);
