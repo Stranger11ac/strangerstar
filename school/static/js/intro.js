@@ -1,4 +1,5 @@
 function startIntro(introKey, steps) {
+    const introState = JSON.parse(localStorage.getItem("introState")) || {};
     introJs()
         .setOptions({
             steps,
@@ -7,7 +8,10 @@ function startIntro(introKey, steps) {
             prevLabel: '<i class="ic-solar alt-arrow-left"></i>',
             doneLabel: '<i class="ic-solar check-circle-bold-duotone"></i>',
         })
-        .onexit(() => localStorage.setItem(introKey, "true"))
+        .onexit(() => {
+            introState[introKey] = true;
+            localStorage.setItem("introState", JSON.stringify(introState));
+        })
         .start();
 }
 
@@ -40,15 +44,28 @@ const weatherSteps = [
     { intro: "Listo!!! 🎉🎉🎉😋👋 <br/> Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
 ];
 
-if (!localStorage.getItem("viewSpinIntro")) startIntro("viewSpinIntro", spinSteps);
-if (!localStorage.getItem("viewWeatherIntro")) startIntro("viewWeatherIntro", weatherSteps);
+const introState = JSON.parse(localStorage.getItem("introState")) || {};
+const bodyIntro = $('body').attr("data-intro")
+
+switch (bodyIntro) {
+    case "viewSpinIntro":
+        if (!introState.viewSpinIntro) startIntro("viewSpinIntro", spinSteps);
+        break;
+    case "viewWeatherIntro":
+        if (!introState.viewWeatherIntro) startIntro("viewWeatherIntro", weatherSteps);
+        break;
+    default:
+        break;
+}
 
 $("#startSpinTour").on("click", () => {
-    localStorage.removeItem("viewSpinIntro");
+    introState.viewSpinIntro = false;
+    localStorage.setItem("introState", JSON.stringify(introState));
     setTimeout(() => startIntro("viewSpinIntro", spinSteps), 2000);
 });
 
 $("#startWeatherTour").on("click", () => {
-    localStorage.removeItem("viewWeatherIntro");
+    introState.viewWeatherIntro = false;
+    localStorage.setItem("introState", JSON.stringify(introState));
     setTimeout(() => startIntro("viewWeatherIntro", weatherSteps), 2000);
 });

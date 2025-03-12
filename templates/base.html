@@ -24,7 +24,7 @@
     {% block linksextra %}{% endblock %}
 </head>
 
-<body class="{% block bodyclass %}{% endblock %} unload" data-color="dynamic" data-menu-direction="vertical">
+<body class="{% block bodyclass %}{% endblock %} unload" data-color="dynamic" data-menu-direction="vertical" {% block bodyAttr %}{% endblock %}>
     <script>
         if (storageColor) {
             document.querySelector("body").setAttribute("data-color", storageColor);
