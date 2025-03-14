@@ -11,13 +11,11 @@
 {% block navtitleextra %} - Calendario{% endblock %}
 {% block navlinks %}{% include 'jobs_nav_links.html' %}{% endblock %}
 
-{% block sectchildclass %}container{% endblock %}
 {% block main %}
 <div class="content">
     <div id="todayCalendar" data-events></div>
 </div>
 {% endblock %}
-
 
 {% block endContent %}
 <div class="fixed flexbox-center" id="modalAddEvent">

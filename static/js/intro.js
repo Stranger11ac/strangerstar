@@ -1,19 +1,31 @@
+function waitForElements(steps, callback, retries = 10) {
+    let missingElements = steps.some((step) => step.element && !document.querySelector(step.element));
+
+    if (!missingElements || retries <= 0) {
+        callback();
+    } else {
+        setTimeout(() => waitForElements(steps, callback, retries - 1), 500);
+    }
+}
+
 function startIntro(introKey, steps) {
     const introState = JSON.parse(localStorage.getItem("introState")) || {};
-    const intro = introJs()
-        .setOptions({
-            steps,
-            showBullets: true,
-            nextLabel: '<i class="ic-solar alt-arrow-right"></i>',
-            prevLabel: '<i class="ic-solar alt-arrow-left"></i>',
-            doneLabel: '<i class="ic-solar check-circle-bold-duotone"></i>',
-        })
-        .onexit(() => {
-            introState[introKey] = true;
-            localStorage.setItem("introState", JSON.stringify(introState));
-        });
+    waitForElements(steps, () => {
+        const intro = introJs()
+            .setOptions({
+                steps,
+                showBullets: true,
+                nextLabel: '<i class="ic-solar alt-arrow-right"></i>',
+                prevLabel: '<i class="ic-solar alt-arrow-left"></i>',
+                doneLabel: '<i class="ic-solar check-circle-bold-duotone"></i>',
+            })
+            .onexit(() => {
+                introState[introKey] = true;
+                localStorage.setItem("introState", JSON.stringify(introState));
+            });
 
-    intro.start();
+        intro.start();
+    });
 }
 
 const spinSteps = [
@@ -59,7 +71,7 @@ const calendarSteps = [
     { element: ".fc-header-toolbar .fc-button-group", intro: "Navega entre los demas meses o dias, dependiendo de la vista en que te encuentre." },
     { element: ".fc-footer-toolbar .fc-button-group", intro: "Cambia la vista de los dias a estas tablas dinamicas." },
     { title: "Listo!!! 🎉😋👋 ", intro: "Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
-]
+];
 
 const introState = JSON.parse(localStorage.getItem("introState")) || {};
 const bodyIntro = $("body").attr("data-intro");

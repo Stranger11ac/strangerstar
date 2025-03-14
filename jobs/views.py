@@ -19,6 +19,9 @@ def spin_app(request):
 def calendar_app(request):
     return render(request, 'calendar.html', {})
 
+def mapbox_app(request):
+    return render(request, 'mapbox.html', {})
+
 # Administracion ----------------------------------------------------------
 @never_cache
 def singin(request):
