@@ -52,6 +52,15 @@ const weatherSteps = [
     { title: "Listo!!! 🎉😋👋 ", intro: "Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
 ];
 
+const calendarSteps = [
+    { title: "Bienvenidos 👋😋", intro: "Este calendario es interactivo. Te recomiendo hacer este pequeño tutorial. <i class='ic-solar cloud-sun-bold-duotone'></i>" },
+    { element: ".fc-day-today ", intro: "Este es el dia actual. <i class='ic-solar calendar-mark'></i>" },
+    { element: ".fc-day-today ", intro: "Da click en las cacillas para agregar un nuevo evento. Estos eventos son temporales y se eliminaran al recargar la pagina. <i class='ic-solar add-circle'></i>" },
+    { element: ".fc-header-toolbar .fc-button-group", intro: "Navega entre los demas meses o dias, dependiendo de la vista en que te encuentre." },
+    { element: ".fc-footer-toolbar .fc-button-group", intro: "Cambia la vista de los dias a estas tablas dinamicas." },
+    { title: "Listo!!! 🎉😋👋 ", intro: "Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
+]
+
 const introState = JSON.parse(localStorage.getItem("introState")) || {};
 const bodyIntro = $("body").attr("data-intro");
 
@@ -62,6 +71,9 @@ function queryViewIntro() {
             break;
         case "viewWeatherIntro":
             if (!introState.viewWeatherIntro) startIntro("viewWeatherIntro", weatherSteps);
+            break;
+        case "viewCalendarIntro":
+            if (!introState.viewCalendarIntro) startIntro("viewCalendarIntro", calendarSteps);
             break;
         default:
             break;

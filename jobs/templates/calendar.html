@@ -3,9 +3,11 @@
 {% block titlefirst %}Calendario | Proyectos{% endblock %}
 {% block linksextra %}
 <link rel="stylesheet" href="{% static 'css/calendar.css' %}" />
+<link rel="stylesheet" href="{% static 'css/introjs.min.css' %}" />
 <script src="{% static 'libraries/fullcalendar.min.js' %}"></script>
 {% endblock %}
 
+{% block bodyAttr %}data-intro="viewCalendarIntro"{% endblock %}
 {% block navtitleextra %} - Calendario{% endblock %}
 {% block navlinks %}{% include 'jobs_nav_links.html' %}{% endblock %}
 
@@ -56,7 +58,17 @@
 </div>
 {% endblock %}
 
+{% block endSettings %}
+<div class="settings_group">
+    <div>Activar Tutorial:</div>
+    <button type="button" class="btn btn-icon btn-hover" id="startTour" title="Activar Tutorial" data-click="[data-close]">
+        <span class="ic-solar widget-5"></span>
+    </button>
+</div>
+{% endblock %}
 
 {% block scriptsextra %}
+<script src="{% static 'js/intro.min.js' %}"></script>
+<script src="{% static 'js/intro.js' %}"></script>
 <script src="{% static 'js/calendar.js' %}"></script>
 {% endblock %}
