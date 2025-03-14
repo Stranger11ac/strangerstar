@@ -59,13 +59,15 @@ $(document).ready(function () {
         const partsClass = parts[1];
 
         const partsFunction = parts[2];
-        // $("[data-toggle]").removeClass(partsClass);
         $(partsSelector).toggleClass(partsClass);
-        $(".overlay").toggleClass(partsClass);
+
+        if (partsClass && partsClass != "none") {
+            $(".overlay").toggleClass(partsClass);
+        }
 
         if (partsFunction && partsFunction == "slide") {
             const partsObject = parts[3];
-            $("#" + partsObject).slideToggle("fast");
+            $(partsObject).slideToggle("fast");
 
             $(".overlay").attr("data-close", function (i, attr) {
                 if (attr === "") {

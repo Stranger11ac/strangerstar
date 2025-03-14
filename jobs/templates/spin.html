@@ -27,12 +27,11 @@
                     <input type="text" id="newOption" placeholder="Nueva opción:" required />
                 </div>
                 <button type="submit" class="btn-invert btn-icon btn-hover" title="Enviar opcion"><span class="ic-solar add-circle"></span></button>
-                <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList" id="upList" title="Subir Lista"><span
-                        class="ic-solar folder-cut"></span></button>
+                <button type="button" class="btn-invert btn-icon btn-hover" data-click="#fileList" id="upList" title="Subir Lista"><span class="ic-solar folder-cut"></span></button>
                 <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible" id="historyBtn" title="Abrir historial"><span
                         class="ic-solar history-line-duotone"></span></button>
             </form>
-            <!-- Formulario para crear lista con cpt -->
+            <!-- Formulario para crear lista con gpt -->
             <form id="createList" class="flexbox mt-gap none">
                 <div class="input_group group_icon" id="createListGroup">
                     <label class="icon-input" for="list_theme" name="list_theme"> <span class="ic-solar layers"></span></label>
@@ -41,10 +40,17 @@
                 <input type="number" name="list_count" id="list_count" class="center input_square" min="1" value="10" max="40" title="Cantidad de objetos de la lista">
                 <button type="submit" class="btn-invert btn-icon btn-hover" title="Enviar tema"><span class="ic-solar alt-arrow-right"></span></button>
             </form>
-            <!-- Formulario para crear lista con cpt -->
+            <!-- Formulario para crear lista con gpt -->
             <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}" accept=".xlsx,.xls" placeholder="Subir Excel">
             <form class="mt-gap box_list">
-                <ul id="optionsList" class="flexbox flex-column column-invert list_ul"></ul>
+                <div class="slide_list bg-bgcolor radius flexbox a-center mb-gap">
+                    <input type="checkbox" id="listHeaderCheck" class="none">
+                    <label for="listHeaderCheck" class="wh100 p-10" data-toggle="#optionsList-none">
+                        <span class="slide_icon ic-solar alt-arrow-right"></span> <span id="listLenght">15</span> Opciones
+                    </label>
+                    <button type="button" id="delCurrentList" class="btn btn-icon hover-red" title="Borrar Lista"><span class="ic-solar trash-bin-trash"></span></button>
+                </div>
+                <ul id="optionsList" class="flexbox flex-column column-invert list_ul none"></ul>
             </form>
         </div>
     </div>

@@ -876,8 +876,9 @@ form input {
     padding: 5px 10px;
 }
 form input[type="checkbox"] {
-    min-height: var(--size, 30px);
-    width: var(--size, 30px);
+    min-height: calc(var(--size, 40px) - 5px);
+    width: calc(var(--size, 40px) - 5px);
+    background: var(--second);
 }
 form textarea {
     resize: none;
@@ -1026,6 +1027,14 @@ div.dt-container .dt-search,
 }
 .input_group .error_text ul {
     margin-left: 20px;
+}
+
+.slide_list .slide_icon {
+    transform: scale(1.5);
+    transition: transform 0.2s ease;
+}
+.slide_list:has(input:checked) .slide_icon {
+    transform: scale(1.5) rotate(90deg);
 }
 
 /* Buttons / Botones */
@@ -1334,8 +1343,13 @@ table.table_even {
 }
 
 /* Globales */
+.wh100,
 .w100 {
     width: 100%;
+}
+.wh100,
+.h100 {
+    height: 100%;
 }
 
 .sticky-top {

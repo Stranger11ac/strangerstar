@@ -13,8 +13,17 @@ var ctx;
 
 const btnSpin = document.getElementById("spin");
 btnSpin.addEventListener("click", function () {
-    this.classList.add("hide");
-    spin();
+    if (options.length > 0) {
+        this.classList.add("hide");
+        spin();
+    } else {
+        toast(
+            "center",
+            8000,
+            "error",
+            'No hay opciones en la ruleta, por favor agrega nuevas opciones <span class="ic-solar donut-bitten"></span> o sube una lista en archivo Excel <span class="ic-solar folder-cut"></span>'
+        );
+    }
 });
 
 function getFilteredOptions() {
@@ -159,6 +168,8 @@ function addOption(event) {
 }
 
 function updateOptionsList() {
+    $("#listLenght").text(options.length > 0 ? options.length - 1 : 0 );
+
     var list = document.getElementById("optionsList");
     list.innerHTML = "";
     options.forEach((option, index) => {
@@ -191,6 +202,7 @@ function updateOptionsList() {
         deleteButton.classList.add("btn-invert", "btn-icon", "hover-red");
         deleteButton.innerHTML = "<span class='ic-solar trash-bin-trash'></span>";
         deleteButton.id = `delBtn${index}`;
+        deleteButton.setAttribute("title", `Eliminar opcion ${index}`);
         deleteButton.addEventListener("click", function () {
             options.splice(index, 1);
             hiddenOptions.delete(option);
@@ -253,3 +265,17 @@ fileInput.addEventListener("change", function () {
 });
 
 updateOptionsList();
+
+document.getElementById("delCurrentList").addEventListener("click", function () {
+    if (options.length === 0) {
+        toast("center", 3000, "info", "No hay opciones para eliminar.");
+        return;
+    }
+
+    options = [];
+    hiddenOptions.clear();
+    updateOptionsList();
+    drawRouletteWheel();
+
+    toast("top-end", 3000, "success", "Lista eliminada correctamente.");
+});
