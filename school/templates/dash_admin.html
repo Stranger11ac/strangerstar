@@ -121,7 +121,7 @@
                 </section>
             </div>
             <article class="content_min">
-                <table id="usersTable" class="display" data-getuser-url="{% url 'user_get_data' %}">
+                <table id="usersTable" class="display table_even table_hover radius" data-getuser-url="{% url 'user_get_data' %}">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -146,9 +146,7 @@
                             <td>{{ oneuser.userprofile.insignia|default:"-" }}</td>
                             <td>{{ oneuser.userprofile.num_list|default:"-" }}</td>
                             <td>
-                                {% if oneuser.groups.first.name == "student" %} Estudiante {% elif oneuser.groups.first.name == "professor" %} Profesor {% elif
-                                oneuser.groups.first.name == "admin" %} Admin {%
-                                else %} Desconocido {% endif %}
+                                {% if oneuser.groups.first.name == "student" %} Estudiante {% elif oneuser.groups.first.name == "professor" %} Profesor {% elif oneuser.groups.first.name == "admin" %} Admin {% else %} Desconocido {% endif %}
                             </td>
                             <td>
                                 <div class="flexbox gap_15">

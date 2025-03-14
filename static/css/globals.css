@@ -1257,25 +1257,21 @@ div.dt-container .dt-search,
 }
 
 /* Tables / Tablas */
-table {
+table.table_even {
     border: 1px solid var(--color);
-    border-radius: 10px;
     width: 100%;
 }
-thead tr {
+.table_even thead tr {
     background: var(--bgA3);
 }
-tbody tr:nth-child(odd) {
+.table_even tbody tr:nth-child(even) {
     background: var(--bgA5);
 }
-tbody tr:nth-child(even) {
-    background: var(--bgA3);
-}
-td,
-th {
+.table_even td,
+.table_even th {
     padding: 10px;
 }
-tbody tr:hover {
+.table_hover tbody tr:hover {
     background: var(--detail);
     color: white;
 }
@@ -1683,6 +1679,7 @@ tbody tr:hover {
 }
 .detail,
 .bg-detail {
+    border: none !important;
     background: var(--detail) !important;
 }
 .bg-bgcolor {

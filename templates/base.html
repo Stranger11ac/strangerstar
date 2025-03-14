@@ -33,7 +33,7 @@
     <nav class="not_shadow">
         <a href="{% block navfirst %}{% endblock %}" class="nav_title">
             <div class="nav_title-img"></div>
-            <span>{% block navtitle %}Stranger Star{% endblock %}</span>
+            <span>{% block navtitle %}Stranger Star{% endblock %}{% block navtitleextra %}{% endblock %}</span>
         </a>
         <button type="button" class="nav_toggle_menu" data-toggle="nav-active-slide-nav_links_box"
             title="Abrir / cerrar menu"><span></span><span></span><span></span></button>

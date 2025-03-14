@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titlefirst %}Calendario | Proyectos{% endblock %}
+{% block linksextra %}
+<link rel="stylesheet" href="{% static 'css/calendar.css' %}" />
+<script src="{% static 'libraries/fullcalendar.min.js' %}"></script>
+{% endblock %}
+
+{% block navtitleextra %} - Calendario{% endblock %}
+{% block navlinks %}{% include 'jobs_nav_links.html' %}{% endblock %}
+
+{% block sectchildclass %}container{% endblock %}
+{% block main %}
+<div class="content">
+    <div id="todayCalendar" data-events></div>
+</div>
+{% endblock %}
+
+
+{% block endContent %}
+<div class="fixed flexbox-center" id="modalAddEvent">
+    <form id="addEvnetForm" class="modal">
+        <div class="modal_header">
+            <h3 class="center">Agregar Nuevo Evento</h3>
+        </div>
+        <div class="modal_body flexbox flex-column gap2">
+            <div class="input_group group_icon">
+                <input type="text" name="eventTitle" id="eventTitle" placeholder="Titulo:">
+                <label class="icon-input" for="eventTitle"> <span class="ic-solar star"></span></label>
+            </div>
+            <div class="input_group group_icon">
+                <input type="datetime" name="eventStart" id="eventStart" placeholder="Fecha de Inicio:" class="end">
+                <label class="icon-input" for="eventStart"> <span class="ic-solar calendar-mark"></span></label>
+            </div>
+            <div class="flexbox gap2">
+                <div class="input_group flexbox a-center gap_5">
+                    <input type="checkbox" name="showEnd" id="showEnd" data-toggle="#eventEndGroup-none">
+                    <label for="showEnd">: Mas de 1 dia</label>
+                </div>
+                <div class="input_group group_icon none" id="eventEndGroup">
+                    <input type="datetime" name="eventEnd" id="eventEnd" placeholder="Fecha de Fin:" class="end">
+                    <label class="icon-input" for="eventEnd"> <span class="ic-solar calendar-mark"></span></label>
+                </div>
+            </div>
+            <div class="input_group group_icon">
+                <textarea name="eventDesc" id="EventDesc" placeholder="Descripcion: (opcional)" class="input"></textarea>
+                <label class="icon-input" for="EventDesc"><span class="ic-solar calendar-mark"></span></label>
+            </div>
+        </div>
+        <div class="modal_footer between">
+            <button type="button" class="btn btn-content hover-red" data-toggle="#modalAddEvent-visible-modal" data-clearform="addEvnetForm">Cerrar <span
+                    class="ic-solar close-circle-bold-duotone"></span></button>
+            <button type="submit" class="btn btn-content btn-hover">Enviar <span class="ic-solar plain"></span></button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+
+{% block scriptsextra %}
+<script src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}

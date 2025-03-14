@@ -16,6 +16,9 @@ def weather_app(request):
 def spin_app(request):
     return render(request, 'spin.html', {})
 
+def calendar_app(request):
+    return render(request, 'calendar.html', {})
+
 # Administracion ----------------------------------------------------------
 @never_cache
 def singin(request):

@@ -42,7 +42,7 @@ function drawRouletteWheel() {
     var insideRadius = size * 0.25;
 
     ctx.clearRect(0, 0, size, size);
-    ctx.font = `${Math.max(12, size * 0.03)}px Helvetica, Arial`; // Escala el tamaño del texto
+    ctx.font = `${Math.max(12, size * 0.03)}px Helvetica, Arial`;
 
     var filteredOptions = getFilteredOptions();
     arc = Math.PI / (filteredOptions.length / 2);

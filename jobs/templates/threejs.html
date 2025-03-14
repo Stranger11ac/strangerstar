@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titlefirst %}Realidad Aumentada | Proyectos{% endblock %}
+{% block linksextra %}
+<link rel="stylesheet" href="{% static 'css/grid.css' %}" />
+{% endblock %}
+
+{% block navlinks %}{% include 'jobs_nav_links.html' %}{% endblock %}
+
+{% block sectchildclass %}container{% endblock %}
+{% block main %}
+
+{% endblock %}
+
+{% block scriptsextra %}
+<script src="{% static 'js/threejs.js' %}"></script>
+{% endblock %}

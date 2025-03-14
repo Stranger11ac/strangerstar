@@ -7,16 +7,8 @@
 {% endblock %}
 
 {% block bodyAttr %}data-intro="viewSpinIntro"{% endblock %}
-{% block navlinks %}
-<a href="{% url 'index' %}#tabHome" class="link_item"><span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span></a>
-<a href="{% url 'index' %}#tabProjects" class="link_item"><span class="ic-solar book-bookmark"></span><span class="link_item-title">Proyectos</span></a>
-<a href="{% url 'index' %}#tabLogin" class="link_item"><span class="ic-solar login-3"></span><span class="link_item-title">Iniciar Sesión</span></a>
-<a href="{% url 'index' %}#tabAbout" class="link_item none-xl"><span class="ic-solar user"></span><span class="link_item-title">Acerca de</span></a>
-<button type="button" class="link_item link_settings" data-toggle="#modalSettings-show-modal">
-    <span class="ic-solar settings"></span>
-    <span class="link_item-title">Configuracion</span>
-</button>
-{% endblock %}
+{% block navtitleextra %} - Ruleta{% endblock %}
+{% block navlinks %}{% include 'jobs_nav_links.html' %}{% endblock %}
 
 {% block sectchildclass %}container{% endblock %}
 {% block main %}
@@ -40,7 +32,8 @@
                 <button type="button" class="btn-invert btn-icon btn-hover" data-toggle="#modalHistory-visible" id="historyBtn" title="Abrir historial"><span
                         class="ic-solar history-line-duotone"></span></button>
             </form>
-            <form id="createList" class="flexbox mt-gap">
+            <!-- Formulario para crear lista con cpt -->
+            <form id="createList" class="flexbox mt-gap none">
                 <div class="input_group group_icon" id="createListGroup">
                     <label class="icon-input" for="list_theme" name="list_theme"> <span class="ic-solar layers"></span></label>
                     <input type="text" id="list_theme" placeholder="Crear Lista del Tema:" required />
@@ -48,6 +41,7 @@
                 <input type="number" name="list_count" id="list_count" class="center input_square" min="1" value="10" max="40" title="Cantidad de objetos de la lista">
                 <button type="submit" class="btn-invert btn-icon btn-hover" title="Enviar tema"><span class="ic-solar alt-arrow-right"></span></button>
             </form>
+            <!-- Formulario para crear lista con cpt -->
             <input type="file" name="fileList" id="fileList" class="none" data-post="{% url 'spin_up_list' %}" accept=".xlsx,.xls" placeholder="Subir Excel">
             <form class="mt-gap box_list">
                 <ul id="optionsList" class="flexbox flex-column column-invert list_ul"></ul>

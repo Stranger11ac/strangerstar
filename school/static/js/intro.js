@@ -28,14 +28,14 @@ const spinSteps = [
         intro: `Al comenzar la ruleta el boton se descativa y muestra el resultado temporalmente, pero este se guarda en el historial. <i class='ic-solar history-line-duotone'></i>`,
         position: "right",
     },
-    { intro: "Listo!!! 🎉🎉🎉 <br/> Disfruta el juego! 😋👋 <br/> Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
+    { title: "Listo!!! 🎉😋👋 ", intro: "Disfruta el juego! 😋👋 <br/> Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
 ];
 
 const weatherSteps = [
     { title: "Bienvenidos 👋😋", intro: "Esta app de clima es sencilla. Te recomiendo hacer este pequeño tutorial. <i class='ic-solar cloud-sun-bold-duotone'></i>" },
     {
         title: "Advertencia 😥⚠️🧐",
-        intro: "Los datos de esta app no son precisos ya que son datos públicos y gratuitos de <a href='weatherapi.com' target='_blank' rel='noopener noreferrer'>weatherapi.com</a> <i class='ic-solar confounded-circle-bold-duotone'></i>",
+        intro: "Los datos de esta app no son precisos ya que son datos públicos y gratuitos de <a href='https://www.weatherapi.com/' target='_blank' rel='noopener noreferrer'>weatherapi.com</a> <i class='ic-solar confounded-circle-bold-duotone'></i>",
     },
     {
         element: "#searchCoords",
@@ -49,7 +49,7 @@ const weatherSteps = [
     {
         intro: "Los datos del clima se actualizan solamente con una nueva búsqueda pero los datos anteriores persisten hasta que se elimine el caché. <i class='ic-solar settings'></i> <i class='ic-solar server-square-update'></i>",
     },
-    { intro: "Listo!!! 🎉🎉🎉😋👋 <br/> Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
+    { title: "Listo!!! 🎉😋👋 ", intro: "Puedes repetir el tutorial en las configuraciones. <i class='ic-solar settings'></i>" },
 ];
 
 const introState = JSON.parse(localStorage.getItem("introState")) || {};
@@ -71,11 +71,7 @@ function queryViewIntro() {
 queryViewIntro();
 
 $("#startTour").on("click", () => {
-    introState.viewSpinIntro = false;
+    introState[bodyIntro] = false;
     localStorage.setItem("introState", JSON.stringify(introState));
     setTimeout(() => queryViewIntro(), 2000);
 });
-
-function queryWidth(widthWindow, widthBefore, widthAfter) {
-    return $(window).width() > widthWindow ? widthAfter : widthBefore;
-}
