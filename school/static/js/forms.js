@@ -140,11 +140,11 @@ $(document).ready(function () {
 
                 if (!$userActive) {
                     $btn.attr("title", "Desactivar usuario");
-                    $(`#row-user_${$userId} .username span`).removeClass("radius orange")
+                    $(`#row-user_${$userId} .username div`).removeClass("radius orange")
                     $btn.find("span").addClass("sleeping-circle-bold-duotone").removeClass("emoji-funny-circle-bold-duotone");
                 } else {
                     $btn.attr("title", "Activar usuario");
-                    $(`#row-user_${$userId} .username span`).addClass("radius orange")
+                    $(`#row-user_${$userId} .username div`).addClass("radius orange")
                     $btn.find("span").addClass("emoji-funny-circle-bold-duotone").removeClass("sleeping-circle-bold-duotone");
                 }
             })

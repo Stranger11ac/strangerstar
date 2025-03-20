@@ -1520,6 +1520,9 @@ table.table_even {
 .justify {
     text-align: justify;
 }
+.center_i {
+    text-align: center !important;
+}
 
 .line-through {
     text-decoration: line-through;

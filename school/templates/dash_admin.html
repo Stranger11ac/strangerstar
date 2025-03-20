@@ -124,31 +124,36 @@
                 <table id="usersTable" class="display table_even table_hover radius" data-getuser-url="{% url 'user_get_data' %}">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th class="center_i">#</th>
                             <th>Usuario</th>
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Distintivo</th>
                             <th>No. Lista</th>
-                            <th>Rol</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for oneuser in users_list %}
                         <tr id="row-user_{{ oneuser.id }}">
-                            <td>{{ oneuser.id }}</td>
+                            <td class="center_i">{{ oneuser.id }}</td>
                             <td class="username">
-                                <span class="{% if not oneuser.is_active %}radius orange{% endif %} p-5"> {{ oneuser.username }} </span>
+                                {% if oneuser.groups.first.name == "student" %}
+                                <span class="green fs-08 radius-inset p-5">Estudiante</span>
+                                {% elif oneuser.groups.first.name == "professor" %}
+                                <span class="orange fs-08 radius-inset p-5">Profesor</span>
+                                {% elif oneuser.groups.first.name == "admin" %}
+                                <span class="detail fs-08 radius-inset p-5">Admin</span>
+                                {% else %}
+                                <span class="blue fs-08 radius-inset p-5">Desconocido ({{oneuser.groups.first.name}})</span>
+                                {% endif %}
+
+                                <div class="mt-10 {% if not oneuser.is_active %}radius orange{% endif %} p-5"> {{ oneuser.username }} </div>
                             </td>
                             <td>{{ oneuser.first_name }} {{ oneuser.last_name }}</td>
                             <td>{{ oneuser.email }}</td>
                             <td>{{ oneuser.userprofile.insignia|default:"-" }}</td>
                             <td>{{ oneuser.userprofile.num_list|default:"-" }}</td>
-                            <td>
-                                {% if oneuser.groups.first.name == "student" %} Estudiante {% elif oneuser.groups.first.name == "professor" %} Profesor {% elif
-                                oneuser.groups.first.name == "admin" %} Admin {% else %} Desconocido {% endif %}
-                            </td>
                             <td>
                                 <div class="flexbox gap_15">
                                     {% if oneuser.is_active %}
