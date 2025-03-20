@@ -7,20 +7,28 @@ from functools import wraps
 
 def create_newuser(first_name, last_name, username, email, password1, password2=None, is_staff=False, is_active=False, group=None, insignia=None, num_list=None, uid=None):
     try:
+        allowed_groups = ['admin', 'professor', 'student']
+        group = group if group in allowed_groups else 'student'
+
+        if User.objects.filter(username=username).exists():
+            return {'datastatus': False, 'message': 'El nombre de usuario ya está en uso. Prueba con otro.'}
+
+        if User.objects.filter(email=email).exists():
+            return {'datastatus': False, 'message': 'El correo electrónico ya está registrado. Usa otro o inicia sesión.'}
+
+        is_superuser = (group == 'admin')
+        if is_superuser:
+            is_staff = True
+
         if group not in ['admin', 'professor', 'student']:
             group = 'student'
-        
-        is_superuser=False
-        if group == 'admin':
-            is_staff = True
-            is_superuser = True
 
         # Crear usuario
         new_user = User.objects.create_user(
-            first_name = first_name.lower(),
-            last_name = last_name.lower(),
-            username = username,
-            email = email,
+            first_name = first_name.strip().lower(),
+            last_name = last_name.strip().lower(),
+            username = username.strip(),
+            email = email.strip(),
             password = password1,
             is_staff = is_staff,
             is_active = is_active,
@@ -48,7 +56,10 @@ def create_newuser(first_name, last_name, username, email, password1, password2=
         return {'datastatus': True, 'message': f'Usuario creado exitosamente 🥳🎈 {aviso}'}
     
     except IntegrityError:
-        return {'datastatus': False, 'message': 'Ocurrió un error durante el registro. Intente nuevamente.'}
+            return {'datastatus': False, 'message': 'Error de integridad en la base de datos. Posible duplicado de datos.'}
+
+    except Exception as e:
+        return {'datastatus': False, 'message': f'Ocurrió un error inesperado: {str(e)}'}
 
 def group_required(group_name):
     """

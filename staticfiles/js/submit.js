@@ -51,18 +51,8 @@ function jsonSubmit(event) {
                 console.warn("Advertencia: Botón de envío no encontrado...");
             }
         },
-        error: function (jqXHR) {
-            const response = jqXHR.responseJSON;
-            const msg = response?.message || "Error desconocido";
+        error: function () {
             toast("center", 8000, "error", msg);
-
-            if (!response?.message) {
-                console.error(response || "Error desconocido");
-            }
-
-            if (response?.valSelector) {
-                $(`#${response.valSelector}`).focus();
-            }
         },
         complete: function () {
             if ($submitButton.length) {

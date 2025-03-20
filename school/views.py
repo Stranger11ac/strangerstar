@@ -16,19 +16,20 @@ def forgotten(request):
 @never_cache
 def singup(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        first_name_post = request.POST.get('first_name')
-        num_list_post = request.POST.get('num_list')
-        last_name_post = request.POST.get('last_name')
+        first_name_post = request.POST.get('first_name').lower()
+        last_name_post = request.POST.get('last_name').lower()
+        num_list_post = request.POST.get('num_list')[:10]
         insignia_post = request.POST.get('insignia')
-        password_new = first_name_post.split()[0].lower() + last_name_post.split()[0].lower() + (str(num_list_post) if num_list_post else '')
+        password_new = first_name_post.split()[0] + last_name_post.split()[0] + (str(num_list_post) if num_list_post else '')
 
         user_new = request.POST.get('username')
         fecha_actual = datetime.today().strftime('%Y%m%d')
 
         if not user_new:
-            user_new = first_name_post.split()[0].lower() + last_name_post.split()[0].lower() + str(num_list_post)
+            user_new = first_name_post.split()[0] + last_name_post.split()[0] + str(num_list_post)
         
-        uid_new = first_name_post.split()[0].lower() + (str(num_list_post) if num_list_post else '') + str(insignia_post) + fecha_actual
+        uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + fecha_actual
+
 
         response = create_newuser(
             first_name = first_name_post,
