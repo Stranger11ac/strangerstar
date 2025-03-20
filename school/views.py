@@ -13,7 +13,6 @@ def forgotten(request):
     return render(request, 'forgotten.html', {})
 
 # Administracion ----------------------------------------------------------
-@login_required
 @never_cache
 def singup(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':

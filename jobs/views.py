@@ -1,10 +1,13 @@
 from django.contrib.auth import login, authenticate, logout
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .functions import user_redirect
 from django.shortcuts import render
 from django.urls import reverse
+import pandas as pd
+
 
 def index(request):
     logout(request)
@@ -15,6 +18,18 @@ def weather_app(request):
 
 def spin_app(request):
     return render(request, 'spin.html', {})
+
+@csrf_exempt
+def spin_up_list(request):
+    if request.method == "POST" and request.FILES.get("file"):
+        excel_file = request.FILES["file"]
+        try:
+            df = pd.read_excel(excel_file, usecols=[0])
+            options = df.iloc[:, 0].dropna().tolist()
+            return JsonResponse({"success": True, "options": options})
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
+    return JsonResponse({"success": False, "error": "No se envió un archivo válido."})
 
 def calendar_app(request):
     return render(request, 'calendar.html', {})
@@ -58,17 +73,3 @@ def singout(request):
     url = reverse('index') + '#tabLogin'
     return HttpResponseRedirect(url)
 
-import pandas as pd
-from django.views.decorators.csrf import csrf_exempt
-
-@csrf_exempt
-def spin_up_list(request):
-    if request.method == "POST" and request.FILES.get("file"):
-        excel_file = request.FILES["file"]
-        try:
-            df = pd.read_excel(excel_file, usecols=[0])
-            options = df.iloc[:, 0].dropna().tolist()
-            return JsonResponse({"success": True, "options": options})
-        except Exception as e:
-            return JsonResponse({"success": False, "error": str(e)})
-    return JsonResponse({"success": False, "error": "No se envió un archivo válido."})
