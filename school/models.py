@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     insignia = models.CharField(max_length=100, blank=True, null=True)
     first_sesion = models.BooleanField(default=True)
     num_list = models.CharField(max_length=10, blank=True, null=True)
-    uid = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    uid = models.CharField(max_length=30, unique=True, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     team = models.CharField(max_length=15, blank=True, null=True)
 

@@ -106,7 +106,7 @@ def user_update(request):
         email_post = request.POST.get("email")
         username_post = request.POST.get("username")
         insignia_post = request.POST.get("insignia")
-        num_list_post = request.POST.get("num_list")
+        num_list_post = request.POST.get("num_list")[:10]
         uid_post = request.POST.get("up_uid")
 
         if first_name_post:
@@ -123,9 +123,9 @@ def user_update(request):
             user.userprofile.num_list = num_list_post.lower()
         if uid_post:
             user.userprofile.uid = uid_post
-        else:    
+        else:
             fecha_actual = datetime.today().strftime('%Y%m%d')
-            uid_new = first_name_post.split()[0].lower() + (str(num_list_post) if num_list_post else '') + str(insignia_post) + fecha_actual
+            uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + fecha_actual
             user.userprofile.uid = uid_new
         
         if rol_post:
