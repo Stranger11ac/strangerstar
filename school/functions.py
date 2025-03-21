@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
+from django.db import transaction, IntegrityError
 from django.shortcuts import redirect
 from django.db import IntegrityError
 from .models import UserProfile
@@ -17,46 +18,44 @@ def create_newuser(first_name, last_name, username, email, password1, password2=
             return {'datastatus': False, 'message': 'El correo electrónico ya está registrado. Usa otro o inicia sesión.'}
 
         is_superuser = (group == 'admin')
-        if is_superuser:
-            is_staff = True
+        is_staff = is_staff or is_superuser
 
-        if group not in ['admin', 'professor', 'student']:
-            group = 'student'
+        with transaction.atomic():
+            # Crear usuario
+            new_user = User.objects.create_user(
+                first_name=first_name.strip().lower(),
+                last_name=last_name.strip().lower(),
+                username=username.strip(),
+                email=email.strip(),
+                password=password1,
+                is_staff=is_staff,
+                is_active=is_active,
+                is_superuser=is_superuser
+            )
 
-        # Crear usuario
-        new_user = User.objects.create_user(
-            first_name = first_name.strip().lower(),
-            last_name = last_name.strip().lower(),
-            username = username.strip(),
-            email = email.strip(),
-            password = password1,
-            is_staff = is_staff,
-            is_active = is_active,
-            is_superuser = is_superuser
-        )
-        new_user.save()
+            # Obtener o crear el grupo
+            group_obj, _ = Group.objects.get_or_create(name=group)
+            new_user.groups.add(group_obj)
 
-        # Actualizar UserProfile con los nuevos campos
-        user_profile = UserProfile.objects.get(user=new_user)
-        user_profile.insignia = insignia
-        user_profile.num_list = num_list
-        user_profile.uid = uid
-        user_profile.save()
+            # Evitar números de lista repetidos dentro de la misma insignia
+            if insignia:
+                existing_numbers = UserProfile.objects.filter(insignia=insignia).values_list('num_list', flat=True)
+                if num_list in existing_numbers:
+                    num_list = max(existing_numbers, default=0) + 1  # Asignar un nuevo número único
 
-        if not Group.objects.filter(name=group).exists():
-            group_obj = Group.objects.create(name=group)
-        else:
-            group_obj = Group.objects.get(name=group)
+            # Crear perfil de usuario
+            UserProfile.objects.create(
+                user=new_user,
+                insignia=insignia,
+                num_list=num_list,
+                uid=uid
+            )
 
-        new_user.groups.add(group_obj)
-
-        aviso = ''
-        if password2 is not None:
-            aviso = '<br>Tu cuenta está <u>Desactivada</u> 😯😬'
+        aviso = '<br>Tu cuenta está <u>Desactivada</u> 😯😬' if password2 else ''
         return {'datastatus': True, 'message': f'Usuario creado exitosamente 🥳🎈 {aviso}'}
-    
+
     except IntegrityError:
-            return {'datastatus': False, 'message': 'Error de integridad en la base de datos. Posible duplicado de datos.'}
+        return {'datastatus': False, 'message': 'Error de integridad en la base de datos. Posible duplicado de datos.'}
 
     except Exception as e:
         return {'datastatus': False, 'message': f'Ocurrió un error inesperado: {str(e)}'}
