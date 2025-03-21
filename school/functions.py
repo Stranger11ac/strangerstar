@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from django.db import transaction, IntegrityError
 from django.shortcuts import redirect
+from django.db import IntegrityError
 from .models import UserProfile
 from functools import wraps
 

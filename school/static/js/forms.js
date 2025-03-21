@@ -95,7 +95,7 @@ $(document).ready(function () {
         const dataBtn = $(this).data("deluser").split("-");
         const $userId = dataBtn[0];
         const $actionDel = dataBtn[1];
-        const usernameGet = $(`#row-user_${$userId} .username`).text();
+        const usernameGet = $(`#row-user_${$userId} .username`).html().replace(/<br\s*\/?>/g, " ").trim();
 
         Swal.fire({
             title: `¿Eliminar usuario ${usernameGet}?`,
@@ -111,7 +111,7 @@ $(document).ready(function () {
                 })
                     .done(function (response) {
                         $(`#row-user_${$userId}`).remove();
-                        toast("center", 8000, "success", response.message);
+                        toast("top", 8000, "success", response.message);
                     })
                     .fail(function (xhr) {
                         message = xhr.responseJSON?.error || "No se pudo obtener la información del usuario.";

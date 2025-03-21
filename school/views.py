@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render
+from .models import UserProfile
 from datetime import datetime
 
 def forgotten(request):
@@ -20,6 +21,14 @@ def singup(request):
         last_name_post = request.POST.get('last_name').lower()
         num_list_post = request.POST.get('num_list')[:10]
         insignia_post = request.POST.get('insignia')
+
+        if insignia_post:
+            existing_numbers = UserProfile.objects.filter(insignia=insignia_post).values_list('num_list', flat=True)
+            if existing_numbers:
+                print(existing_numbers)
+                if num_list_post in existing_numbers:
+                    num_list_post = int(max(existing_numbers, default=0)) + 1
+
         password_new = first_name_post.split()[0] + last_name_post.split()[0] + (str(num_list_post) if num_list_post else '')
 
         user_new = request.POST.get('username')
