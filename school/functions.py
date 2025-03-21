@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from .models import UserProfile
 from functools import wraps
 
-def create_newuser(first_name, last_name, username, email, password1, password2=None, is_staff=False, is_active=False, group=None, insignia=None, num_list=None, uid=None):
+def create_newuser(first_name, last_name, username, password1, email=None, password2=None, is_staff=False, is_active=False, group=None, insignia=None, num_list=None, uid=None):
     try:
         allowed_groups = ['admin', 'professor', 'student']
         group = group if group in allowed_groups else 'student'
