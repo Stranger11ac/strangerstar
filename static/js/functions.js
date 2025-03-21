@@ -1,3 +1,11 @@
+$(document).on("keydown", function (e) {
+    if (e.key === "Escape") {
+        if (Swal.isVisible()) {
+            Swal.close();
+        }
+    }
+});
+
 $(document).ready(function () {
     // Body Visibility ###################################################################
     setTimeout(() => {

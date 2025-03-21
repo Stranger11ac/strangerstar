@@ -95,10 +95,10 @@ $(document).ready(function () {
         const dataBtn = $(this).data("deluser").split("-");
         const $userId = dataBtn[0];
         const $actionDel = dataBtn[1];
-        const usernameGet = $(`#row-user_${$userId} .username`).html().replace(/<br\s*\/?>/gi, "").trim();
+        const usernameGet = $(`#row-user_${$userId} .username`).text().replace(/\n/g, "").trim();
 
         Swal.fire({
-            title: `¿Eliminar usuario ${usernameGet}?`,
+            title: `¿Eliminar a ${usernameGet}?`,
             text: "No podrás deshacer esta acción",
             icon: "warning",
             showCancelButton: true,

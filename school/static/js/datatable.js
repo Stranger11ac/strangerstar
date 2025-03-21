@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    $("#usersTable").DataTable({
+    let table = $("#usersTable").DataTable({
         lengthChange: false,
         pageLength: 8, // Cantidad de registros por página
-        order: [[0, "asc"]], // Ordenar por ID de forma descendente
+        order: [[0, "asc"]], // Ordenar por ID de forma ascendente
         columnDefs: [
             { orderable: false, targets: 6 }, // Desactiva ordenación en la columna 6
             { searchable: false, targets: [0, 6] }, // Desactiva búsqueda en las columnas
@@ -27,4 +27,28 @@ $(document).ready(function () {
     });
 
     $("#dt-search-0").attr("placeholder", "Buscar:");
+
+    // // Agregar filtros a la cabecera
+    // $("#usersTable thead tr").clone(true).appendTo("#usersTable thead");
+
+    // $("#usersTable thead tr:eq(1) th").each(function (i) {
+    //     if (i === 4 || i === 5) {
+    //         // Filtrar solo en las columnas "Distintivo" y "Número"
+    //         $(this).html('<form><input type="text" placeholder="Filtrar:" /></form>');
+
+    //         $("input", this).on("keyup change", function () {
+    //             if (table.column(i).search() !== this.value) {
+    //                 table.column(i).search(this.value).draw();
+    //             }
+    //         });
+    //     } else {
+    //         $(this).html(""); // Vacía los demás encabezados para evitar que se dupliquen
+    //     }
+    // });
+
+    // // Botón para limpiar filtros
+    // $("#clearFilters").on("click", function () {
+    //     $("#usersTable thead tr:eq(1) input").val(""); // Vacía los campos
+    //     table.columns().search("").draw(); // Restablece los filtros
+    // });
 });
