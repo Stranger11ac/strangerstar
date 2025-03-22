@@ -189,7 +189,8 @@ $(document).ready(function () {
     map.addControl(
         new MapboxDirections({
             accessToken: mapboxgl.accessToken,
-            steps: false,
+            unit: "metric",
+            profile: "mapbox/walking",
         }),
         "top-left"
     );
