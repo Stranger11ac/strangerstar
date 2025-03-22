@@ -46,7 +46,7 @@ $(document).ready(function () {
     }
 
     // Evento para crear marcador azul al hacer clic derecho
-    $(map.getCanvasContainer()).on("dblclick", function (e) {
+    $(map.getCanvasContainer()).on("contextmenu", function (e) {
         e.preventDefault();
         const rect = map.getCanvasContainer().getBoundingClientRect();
         const point = {
@@ -76,19 +76,19 @@ $(document).ready(function () {
     map.addControl(draw);
 
     // Crear marcador rojo y verificar su posición
-    getGeoLocation(
-        (coords) => {
-            const userCoordinates = [coords.longitude, coords.latitude];
-            let bodyUserName = "0";
-            if ($("body").data("usnm")) {
-                bodyUserName = $("body").data("usnm").toLowerCase();
-            }
-            redMarker = new mapboxgl.Marker({ element: createCustomMarker("bg-detail", bodyUserName, "map-point-wave") }).setLngLat(userCoordinates).addTo(map);
+    // getGeoLocation(
+    //     (coords) => {
+    //         const userCoordinates = [coords.longitude, coords.latitude];
+    //         let bodyUserName = "0";
+    //         if ($("body").data("usnm")) {
+    //             bodyUserName = $("body").data("usnm").toLowerCase();
+    //         }
+    //         redMarker = new mapboxgl.Marker({ element: createCustomMarker("bg-detail", bodyUserName, "map-point-wave") }).setLngLat(userCoordinates).addTo(map);
 
-            map.setCenter(userCoordinates);
-        },
-        (errorMessage) => toast("center", 8000, "error", errorMessage)
-    );
+    //         map.setCenter(userCoordinates);
+    //     },
+    //     (errorMessage) => toast("center", 8000, "error", errorMessage)
+    // );
 
     // Evaluar marcadores dentro del polígono
     function countMarkersInsidePolygon(polygon) {
@@ -119,7 +119,7 @@ $(document).ready(function () {
          * se envia una lista de las id
          * las id seran las iniciales o un distintivo de los alumnos
          */
-        console.table(insideMarkerData);
+        // console.table(insideMarkerData);
     }
 
     // Evento de dibujo (crear, actualizar o eliminar)
@@ -134,4 +134,63 @@ $(document).ready(function () {
             countMarkersInsidePolygon(polygon);
         }
     }
+
+    // const colors = ["#FF0000", "#0000FF", "#008000", "#FFA500", "#800080"]; // Rojo, Azul, Verde, Naranja, Morado
+    // let waypoints = [];
+
+    // map.on("click", (e) => {
+    //     if (waypoints.length >= colors.length) {
+    //         alert("Máximo de puntos alcanzado");
+    //         return;
+    //     }
+
+    //     const newPoint = {
+    //         coordinates: [e.lngLat.lng, e.lngLat.lat],
+    //         color: colors[waypoints.length],
+    //     };
+    //     waypoints.push(newPoint);
+
+    //     // Añadir marcador al mapa
+    //     new mapboxgl.Marker({ color: newPoint.color }).setLngLat(newPoint.coordinates).addTo(map);
+
+    //     // Si hay al menos dos puntos, trazar la ruta
+    //     if (waypoints.length > 1) {
+    //         updateRoute();
+    //     }
+    // });
+
+    // function updateRoute() {
+    //     const coordinates = waypoints.map((wp) => wp.coordinates).join(";");
+
+    //     fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?geometries=geojson&access_token=${mapboxgl.accessToken}`)
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             const route = data.routes[0].geometry;
+
+    //             // Eliminar capa previa si existe
+    //             if (map.getSource("route")) {
+    //                 map.getSource("route").setData({ type: "Feature", geometry: route });
+    //             } else {
+    //                 map.addLayer({
+    //                     id: "route",
+    //                     type: "line",
+    //                     source: {
+    //                         type: "geojson",
+    //                         data: { type: "Feature", geometry: route },
+    //                     },
+    //                     layout: { "line-join": "round", "line-cap": "round" },
+    //                     paint: { "line-color": "#000", "line-width": 4 },
+    //                 });
+    //             }
+    //         })
+    //         .catch((error) => console.error("Error al obtener la ruta:", error));
+    // }
+
+    map.addControl(
+        new MapboxDirections({
+            accessToken: mapboxgl.accessToken,
+            steps: false,
+        }),
+        "top-left"
+    );
 });

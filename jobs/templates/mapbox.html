@@ -6,7 +6,9 @@
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.9.2/mapbox-gl.css" />
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.5.0/mapbox-gl-draw.css" type="text/css" />
 <link rel="stylesheet" href="{% static 'css/introjs.min.css' %}" />
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.2/mapbox-gl.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
 {% endblock %}
 
 {% block bodyAttr %}data-intro="viewMapIntro"{% endblock %}
@@ -19,12 +21,12 @@
 {% endblock %}
 
 {% block endSettings %}
-<div class="settings_group">
+<!-- <div class="settings_group">
     <div>Activar Tutorial:</div>
     <button type="button" class="btn btn-icon btn-hover" id="startTour" title="Activar Tutorial" data-click="[data-close]">
         <span class="ic-solar widget-5"></span>
     </button>
-</div>
+</div> -->
 {% endblock %}
 
 {% block scriptsextra %}
