@@ -42,9 +42,13 @@
                 <b>Python</b>, además de edición de imágenes y video. He liderado proyectos que han mejorado el rendimiento y productividad.
             </p>
             <p class="mt-35">Idiomas</p>
+            <p class="mt-35">Contacto:</p>
         </div>
-        <p class="mt-35 pl-15">Contacto:</p>
         <article class="submenu">
+            <a id="btnNotificacion" class="btn btn-submenu btn-content btn-hover" title="Notificacion" data-image="{% static 'img/main_icon.webp' %}">
+                <span class="ic-solar star"></span>
+                <span class="btn-title">Mostrar Notificación</span>
+            </a>
             <a href="{% url 'singuppage' %}" class="btn btn-icon btn-hover" title="perfil">
                 <span class="ic-solar user-plus"></span>
             </a>
@@ -337,4 +341,5 @@
 <script src="{% static 'js/tabs.js' %}"></script>
 <script src="{% static 'js/aside.js' %}"></script>
 <script src="{% static 'js/submit.js' %}"></script>
+<script src="{% static 'js/notification.js' %}"></script>
 {% endblock %}
