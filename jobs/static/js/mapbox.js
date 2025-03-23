@@ -10,7 +10,6 @@ $(document).ready(function () {
         zoom: 15,
     });
 
-    map.addControl(new mapboxgl.NavigationControl());
     let blueMarker, redMarker;
 
     // Marcadores adicionales
@@ -73,7 +72,6 @@ $(document).ready(function () {
             trash: true,
         },
     });
-    map.addControl(draw);
 
     // Crear marcador rojo y verificar su posición
     // getGeoLocation(
@@ -186,12 +184,25 @@ $(document).ready(function () {
     //         .catch((error) => console.error("Error al obtener la ruta:", error));
     // }
 
-    map.addControl(
-        new MapboxDirections({
-            accessToken: mapboxgl.accessToken,
-            unit: "metric",
-            profile: "mapbox/walking",
-        }),
-        "top-left"
-    );
+    const routing = new MapboxDirections({
+        accessToken: mapboxgl.accessToken,
+        unit: "metric",
+        profile: "mapbox/walking",
+        controls: {
+            // inputs: false,
+            // instructions: false,
+            profileSwitcher: false,
+        },
+        alternatives: true,
+        placeholderOrigin: "Inicio:",
+        placeholderDestination: "Destino:",
+        language: "es",
+        // waypointName: ["I", "D"], // No funciona
+        // interactive: false,
+        // steps: false, // No funciona
+        // annotation: ["distance", "duration", "speed"], // No funciona
+    });
+
+    const mapControls = [{ control: new mapboxgl.NavigationControl() }, { control: draw }, { control: routing, position: "top-left" }];
+    mapControls.forEach(({ control, position }) => map.addControl(control, position));
 });
