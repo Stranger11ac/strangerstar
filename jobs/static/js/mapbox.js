@@ -203,6 +203,17 @@ $(document).ready(function () {
         // annotation: ["distance", "duration", "speed"], // No funciona
     });
 
-    const mapControls = [{ control: new mapboxgl.NavigationControl() }, { control: draw }, { control: routing, position: "top-left" }];
+    const locateUser = new mapboxgl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: true,
+        showUserHeading: true,
+    });
+
+    const mapControls = [
+        { control: locateUser },
+        { control: new mapboxgl.NavigationControl() },
+        { control: routing, position: "top-left" },
+        { control: draw },
+    ];
     mapControls.forEach(({ control, position }) => map.addControl(control, position));
 });
