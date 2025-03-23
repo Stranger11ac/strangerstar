@@ -196,9 +196,9 @@ $(document).ready(function () {
         alternatives: true,
         placeholderOrigin: "Inicio:",
         placeholderDestination: "Destino:",
+        interactive: false,
         language: "es",
         // waypointName: ["I", "D"], // No funciona
-        // interactive: false,
         // steps: false, // No funciona
         // annotation: ["distance", "duration", "speed"], // No funciona
     });
