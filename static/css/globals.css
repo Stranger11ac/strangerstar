@@ -1527,7 +1527,9 @@ table.table_even {
 .line-through {
     text-decoration: line-through;
 }
-
+.minh-400 {
+    min-height: 400px;
+}
 .minw-65 {
     min-width: 65px;
 }

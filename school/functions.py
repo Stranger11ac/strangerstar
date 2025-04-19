@@ -1,9 +1,27 @@
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 from django.contrib.auth.models import User, Group
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.db import IntegrityError
+from django.utils import timezone
 from .models import UserProfile
 from functools import wraps
+import csv
+
+def group_required(group_name):
+    """
+    Decorador para restringir el acceso a usuarios que pertenezcan a un grupo específico.
+    """
+    def decorator(view_func):
+        @wraps(view_func)
+        @login_required
+        def _wrapped_view(request, *args, **kwargs):
+            if request.user.groups.filter(name=group_name).exists() or request.user.is_superuser:
+                return view_func(request, *args, **kwargs)
+            return redirect('singout')
+        return _wrapped_view
+    return decorator
 
 def create_newuser(first_name, last_name, username, password1, email=None, password2=None, is_staff=False, is_active=False, group=None, insignia=None, num_list=None, uid=None):
     try:
@@ -20,8 +38,8 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
         if is_superuser:
             is_staff = True
 
-        if group not in ['admin', 'professor', 'student']:
-            group = 'student'
+        # if group not in ['admin', 'professor', 'student']:
+        #     group = 'student'
 
         # Crear usuario
         new_user = User.objects.create_user(
@@ -61,16 +79,49 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
     except Exception as e:
         return {'datastatus': False, 'message': f'Ocurrió un error inesperado: {str(e)}'}
 
-def group_required(group_name):
-    """
-    Decorador para restringir el acceso a usuarios que pertenezcan a un grupo específico.
-    """
-    def decorator(view_func):
-        @wraps(view_func)
-        @login_required
-        def _wrapped_view(request, *args, **kwargs):
-            if request.user.groups.filter(name=group_name).exists() or request.user.is_superuser:
-                return view_func(request, *args, **kwargs)
-            return redirect('singout')
-        return _wrapped_view
-    return decorator
+def create_csv(filename, header, rows):
+    response = HttpResponse(content_type='text/csv; charset=utf-8')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    response.write('\ufeff'.encode('utf8'))
+
+    writer = csv.writer(response)
+    writer.writerow(header)
+    for row in rows:
+        writer.writerow(row)
+    return response
+
+@never_cache
+@group_required('admin')
+def export_users_csv(request):
+    if not request.user.is_staff:
+        return HttpResponse('No autorizado', status=403)
+
+    if request.method == 'POST':
+        try:
+            headers = ['Username', 'First Name', 'Last Name', 'Email', 'Is Active', 'Is Staff', 'Is Superuser', 'Groups', 'Insignia', 'Num List', 'UID', 'Notes', 'Team', 'Image Name']
+            users = User.objects.all().select_related('userprofile').prefetch_related('groups')
+            rows = [
+                [
+                    user.username,
+                    user.first_name,
+                    user.last_name,
+                    user.email,
+                    user.is_active,
+                    user.is_staff,
+                    user.is_superuser,
+                    ", ".join([group.name for group in user.groups.all()]),
+                    (user.userprofile.insignia if hasattr(user, 'userprofile') and user.userprofile.insignia else ''),
+                    (user.userprofile.num_list if hasattr(user, 'userprofile') and user.userprofile.num_list else ''),
+                    (user.userprofile.uid if hasattr(user, 'userprofile') and user.userprofile.uid else ''),
+                    (user.userprofile.notes if hasattr(user, 'userprofile') and user.userprofile.notes else ''),
+                    (user.userprofile.team if hasattr(user, 'userprofile') and user.userprofile.team else ''),
+                    (user.userprofile.image.name if hasattr(user, 'userprofile') and user.userprofile.image else ''),
+                ]
+                for user in users
+            ]
+
+            now = timezone.localtime(timezone.now()).strftime('%d%m%y%H%M%S')
+            return create_csv(f'users_{now}.csv', headers, rows)
+        except Exception as e:
+            print(f'Error al exportar usuarios: {str(e)}', exc_info=True)
+    print(f'Solicitud inválida de {request.user.username}')

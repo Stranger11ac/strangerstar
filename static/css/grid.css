@@ -134,7 +134,7 @@
 .card .card-body {
     margin: auto 0;
     overflow: hidden;
-    padding: 0 15px;
+    padding: 20px 15px;
     display: -webkit-box;
     -webkit-line-clamp: 16;
     line-clamp: 16;
@@ -147,6 +147,15 @@
     border-bottom: 2px solid var(--color);
     align-self: flex-start;
 }
+
+.card-picture-zoom {
+    background-size: 100%;
+    transition: background-size 0.3s ease-in-out;
+}
+.card-picture-zoom:hover {
+    background-size: 110%;
+}
+
 .card.card-ig .card-header,
 .card.card-picture .card-header {
     padding: 10px 15px;

@@ -57,8 +57,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        # default='postgresql://postgres:postgres@localhost:5432/mysite',
-        default='postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal',
+        # default='postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal',
+        # default='postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb',
+        default='postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a.oregon-postgres.render.com/strangerdb',
         conn_max_age=600
     )
 }
@@ -69,12 +70,8 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'}
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'es-mx'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 USE_TZ = True

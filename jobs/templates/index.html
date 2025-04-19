@@ -41,7 +41,7 @@
                 desarrollo con JavaScript y
                 <b>Python</b>, además de edición de imágenes y video. He liderado proyectos que han mejorado el rendimiento y productividad.
             </p>
-            <p class="mt-35">Idiomas</p>
+            <p class="mt-35">Idiomas:</p>
             <p class="mt-35">Contacto:</p>
         </div>
         <article class="submenu">
@@ -66,25 +66,6 @@
                 <span class="btn-title">Número Personal</span>
             </a>
         </article>
-        <p class="p-15 justify">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex quidem nam velit aliquam temporibus quod excepturi quasi similique veritatis voluptatum
-            natus fuga, sint aspernatur non
-            assumenda reprehenderit neque! Iusto harum cum soluta, error voluptate numquam cupiditate explicabo, doloremque voluptas excepturi praesentium odit
-            nesciunt, quos alias sapiente dolor
-            repudiandae veniam. Error sed enim odit vel. Voluptas mollitia sequi quia natus quisquam cum laborum, aliquid qui id consequatur sapiente tenetur.
-            Veritatis enim provident blanditiis velit
-            iure vel illum ut recusandae autem asperiores consequatur at repellat non odit, fugiat debitis architecto. Nesciunt accusantium veniam voluptate
-            dolorum commodi praesentium dolore dicta
-            eum quas debitis, vero incidunt. Nulla laborum voluptatibus dolorem accusamus velit nobis beatae, officia dicta. Dolorem perspiciatis voluptatum,
-            aliquam id omnis voluptates quae esse rem
-            alias itaque ad et beatae, consequatur similique? Corrupti velit, accusamus itaque sunt fuga tempore cumque, dolor id ut, animi quidem odit nobis
-            sed non ipsa optio soluta molestiae
-            blanditiis. Ipsa maxime maiores tenetur doloremque molestiae quidem, quaerat, quo laborum dolore voluptatem sunt earum eaque. Reprehenderit amet
-            nostrum adipisci soluta perspiciatis totam
-            natus aliquid minima possimus quisquam quas recusandae odit, eos temporibus quo cupiditate libero fugiat culpa ducimus deserunt praesentium
-            voluptatum assumenda! Doloribus fugiat, voluptas
-            laborum nihil aliquid et!
-        </p>
     </section>
 </aside>
 {% endblock %}
@@ -120,29 +101,27 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div> -->
             <div class="swiper-pagination"></div>
         </div>
-        <div class="grid-item card-picture item-2">
+        <a href="#tabProjects" class="grid-item card-picture card-picture-zoom item-2">
             <img loading="eager" src="{% static 'img/header_3.jpg' %}" class="picture" alt="Imagen Full-stack Web Developer" />
             <div class="item__details"><span class="ic-solar cursor-square"></span> Full-stack Web Developer</div>
-        </div>
-        <div class="grid-item card-picture item-3">
+        </a>
+        <a href="#tabProjects" class="grid-item card-picture card-picture-zoom item-3">
             <img loading="eager" src="{% static 'img/header_4.jpg' %}" class="picture" alt="Imagen Modelado / Animación 3D" />
             <div class="item__details"><span class="ic-solar box-minimalistic"></span> Modelado / Animación 3D</div>
-        </div>
-        <div class="grid-item card-picture item-4">
+        </a>
+        <a href="#tabProjects" class="grid-item card-picture card-picture-zoom item-4">
             <img loading="eager" src="{% static 'img/header_2.jpg' %}" class="picture" alt="Imagen Desarrollo de Videojuegos" />
             <div class="item__details"><span class="ic-solar gamepad"></span> Desarrollo de Videojuegos</div>
-        </div>
-        <div class="grid-item card-picture item-5">
+        </a>
+        <a href="#tabProjects" class="grid-item card-picture card-picture-zoom item-5">
             <img loading="eager" src="{% static 'img/header_1.jpg' %}" class="picture" alt="Imagen Edición de Imágenes y video" />
             <div class="item__details"><span class="ic-solar magic-stick"></span> Edición de Imágenes y video</div>
-        </div>
+        </a>
     </div>
     <div class="tab will_transparent" data-tab="tabProjects">
-        <div class="grid">
+        <div class="grid grid-cols">
             <!-- <div class="card">
                 <div class="image-group a-end">
                     <img src="{% static 'img/header_2.jpg' %}" alt="Imagen encabezado de la app Galeria" />
@@ -187,6 +166,9 @@
                     <a href="{% url 'spin_app' %}" class="btn btn-content btn-hover">Ver más <span class="ic-solar square-bottom-up"></span></a>
                 </div>
             </div>
+            <div class="card card-picture minh-400">
+                <img src="{% static 'img/header_1.jpg' %}" alt="Imagen encabezado de la app Mapa" class="picture" />
+            </div>
             <div class="card">
                 <div class="image-group a-center">
                     <img src="{% static 'img/header_4.jpg' %}" alt="Imagen encabezado de la app Calendario" />
@@ -217,33 +199,36 @@
                     <a href="{% url 'mapbox_app' %}" class="btn btn-content btn-hover">Ver más <span class="ic-solar square-bottom-up"></span></a>
                 </div>
             </div>
-            <!-- <div class="card">
-                <div class="image-group a-center">
-                    <img src="{% static 'img/header_4.jpg' %}" alt="Imagen encabezado de la app Calendario" />
-                    <div class="image_header">
-                        <h2>Realidad Aumentada</h2>
+            <div class="card card-picture minh-400">
+                <img src="{% static 'img/header_1.jpg' %}" alt="Imagen encabezado de la app Mapa" class="picture" />
+            </div>
+                <!-- <div class="card">
+                    <div class="image-group a-center">
+                        <img src="{% static 'img/header_4.jpg' %}" alt="Imagen encabezado de la app Calendario" />
+                        <div class="image_header">
+                            <h2>Realidad Aumentada</h2>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <span class="dot-progress purple"></span> Renderizar un modelo 3D a travez de la camara del dispositivo sobre un marcador de imagen.
-                </div>
-                <div class="card-footer flexbox flex-end">
-                    <a href="" class="btn btn-content btn-hover">Ver más <span class="ic-solar square-bottom-up"></span></a>
-                </div>
-            </div> -->
-            <!-- <div class="card">
-                <div class="image-group a-center">
-                    <img src="{% static 'img/header_1.jpg' %}" alt="Imagen encabezado de la app Sistema de Registro" />
-                    <div class="image_header">
-                        <h2>Sistema de Registro</h2>
+                    <div class="card-body">
+                        <span class="dot-progress purple"></span> Renderizar un modelo 3D a travez de la camara del dispositivo sobre un marcador de imagen.
                     </div>
-                </div>
-                <div class="card-body"><span class="dot-progress orange"></span> Registro de usuarios mediante un formulario, archivo CSV u hoja de calculo EXS
-                </div>
-                <div class="card-footer flexbox flex-end">
-                    <a href="#tabProjects" class="btn btn-content btn-hover btn-disable">Ver más <span class="ic-solar square-bottom-up"></span></a>
-                </div>
-            </div> -->
+                    <div class="card-footer flexbox flex-end">
+                        <a href="" class="btn btn-content btn-hover">Ver más <span class="ic-solar square-bottom-up"></span></a>
+                    </div>
+                </div> -->
+                <!-- <div class="card">
+                    <div class="image-group a-center">
+                        <img src="{% static 'img/header_1.jpg' %}" alt="Imagen encabezado de la app Sistema de Registro" />
+                        <div class="image_header">
+                            <h2>Sistema de Registro</h2>
+                        </div>
+                    </div>
+                    <div class="card-body"><span class="dot-progress orange"></span> Registro de usuarios mediante un formulario, archivo CSV u hoja de calculo EXS
+                    </div>
+                    <div class="card-footer flexbox flex-end">
+                        <a href="#tabProjects" class="btn btn-content btn-hover btn-disable">Ver más <span class="ic-solar square-bottom-up"></span></a>
+                    </div>
+                </div> -->
             <div class="card">
                 <div class="image-group a-end">
                     <img src="{% static 'img/header_2.jpg' %}" alt="Imagen encabezado de la app Quiz y Examenes" />

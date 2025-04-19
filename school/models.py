@@ -11,9 +11,14 @@ class UserProfile(models.Model):
     uid = models.CharField(max_length=30, unique=True, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     team = models.CharField(max_length=15, blank=True, null=True)
+    image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.uid or 'No UID'}"
+    
+    class Meta:
+        verbose_name = 'Perfil de Usuario'
+        verbose_name_plural = 'Perfile de Usuarios'
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

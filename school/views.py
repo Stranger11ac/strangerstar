@@ -32,12 +32,12 @@ def singup(request):
         password_new = first_name_post.split()[0] + last_name_post.split()[0] + (str(num_list_post) if num_list_post else '')
 
         user_new = request.POST.get('username')
-        fecha_actual = datetime.today().strftime('%Y%m%d')
+        now = datetime.today().strftime('%Y%m%d')
 
         if not user_new:
             user_new = first_name_post.split()[0] + last_name_post.split()[0] + str(num_list_post)
         
-        uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + fecha_actual
+        uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + now
 
 
         response = create_newuser(
@@ -133,8 +133,8 @@ def user_update(request):
         if uid_post:
             user.userprofile.uid = uid_post
         else:
-            fecha_actual = datetime.today().strftime('%Y%m%d')
-            uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + fecha_actual
+            now = datetime.today().strftime('%Y%m%d')
+            uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + now
             user.userprofile.uid = uid_new
         
         if rol_post:

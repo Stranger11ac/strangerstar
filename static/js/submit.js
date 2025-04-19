@@ -37,8 +37,8 @@ function jsonSubmit(event) {
                 } else {
                     toast("top", 8000, "success", dataMsg);
                 }
-            } else {
-                toast("center", 8000, "info", dataMsg);
+            // } else {
+            //     toast("center", 8000, "info", dataMsg);
             }
 
             if ($formReset === true || $formReset === undefined) {

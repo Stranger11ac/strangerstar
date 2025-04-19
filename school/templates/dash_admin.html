@@ -108,16 +108,19 @@
                     <input type="hidden" name="is_active" value="true" />
                 </form>
                 <section class="mt-gap">
-                    <form action="" method="post" data-submit>
+                    <form autocomplete="off">
                         <div class="input_group group_icon flexbox mb-25">
                             <label class="icon-input" for="search_user_excel"><span class="ic-solar folder-cut"></span></label>
                             <input type="text" name="search_user_excel" id="search_user_excel" placeholder="Subir Excel..." />
-                            <button title="Borrar busqueda" type="submit" class="btn btn-icon btn-hover flexbox-center opacity">
+                            <button title="Nuevos Registros" type="submit" class="btn btn-icon btn-hover opacity">
                                 <span class="ic-solar plain"></span>
                             </button>
                         </div>
                     </form>
-                    <button type="button" class="btn btn-content btn-hover w100">Descargar Excel de Usuarios <span class="ic-solar file-download-bold-duotone"></span></button>
+                    <form action="{% url 'export_users' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-content btn-hover w100">Descargar Excel de Usuarios <span class="ic-solar file-download-bold-duotone"></span></button>
+                    </form>
                 </section>
             </div>
             <article class="content_min">
@@ -155,7 +158,7 @@
                             <td>{{ oneuser.userprofile.insignia|default:"-" }}</td>
                             <td>{{ oneuser.userprofile.num_list|default:"-" }}</td>
                             <td>
-                                {% if not oneuser.is_staff %}
+                                {% if not oneuser.groups.first.name == "admin" %}
                                 <div class="flexbox gap_15">
                                     {% if oneuser.is_active %}
                                     <button type="button" class="btn btn-icon hover-orange" title="Desactivar Usuario"
