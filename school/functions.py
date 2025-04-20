@@ -99,14 +99,15 @@ def str_to_bool(value):
 def read_csv(file_uploaded, model_configs):
     decoded_file = file_uploaded.read().decode('utf-8').splitlines()
     reader = csv.reader(decoded_file)
-    headers = next(reader)  # Ignorar encabezado
+    headers = next(reader)
 
     for row_number, row in enumerate(reader, start=2):
         instances = {}
 
         try:
             col_pointer = 0
-            user_instance = None  # Guardar aquí el User creado o encontrado
+            user_instance = None
+            pending_groups = []
 
             for config in model_configs:
                 model = config['model']
@@ -125,27 +126,39 @@ def read_csv(file_uploaded, model_configs):
                     col_pointer += 1
 
                 if model == User:
-                    # Crear o buscar User
                     lookup_value = field_data[lookup_field]
                     user_instance, created = model.objects.get_or_create(**{lookup_field: lookup_value})
 
-                    # Asignar otros campos
                     for key, value in field_data.items():
-                        setattr(user_instance, key, value)
+                        if key == 'groups':
+                            group_names = [g.strip() for g in value.split(',')]
+                            groups_found = []
+                            for name in group_names:
+                                group_obj = Group.objects.filter(name=name).first()
+                                if group_obj:
+                                    groups_found.append(group_obj)
+                                else:
+                                    default_group = Group.objects.filter(name="student").first()
+                                    if default_group:
+                                        groups_found.append(default_group)
+                            pending_groups = groups_found
+                        else:
+                            setattr(user_instance, key, value)
+
                     user_instance.save()
 
+                    if pending_groups:
+                        user_instance.groups.set(pending_groups)
+
                 elif model == UserProfile:
-                    # Ahora el UserProfile:
                     if not user_instance:
                         raise ValueError("No se pudo obtener el usuario para el perfil.")
 
-                    # Verificar si ya existe UserProfile
                     try:
                         userprofile_instance = UserProfile.objects.get(user=user_instance)
                     except UserProfile.DoesNotExist:
                         userprofile_instance = UserProfile(user=user_instance)
 
-                    # Asignar campos del CSV
                     for key, value in field_data.items():
                         setattr(userprofile_instance, key, value)
                     userprofile_instance.save()
@@ -156,9 +169,8 @@ def read_csv(file_uploaded, model_configs):
         except Exception as e:
             print(f"Error en la fila {row_number}: {e}")
             return JsonResponse({'datastatus': False, 'message': f'Error en la fila {row_number} <br> verificar terminal'}, status=400)
-    
-    return JsonResponse({'datastatus': True, 'message': 'Usuarios importados correctamente.'}, status=200)
 
+    return JsonResponse({'datastatus': True, 'message': 'Usuarios importados correctamente.'}, status=200)
 
 @never_cache
 @group_required('admin')

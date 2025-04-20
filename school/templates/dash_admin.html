@@ -131,7 +131,7 @@
                             <th class="center_i">#</th>
                             <th>Usuario</th>
                             <th>Nombre</th>
-                            <th>Email</th>
+                            <th>grupo</th>
                             <th>Distintivo</th>
                             <th>No. Lista</th>
                             <th></th>
@@ -142,20 +142,20 @@
                         <tr id="row-user_{{ oneuser.id }}">
                             <td class="center_i">{{ oneuser.id }}</td>
                             <td class="username">
-                                {% if oneuser.groups.first.name == "student" %}
-                                <span class="green fs-08 radius-inset p-5">Estudiante</span>
-                                {% elif oneuser.groups.first.name == "professor" %}
-                                <span class="orange fs-08 radius-inset p-5">Profesor</span>
-                                {% elif oneuser.groups.first.name == "admin" %}
-                                <span class="detail fs-08 radius-inset p-5">Admin</span>
-                                {% else %}
-                                <span class="blue fs-08 radius-inset p-5">Desconocido ({{oneuser.groups.first.name}})</span>
-                                {% endif %}
-
                                 <div class="mt-10 {% if not oneuser.is_active %}radius orange{% endif %} p-5"> {{ oneuser.username }} </div>
                             </td>
                             <td>{{ oneuser.first_name }} {{ oneuser.last_name }}</td>
-                            <td>{{ oneuser.email }}</td>
+                            <td>
+                                {% if oneuser.groups.first.name == "student" %}
+                                <span class="green radius-inset p-5">Estudiante</span>
+                                {% elif oneuser.groups.first.name == "professor" %}
+                                <span class="orange radius-inset p-5">Profesor</span>
+                                {% elif oneuser.groups.first.name == "admin" %}
+                                <span class="detail radius-inset p-5">Admin</span>
+                                {% else %}
+                                <span class="blue radius-inset p-5">Desconocido ({{oneuser.groups.first.name}})</span>
+                                {% endif %}
+                            </td>
                             <td>{{ oneuser.userprofile.insignia|default:"-" }}</td>
                             <td>{{ oneuser.userprofile.num_list|default:"-" }}</td>
                             <td>
