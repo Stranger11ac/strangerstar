@@ -3,7 +3,7 @@ import dj_database_url
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='StrangerStraSecretKey11121212121212000HG@!->tdv')
 DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = []
@@ -55,14 +55,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # default='postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal',
-        # default='postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb',
-        default='postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a.oregon-postgres.render.com/strangerdb',
-        conn_max_age=600
-    )
-}
+LOCAL_DB = 'postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal'
+EXTERNAL_DB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a.oregon-postgres.render.com/strangerdb'
+
+if DEBUG:
+    try:
+        DATABASES = {
+            'default': dj_database_url.config(default=EXTERNAL_DB, conn_max_age=600)
+        }
+        print("⚡ DEBUG=True, conectado a base de datos EXTERNA en Render.")
+    except Exception as e:
+        DATABASES = {
+            'default': dj_database_url.config(default=LOCAL_DB, conn_max_age=600)
+        }
+        print("⚠️ No se pudo conectar a la base externa. Usando base de datos LOCAL.")
+        print(f"Error: {e}")
+else:
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600)
+    }
+    print("🏭 Producción: usando base de datos interna de Render.")
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},

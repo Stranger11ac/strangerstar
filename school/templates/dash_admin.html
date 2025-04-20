@@ -110,9 +110,10 @@
                 <section class="mt-gap">
                     <form autocomplete="off">
                         <div class="input_group group_icon flexbox mb-25">
-                            <label class="icon-input" for="search_user_excel"><span class="ic-solar folder-cut"></span></label>
-                            <input type="text" name="search_user_excel" id="search_user_excel" placeholder="Subir Excel..." />
-                            <button title="Nuevos Registros" type="submit" class="btn btn-icon btn-hover opacity">
+                            <label class="icon-input" for="fileUsersDoc"><span class="ic-solar folder-cut"></span></label>
+                            <div class="input flexbox a-center" data-click="#fileUsersDoc"><span class="fs-08 opacity">Subir Archivo CSV:</span></div>
+                            <input type="file" name="fileUsersDoc" id="fileUsersDoc" class="none" accept=".csv" title="fileUsers" required/>
+                            <button title="Nuevos Registros" type="submit" class="btn btn-icon btn-hover">
                                 <span class="ic-solar plain"></span>
                             </button>
                         </div>
@@ -539,14 +540,14 @@
                     <label class="icon-input first" for="up_last_name"> <span class="ic-solar user-rounded"></span></label>
                 </div>
             </div>
-            <div class="none" id="user_distintive">
+            <div class="none" id="up_insignia_group">
                 <div class="flexbox gap2">
                     <div class="input_group group_icon">
                         <input type="text" name="insignia" id="up_insignia" placeholder="Grupo:" data-indications="Escribe al menos 2 letras: 1A, 1B, 2A, 3Ctm, 3Ctv"
                             data-required="false" />
                         <label class="icon-input first" for="up_insignia"> <span class="ic-solar star"></span></label>
                     </div>
-                    <div class="input_group group_icon" id="num_list_group">
+                    <div class="input_group group_icon" id="num_list_class">
                         <input type="tel" name="num_list" id="up_num_list" placeholder="No. Lista:" min="1" minlength="1" data-required="false" />
                         <label class="icon-input first" for="up_num_list"> <span class="ic-solar hashtag-circle"></span></label>
                     </div>

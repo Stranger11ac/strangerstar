@@ -5,9 +5,11 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.db import IntegrityError
 from django.utils import timezone
+from django.db import transaction
 from .models import UserProfile
 from functools import wraps
 import csv
+import io
 
 def group_required(group_name):
     """
@@ -37,9 +39,6 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
         is_superuser = (group == 'admin')
         if is_superuser:
             is_staff = True
-
-        # if group not in ['admin', 'professor', 'student']:
-        #     group = 'student'
 
         # Crear usuario
         new_user = User.objects.create_user(
@@ -90,6 +89,61 @@ def create_csv(filename, header, rows):
         writer.writerow(row)
     return response
 
+def str_to_bool(value):
+    """Convierte un texto en booleano inteligentemente."""
+    if isinstance(value, str):
+        return value.strip().lower() in ('true', '1', 'yes', 'si', 'activo')
+    return bool(value)
+
+@transaction.atomic
+def import_from_csv(file_path, model_configs):
+    with open(file_path, mode='r', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile)
+        headers = next(reader)  # Ignorar encabezado
+
+        for row_number, row in enumerate(reader, start=2):
+            instances = {}
+
+            try:
+                col_pointer = 0
+                for config in model_configs:
+                    model = config['model']
+                    fields = config['fields']
+                    lookup_field = config['lookup_field']
+
+                    field_data = {}
+
+                    for field_name in fields:
+                        value = row[col_pointer]
+
+                        # Conversión especial para booleanos si el campo empieza con "is_"
+                        if field_name.startswith('is_'):
+                            value = str_to_bool(value)
+
+                        field_data[field_name] = value
+                        col_pointer += 1
+
+                    # Lookup para obtener o crear instancia
+                    if lookup_field in field_data:
+                        lookup_value = field_data[lookup_field]
+                        obj, created = model.objects.get_or_create(**{lookup_field: lookup_value})
+                    else:
+                        obj = model()
+
+                    # Asignar campos
+                    for key, value in field_data.items():
+                        setattr(obj, key, value)
+
+                    # Relaciones especiales
+                    if lookup_field == 'user' and 'User' in instances:
+                        setattr(obj, 'user', instances['User'])
+
+                    obj.save()
+                    instances[model.__name__] = obj
+
+            except Exception as e:
+                print(f"Error en la fila {row_number}: {e}")
+
 @never_cache
 @group_required('admin')
 def export_users_csv(request):
@@ -122,6 +176,33 @@ def export_users_csv(request):
 
             now = timezone.localtime(timezone.now()).strftime('%d%m%y%H%M%S')
             return create_csv(f'users_{now}.csv', headers, rows)
+        except Exception as e:
+            print(f'Error al exportar usuarios: {str(e)}', exc_info=True)
+    print(f'Solicitud inválida de {request.user.username}')
+
+@never_cache
+@group_required('admin')
+def export_users_csv(request):
+    if not request.user.is_staff:
+        return HttpResponse('No autorizado', status=403)
+    
+    if request.method == 'POST':
+        try:
+            fileCSV = request.FILES['fileUsersDoc']
+            model_configs = [
+                {
+                    "model": User,
+                    "fields": ['username', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'is_superuser'],
+                    "lookup_field": 'username',
+                },
+                {
+                    "model": UserProfile,
+                    "fields": ['insignia', 'num_list', 'uid', 'notes', 'team', 'image_name'],
+                    "lookup_field": 'user',
+                }
+            ]
+
+            return import_from_csv(fileCSV, model_configs)
         except Exception as e:
             print(f'Error al exportar usuarios: {str(e)}', exc_info=True)
     print(f'Solicitud inválida de {request.user.username}')

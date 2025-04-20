@@ -874,6 +874,7 @@ form input {
     font-family: inherit;
     color: var(--color);
     padding: 5px 10px;
+    cursor: pointer;
 }
 form input[type="checkbox"] {
     min-height: calc(var(--size, 40px) - 5px);
