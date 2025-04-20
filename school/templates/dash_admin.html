@@ -108,11 +108,11 @@
                     <input type="hidden" name="is_active" value="true" />
                 </form>
                 <section class="mt-gap">
-                    <form autocomplete="off">
+                    <form action="{% url 'import_users' %}" data-submit autocomplete="off">
                         <div class="input_group group_icon flexbox mb-25">
                             <label class="icon-input" for="fileUsersDoc"><span class="ic-solar folder-cut"></span></label>
-                            <div class="input flexbox a-center" data-click="#fileUsersDoc"><span class="fs-08 opacity">Subir Archivo CSV:</span></div>
-                            <input type="file" name="fileUsersDoc" id="fileUsersDoc" class="none" accept=".csv" title="fileUsers" required/>
+                            <div class="input flexbox a-center" data-click="#fileUsersDoc"><span id="fileUserText" class="fs-08 opacity">Subir Archivo CSV:</span></div>
+                            <input type="file" name="fileUsersDoc" id="fileUsersDoc" class="none" accept=".csv" title="fileUsers" data-change="#fileUserText" required/>
                             <button title="Nuevos Registros" type="submit" class="btn btn-icon btn-hover">
                                 <span class="ic-solar plain"></span>
                             </button>

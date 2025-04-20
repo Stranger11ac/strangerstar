@@ -96,53 +96,69 @@ def str_to_bool(value):
     return bool(value)
 
 @transaction.atomic
-def import_from_csv(file_path, model_configs):
-    with open(file_path, mode='r', encoding='utf-8') as csvfile:
-        reader = csv.reader(csvfile)
-        headers = next(reader)  # Ignorar encabezado
+def read_csv(file_uploaded, model_configs):
+    decoded_file = file_uploaded.read().decode('utf-8').splitlines()
+    reader = csv.reader(decoded_file)
+    headers = next(reader)  # Ignorar encabezado
 
-        for row_number, row in enumerate(reader, start=2):
-            instances = {}
+    for row_number, row in enumerate(reader, start=2):
+        instances = {}
 
-            try:
-                col_pointer = 0
-                for config in model_configs:
-                    model = config['model']
-                    fields = config['fields']
-                    lookup_field = config['lookup_field']
+        try:
+            col_pointer = 0
+            user_instance = None  # Guardar aquí el User creado o encontrado
 
-                    field_data = {}
+            for config in model_configs:
+                model = config['model']
+                fields = config['fields']
+                lookup_field = config['lookup_field']
 
-                    for field_name in fields:
-                        value = row[col_pointer]
+                field_data = {}
 
-                        # Conversión especial para booleanos si el campo empieza con "is_"
-                        if field_name.startswith('is_'):
-                            value = str_to_bool(value)
+                for field_name in fields:
+                    value = row[col_pointer]
 
-                        field_data[field_name] = value
-                        col_pointer += 1
+                    if field_name.startswith('is_'):
+                        value = str_to_bool(value)
 
-                    # Lookup para obtener o crear instancia
-                    if lookup_field in field_data:
-                        lookup_value = field_data[lookup_field]
-                        obj, created = model.objects.get_or_create(**{lookup_field: lookup_value})
-                    else:
-                        obj = model()
+                    field_data[field_name] = value
+                    col_pointer += 1
 
-                    # Asignar campos
+                if model == User:
+                    # Crear o buscar User
+                    lookup_value = field_data[lookup_field]
+                    user_instance, created = model.objects.get_or_create(**{lookup_field: lookup_value})
+
+                    # Asignar otros campos
                     for key, value in field_data.items():
-                        setattr(obj, key, value)
+                        setattr(user_instance, key, value)
+                    user_instance.save()
 
-                    # Relaciones especiales
-                    if lookup_field == 'user' and 'User' in instances:
-                        setattr(obj, 'user', instances['User'])
+                elif model == UserProfile:
+                    # Ahora el UserProfile:
+                    if not user_instance:
+                        raise ValueError("No se pudo obtener el usuario para el perfil.")
 
-                    obj.save()
-                    instances[model.__name__] = obj
+                    # Verificar si ya existe UserProfile
+                    try:
+                        userprofile_instance = UserProfile.objects.get(user=user_instance)
+                    except UserProfile.DoesNotExist:
+                        userprofile_instance = UserProfile(user=user_instance)
 
-            except Exception as e:
-                print(f"Error en la fila {row_number}: {e}")
+                    # Asignar campos del CSV
+                    for key, value in field_data.items():
+                        setattr(userprofile_instance, key, value)
+                    userprofile_instance.save()
+
+        except IntegrityError as e:
+            print(f"Error de integridad en la fila {row_number}: {e}")
+            return JsonResponse({'datastatus': False, 'message': f'Error de integridad en la fila {row_number}'}, status=400)
+        except Exception as e:
+            print(f"Error en la fila {row_number}: {e}")
+            return JsonResponse({'datastatus': False, 'message': f'Error en la fila {row_number} <br> verificar terminal'}, status=400)
+    
+    return JsonResponse({'datastatus': True, 'message': 'Usuarios importados correctamente.'}, status=200)
+
 
 @never_cache
 @group_required('admin')
@@ -182,17 +198,17 @@ def export_users_csv(request):
 
 @never_cache
 @group_required('admin')
-def export_users_csv(request):
+def import_users_csv(request):
     if not request.user.is_staff:
         return HttpResponse('No autorizado', status=403)
     
-    if request.method == 'POST':
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         try:
             fileCSV = request.FILES['fileUsersDoc']
             model_configs = [
                 {
                     "model": User,
-                    "fields": ['username', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'is_superuser'],
+                    "fields": ['username', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'is_superuser', 'groups'],
                     "lookup_field": 'username',
                 },
                 {
@@ -202,7 +218,10 @@ def export_users_csv(request):
                 }
             ]
 
-            return import_from_csv(fileCSV, model_configs)
+            return read_csv(fileCSV, model_configs)        
         except Exception as e:
-            print(f'Error al exportar usuarios: {str(e)}', exc_info=True)
+            print(f'Error al importar usuarios: {str(e)}')
+            return JsonResponse({'datastatus': False, 'message': f'Error al importar usuarios: {str(e)}'}, status=400)
+    
     print(f'Solicitud inválida de {request.user.username}')
+    return HttpResponse('Método no permitido', status=405)

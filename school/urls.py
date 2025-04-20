@@ -16,4 +16,5 @@ urlpatterns = [
     path('user_active/', views.user_active, name='user_active'),
 
     path('download_users_csv/', functions.export_users_csv, name='export_users'),
+    path('upload_users_csv/', functions.import_users_csv, name='import_users'),
 ]

@@ -39,7 +39,6 @@ def singup(request):
         
         uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + now
 
-
         response = create_newuser(
             first_name = first_name_post,
             last_name = last_name_post,

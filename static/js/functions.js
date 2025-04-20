@@ -263,6 +263,20 @@ $(document).ready(function () {
         const thisElement = $(this).data("click");
         $(thisElement).click();
     });
+
+    // Cargar archivo #####################################################
+    $('[data-change]').on("change", function () {
+        const fileName = $(this).prop("files")[0]?.name || "";
+        const targetSelector = $(this).data("change");
+
+        if (targetSelector) {
+            $(targetSelector).text(fileName).removeClass("opacity");
+
+            if ($(targetSelector).is("input, textarea")) {
+                $(targetSelector).val(fileName);
+            }
+        }
+    });
 });
 
 // Copy To Clipboard Function #####################################################
