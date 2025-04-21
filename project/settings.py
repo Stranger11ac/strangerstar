@@ -55,18 +55,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-LOCAL_DB = 'postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal'
-
-if not DEBUG:
-    DATABASE_URL = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb'
-    print("🏭 Producción: usando base de datos interna de Render.")
-else:
-    DATABASE_URL = LOCAL_DB
-    print("💻 Desarrollo: usando base de datos local.")
-
 DATABASES = {
-    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+    'default': dj_database_url.config(conn_max_age=600)
 }
+
+# LOCAL_DB = 'postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal'
+
+# if not DEBUG:
+#     DATABASE_URL = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb'
+#     print("🏭 Producción: usando base de datos interna de Render.")
+# else:
+#     DATABASE_URL = LOCAL_DB
+#     print("💻 Desarrollo: usando base de datos local.")
+
+# DATABASES = {
+#     'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+# }
 
 # LOCAL_DB = 'postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal'
 # DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb'
