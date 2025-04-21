@@ -56,10 +56,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 LOCAL_DB = 'postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal'
-DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a.oregon-postgres.render.com/strangerdb'
+DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb'
 
 if not DEBUG:
-    DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb'
+    DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a.oregon-postgres.render.com/strangerdb'
     print("🏭 Producción: usando base de datos interna de Render.")
 
 try:
