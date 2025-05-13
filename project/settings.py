@@ -60,13 +60,12 @@ DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8id
 
 if not DEBUG:
     DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb'
-    print("🏭 Producción: usando base de datos interna de Render.")
+    print("🏭 Producción: usando base de datos interna de Render. Debug:", DEBUG)
 
 try:
     DATABASES = {
         'default': dj_database_url.config(default=DEFDB, conn_max_age=600)
     }
-    print("⚡ DEBUG=True, conectado a base de datos EXTERNA en Render.")
 except Exception as e:
     DATABASES = {
         'default': dj_database_url.config(default=LOCAL_DB, conn_max_age=600)
@@ -83,7 +82,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-mx'
 TIME_ZONE = 'America/Mexico_City'
-
 USE_I18N = True
 USE_TZ = True
 

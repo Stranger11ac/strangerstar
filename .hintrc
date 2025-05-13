@@ -3,12 +3,11 @@
     "development"
   ],
   "hints": {
-    "compat-api/css": "off",
-    "no-inline-styles": "off"
-  },
-  "browserslist": [
-    "defaults",
-    "not ie 11",
-    "not ios_saf <= 15.8"
-  ]
+    "axe/name-role-value": [
+      "default",
+      {
+        "button-name": "off"
+      }
+    ]
+  }
 }

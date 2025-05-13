@@ -131,7 +131,7 @@
                             <th class="center_i">#</th>
                             <th>Usuario</th>
                             <th>Nombre</th>
-                            <th>grupo</th>
+                            <th>Rango</th>
                             <th>Distintivo</th>
                             <th>No. Lista</th>
                             <th></th>
@@ -142,7 +142,7 @@
                         <tr id="row-user_{{ oneuser.id }}">
                             <td class="center_i">{{ oneuser.id }}</td>
                             <td class="username">
-                                <div class="mt-10 {% if not oneuser.is_active %}radius orange{% endif %} p-5"> {{ oneuser.username }} </div>
+                                <div class="{% if not oneuser.is_active %}radius orange{% endif %} p-5"> {{ oneuser.username }} </div>
                             </td>
                             <td>{{ oneuser.first_name }} {{ oneuser.last_name }}</td>
                             <td>
