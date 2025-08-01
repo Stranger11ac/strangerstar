@@ -11,6 +11,16 @@ cargo --version
 ```
 
 ### Entorno Virtual
+
+Antes de ejecutar el entorno virtual, para mas comodidad se recomienda tener registrado los scripts de python en las **variables de entorno del sistema** (Path) y de esta forma poder ejecutar los modulos de python sin necesidad de invocar python directamente. Ejemplo de direccion de scripts de python:
+```bash
+C:\Users\username\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13\LocalCache\local-packages\Python313\Scripts
+```
+Ademas de ello se requiere cambiar la politica de ejecución de scripts está restringida por seguridad de **PowerShell** ya que esto impide que la terminal pueda ejecutar scripts de forma nativa, esta configuracion no permite que el entorno virtual este activo constante mente, para cambiarlo ejecute lo siguiente:
+```bash
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
 Configura el entorno virtual para instalar las dependencias de python.
 ```bash
 pip install virtualenv
