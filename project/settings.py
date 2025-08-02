@@ -55,19 +55,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-LOCAL_DB = 'postgres://postgres:L0c4lP$SS@localhost:5432/postgres'
-DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a.oregon-postgres.render.com/strangerdb'
 
 if DEBUG:
     print("🧪 Desarrollo: usando base de datos LOCAL. Debug:", DEBUG)
-    DATABASES = {
-        'default': dj_database_url.parse(LOCAL_DB, conn_max_age=600)
-    }
+    DEFDB = 'postgres://postgres:L0c4lP$SS@localhost:5432/postgres'
 else:
     print("🏭 Producción: usando base de datos de Render. Debug:", DEBUG)
-    DATABASES = {
-        'default': dj_database_url.parse(DEFDB, conn_max_age=600)
-    }
+    DEFDB = 'postgresql://strangerstartdb_user:ucD4JWZb4iaziTQMFRgr4UOV4ZNAXUgI@dpg-d26q8nmuk2gs73cali4g-a/strangerstartdb'
+
+DATABASES = {
+    'default': dj_database_url.parse(DEFDB, conn_max_age=600)
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
