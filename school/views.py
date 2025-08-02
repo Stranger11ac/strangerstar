@@ -1,6 +1,6 @@
+from .functions import group_required, create_newuser, icons_list
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
-from .functions import group_required, create_newuser
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import logout
@@ -62,10 +62,11 @@ def singuppage(request):
 @group_required('admin')
 def admin_dashboard(request):
     users_objects = User.objects.all().order_by('-id').select_related('userprofile').prefetch_related('groups')
-    
+    get_icons_list = icons_list()
     return render(request, 'dash_admin.html', {
         'user': request.user,
         'users_list': users_objects,
+        'icons_list': get_icons_list,
     })
 
 @never_cache

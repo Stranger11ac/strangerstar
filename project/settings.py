@@ -55,23 +55,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-LOCAL_DB = 'postgres://postgres:Stranger11iND4NCE5!@localhost:5432/strgdblocal'
+LOCAL_DB = 'postgres://postgres:L0c4lP$SS@localhost:5432/postgres'
 DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a.oregon-postgres.render.com/strangerdb'
 
-if not DEBUG:
-    DEFDB = 'postgresql://strangeruser:lrZgEBmbShMyNGa7UYIHa8vdsyNMUAlx@dpg-d01kl8idbo4c738s0m2g-a/strangerdb'
-    print("🏭 Producción: usando base de datos interna de Render. Debug:", DEBUG)
-
-try:
+if DEBUG:
+    print("🧪 Desarrollo: usando base de datos LOCAL. Debug:", DEBUG)
     DATABASES = {
-        'default': dj_database_url.config(default=DEFDB, conn_max_age=600)
+        'default': dj_database_url.parse(LOCAL_DB, conn_max_age=600)
     }
-except Exception as e:
+else:
+    print("🏭 Producción: usando base de datos de Render. Debug:", DEBUG)
     DATABASES = {
-        'default': dj_database_url.config(default=LOCAL_DB, conn_max_age=600)
+        'default': dj_database_url.parse(DEFDB, conn_max_age=600)
     }
-    print("⚠️ No se pudo conectar a la base externa. Usando base de datos LOCAL.")
-    print(f"Error: {e}")
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
