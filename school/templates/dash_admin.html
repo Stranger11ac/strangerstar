@@ -346,8 +346,7 @@
 <div class="fixed flexbox-center" id="modalUser">
     <form id="updateUser" class="modal" method="POST" action="{% url 'user_update' %}" data-submit data-validupuser data-reset="false">
         <div class="modal_header center">
-            <h3>Actualizar Datos</h3>
-            <h2 id="upUser">Stranger11</h2>
+            <h2>Actualizar Datos</h2>
         </div>
         <div class="modal_body flexbox flex-column gap_20">
             {% csrf_token %}
@@ -412,8 +411,7 @@
 <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 <script src="{% static 'js/validate.js' %}"></script>
 <script src="{% static 'js/submit.js' %}"></script>
-<script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu" crossorigin="anonymous"></script>
 <script src="{% static 'js/datatable.js' %}"></script>
 <script src="{% static 'js/forms.js' %}"></script>
 {% endblock %}

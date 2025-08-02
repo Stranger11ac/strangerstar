@@ -61,7 +61,6 @@ $(document).ready(function () {
             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
         })
             .done(function (response) {
-                $("#upUser").text(response.username);
                 $("#up_user_id").val($userId);
 
                 $("#up_first_name").val(response.first_name);
