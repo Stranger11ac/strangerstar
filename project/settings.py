@@ -1,14 +1,21 @@
 from pathlib import Path
 import dj_database_url
+import environ
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.environ.get('SECRET_KEY', default='StrangerStraSecretKey11121212121212000HG@!->tdv')
-DEBUG = 'RENDER' not in os.environ
+env = environ.Env(DEBUG=(bool, True), ALLOWED_HOSTS=(list, []))
+env.read_env(BASE_DIR / '.env')
 
+SECRET_KEY = env('DJ_SECRET_KEY', default='django-secure-dwkz!xn+ahpk*ah)69dvo3x6@xw%^$u3du-ia$zjf^_(w+9r2b')
+DEBUG = env('DEBUG')
 ALLOWED_HOSTS = []
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if not DEBUG:
+    ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+
+# Soporte para Render.com
+RENDER_EXTERNAL_HOSTNAME = env("RENDER_EXTERNAL_HOSTNAME", default=None)
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
