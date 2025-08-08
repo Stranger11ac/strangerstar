@@ -17,32 +17,42 @@ def forgotten(request):
 @never_cache
 def singup(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        first_name_post = request.POST.get('first_name').lower()
-        last_name_post = request.POST.get('last_name').lower()
-        num_list_post = request.POST.get('num_list')[:10]
+        first_name_post = (request.POST.get('first_name') or '').strip().lower()
+        last_name_post = (request.POST.get('last_name') or '').strip().lower()
+        num_list_raw = request.POST.get('num_list') or ''
+        num_list_post = num_list_raw[:10]
         insignia_post = request.POST.get('insignia')
         group_post = request.POST.get('rol')
 
-        if insignia_post:
-            existing_numbers = UserProfile.objects.filter(insignia=insignia_post).values_list('num_list', flat=True)
-            if existing_numbers:
-                print(f"Existing numbers for insignia '{insignia_post}':{existing_numbers} - ({num_list_post})")
-                if num_list_post in existing_numbers:
-                    num_list_post = int(max(existing_numbers, default=0)) + 1
+        try:
+            num_list_int = int(num_list_post) if num_list_post != '' else None
+        except (ValueError, TypeError):
+            num_list_int = None
 
-        password_new = first_name_post.split()[0] + last_name_post.split()[0] + (str(num_list_post) if num_list_post else '')
+        if insignia_post:
+            existing_numbers_qs = UserProfile.objects.filter(insignia=insignia_post).values_list('num_list', flat=True)
+            existing_numbers = [n for n in existing_numbers_qs if n is not None]
+            if existing_numbers and num_list_int is not None:
+                print(f"Existing numbers for insignia '{insignia_post}':{existing_numbers} - ({num_list_int})")
+
+                if num_list_int in existing_numbers:
+                    num_list_int = int(max(existing_numbers, default=0)) + 1
+
+        # proteger split()[0] frente a strings vacíos
+        fn0 = first_name_post.split()[0] if first_name_post.split() else first_name_post
+        ln0 = last_name_post.split()[0] if last_name_post.split() else last_name_post
+        password_new = fn0 + ln0 + (str(num_list_int) if num_list_int is not None else '')
 
         user_new = request.POST.get('username')
         now = datetime.today().strftime('%Y%m%d')
         nowtime = datetime.now().strftime('%H%M%S')
 
         if not user_new:
-            user_new = first_name_post.split()[0] + last_name_post.split()[0] + str(num_list_post)
-            if not group_post == 'student':
+            user_new = fn0 + ln0 + (str(num_list_int) if num_list_int is not None else '')
+            if group_post != 'student':
                 user_new = user_new + str(nowtime)
 
-        
-        uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + now
+        uid_new = first_name_post[:5] + (str(num_list_int) if num_list_int is not None else '') + str(insignia_post) + now
 
         response = create_newuser(
             first_name = first_name_post,
@@ -53,11 +63,11 @@ def singup(request):
             is_active = request.POST.get('is_active') in ['true', '1', 'True', 'on'],
             group = group_post,
             insignia = insignia_post,
-            num_list = num_list_post if not group_post == 'student' else None,
+            num_list = num_list_int if group_post == 'student' else None,
             uid = uid_new
         )
         
-        status = 200 if response['datastatus'] else 400
+        status = 200 if response.get('datastatus') else 400
         return JsonResponse(response, status=status)
 
 def singuppage(request):

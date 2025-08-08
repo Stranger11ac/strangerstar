@@ -72,8 +72,8 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
             aviso = '<br>Tu cuenta está <u>Desactivada</u> 😯😬'
         return {'datastatus': True, 'message': f'Usuario creado exitosamente 🥳🎈 {aviso}'}
     
-    except IntegrityError:
-            return {'datastatus': False, 'message': 'Error de integridad en la base de datos. Posible duplicado de datos.'}
+    # except IntegrityError:
+    #         return {'datastatus': False, 'message': 'Error de integridad en la base de datos. Posible duplicado de datos.'}
 
     except Exception as e:
         return {'datastatus': False, 'message': f'Ocurrió un error inesperado: {str(e)}'}
