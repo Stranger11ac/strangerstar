@@ -27,7 +27,7 @@ def group_required(group_name):
 
 def create_newuser(first_name, last_name, username, password1, email=None, password2=None, is_staff=False, is_active=False, group=None, insignia=None, num_list=None, uid=None):
     try:
-        allowed_groups = ['admin', 'professor', 'student']
+        allowed_groups = ['admin', 'professor', 'student', 'systems']
         group = group if group in allowed_groups else 'student'
 
         if User.objects.filter(username=username).exists():

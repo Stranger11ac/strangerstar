@@ -72,6 +72,7 @@
                         <select name="rol" id="rol" class="input valinput" title="rol de usuario">
                             <option selected hidden disabled>Roles:</option>
                             <option value="admin">Administracion</option>
+                            <option value="systems">Soporte</option>
                             <option value="professor">Profesorado</option>
                             <option value="student">Estudiante</option>
                         </select>
@@ -155,8 +156,10 @@
                                 <span class="orange radius-inset p-5">Profesor</span>
                                 {% elif oneuser.groups.first.name == "admin" %}
                                 <span class="detail radius-inset p-5">Admin</span>
+                                {% elif oneuser.groups.first.name == "systems" %}
+                                <span class="purple radius-inset p-5">Soporte</span>
                                 {% else %}
-                                <div class="blue radius-inset p-5">Desconocido ({{oneuser.groups.first.name}})</div>
+                                <span class="blue radius-inset p-5">{{oneuser.groups.first.name|default:"Sin Grupo"}}</span>
                                 {% endif %}
                             </td>
                             <td>{{ oneuser.userprofile.insignia|default:"-" }}</td>

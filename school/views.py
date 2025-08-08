@@ -9,11 +9,11 @@ from django.shortcuts import render
 from .models import UserProfile
 from datetime import datetime
 
+# Administracion ----------------------------------------------------------
 def forgotten(request):
     logout(request)
     return render(request, 'forgotten.html', {})
 
-# Administracion ----------------------------------------------------------
 @never_cache
 def singup(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -21,11 +21,12 @@ def singup(request):
         last_name_post = request.POST.get('last_name').lower()
         num_list_post = request.POST.get('num_list')[:10]
         insignia_post = request.POST.get('insignia')
+        group_post = request.POST.get('rol')
 
         if insignia_post:
             existing_numbers = UserProfile.objects.filter(insignia=insignia_post).values_list('num_list', flat=True)
             if existing_numbers:
-                print(existing_numbers)
+                print(f"Existing numbers for insignia '{insignia_post}':{existing_numbers} - ({num_list_post})")
                 if num_list_post in existing_numbers:
                     num_list_post = int(max(existing_numbers, default=0)) + 1
 
@@ -33,9 +34,13 @@ def singup(request):
 
         user_new = request.POST.get('username')
         now = datetime.today().strftime('%Y%m%d')
+        nowtime = datetime.now().strftime('%H%M%S')
 
         if not user_new:
             user_new = first_name_post.split()[0] + last_name_post.split()[0] + str(num_list_post)
+            if not group_post == 'student':
+                user_new = user_new + str(nowtime)
+
         
         uid_new = first_name_post[:5] + (str(num_list_post) if num_list_post else '') + str(insignia_post) + now
 
@@ -46,9 +51,9 @@ def singup(request):
             email = request.POST.get('email'),
             password1 = password_new,
             is_active = request.POST.get('is_active') in ['true', '1', 'True', 'on'],
-            group = request.POST.get('rol'),
+            group = group_post,
             insignia = insignia_post,
-            num_list = num_list_post,
+            num_list = num_list_post if not group_post == 'student' else None,
             uid = uid_new
         )
         
@@ -144,6 +149,9 @@ def user_update(request):
                 if rol == "admin":
                     admin_group = Group.objects.get(name="admin")
                     user.groups.add(admin_group)
+                elif rol == "systems":
+                    systems_group = Group.objects.get(name="systems")
+                    user.groups.add(systems_group)
                 elif rol == "student":
                     student_group = Group.objects.get(name="student")
                     user.groups.add(student_group)
@@ -171,7 +179,6 @@ def user_delete(request):
         user.delete()
         return JsonResponse({"datastatus": True, "message": f"Usuario {user.username} eliminado correctamente."})
     return JsonResponse({"datastatus": False, "message": "Solicitud inválida."})
-
 
 @never_cache
 @group_required('admin')
