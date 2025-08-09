@@ -1,0 +1,32 @@
+{
+  "name": "strangerstar",
+  "version": "1.0.0",
+  "description": "Personal portfolio featuring local applications and backend projects built with Python. (Deploy in RENDER.com)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    // --watch create a constant view changes in sass files
+    "sass": "sass --watch static/scss:static/css"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stranger11ac/strangerstar.git"
+  },
+  "keywords": [
+    "NPM",
+    "python",
+    "Django",
+    "Gulp"
+  ],
+  "author": "Salvador Hernandez Cepeda @stranger11ac",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Stranger11ac/strangerstar/issues"
+  },
+  "homepage": "https://github.com/Stranger11ac/strangerstar#readme",
+  "devDependencies": {
+    "gulp": "^5.0.1",
+    "sass": "^1.90.0"
+  }
+}

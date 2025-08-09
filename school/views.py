@@ -31,12 +31,13 @@ def singup(request):
 
         if insignia_post:
             existing_numbers_qs = UserProfile.objects.filter(insignia=insignia_post).values_list('num_list', flat=True)
-            existing_numbers = [n for n in existing_numbers_qs if n is not None]
+            existing_numbers = [int(n) for n in existing_numbers_qs if n and str(n).isdigit()]
             if existing_numbers and num_list_int is not None:
                 print(f"Existing numbers for insignia '{insignia_post}':{existing_numbers} - ({num_list_int})")
 
                 if num_list_int in existing_numbers:
                     num_list_int = int(max(existing_numbers, default=0)) + 1
+                    print(f"Updated num_list_int to {num_list_int} for insignia '{insignia_post}'")
 
         # proteger split()[0] frente a strings vacíos
         fn0 = first_name_post.split()[0] if first_name_post.split() else first_name_post
@@ -44,15 +45,13 @@ def singup(request):
         password_new = fn0 + ln0 + (str(num_list_int) if num_list_int is not None else '')
 
         user_new = request.POST.get('username')
-        now = datetime.today().strftime('%Y%m%d')
-        nowtime = datetime.now().strftime('%H%M%S')
 
         if not user_new:
             user_new = fn0 + ln0 + (str(num_list_int) if num_list_int is not None else '')
             if group_post != 'student':
-                user_new = user_new + str(nowtime)
+                user_new += datetime.now().strftime('%H%M%S')
 
-        uid_new = first_name_post[:5] + (str(num_list_int) if num_list_int is not None else '') + str(insignia_post) + now
+        uid_new = first_name_post[:5] + (str(num_list_int) if num_list_int is not None else '') + str(insignia_post) + datetime.today().strftime('%Y%m%d')
 
         response = create_newuser(
             first_name = first_name_post,

@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    let table = $("#usersTable").DataTable({
+    $("#usersTable").DataTable({
         lengthChange: false,
-        // pageLength: 8, // Cantidad de registros por página
-        order: [[0, "asc"]], // Ordenar por ID de forma ascendente
+        pageLength: 8, // Cantidad de registros por página
+        order: [[0, "desc"]], // Ordenar por ID de forma ascendente
         columnDefs: [
             { orderable: false, targets: 6 }, // Desactiva ordenación en la columna 6
             { searchable: false, targets: [0, 6] }, // Desactiva búsqueda en las columnas

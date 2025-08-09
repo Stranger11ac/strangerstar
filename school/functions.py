@@ -9,7 +9,6 @@ from django.db import transaction
 from .models import UserProfile
 from functools import wraps
 import csv
-import io
 
 def group_required(group_name):
     """
@@ -44,8 +43,8 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
         new_user = User.objects.create_user(
             first_name = first_name.strip().lower(),
             last_name = last_name.strip().lower(),
-            username = username.strip(),
-            email = email.strip(),
+            username = username.strip().lower(),
+            email = email.strip().lower(),
             password = password1,
             is_staff = is_staff,
             is_active = is_active,
@@ -55,9 +54,9 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
 
         # Actualizar UserProfile con los nuevos campos
         user_profile = UserProfile.objects.get(user=new_user)
-        user_profile.insignia = insignia
-        user_profile.num_list = num_list
-        user_profile.uid = uid
+        user_profile.insignia = insignia.strip().lower()
+        user_profile.num_list = num_list.strip().lower()
+        user_profile.uid = uid.strip().lower()
         user_profile.save()
 
         if not Group.objects.filter(name=group).exists():
@@ -72,8 +71,8 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
             aviso = '<br>Tu cuenta está <u>Desactivada</u> 😯😬'
         return {'datastatus': True, 'message': f'Usuario creado exitosamente 🥳🎈 {aviso}'}
     
-    # except IntegrityError:
-    #         return {'datastatus': False, 'message': 'Error de integridad en la base de datos. Posible duplicado de datos.'}
+    except IntegrityError:
+            return {'datastatus': False, 'message': 'Error de integridad en la base de datos. Posible duplicado de datos.'}
 
     except Exception as e:
         return {'datastatus': False, 'message': f'Ocurrió un error inesperado: {str(e)}'}
