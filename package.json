@@ -2,12 +2,12 @@
   "name": "strangerstar",
   "version": "1.0.0",
   "description": "Personal portfolio featuring local applications and backend projects built with Python. (Deploy in RENDER.com)",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    // --watch create a constant view changes in sass files
+    "css": "gulp css",
+    "dev": "gulp watchFiles",
     "sass": "sass --watch static/scss:static/css"
-
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/Stranger11ac/strangerstar#readme",
   "devDependencies": {
     "gulp": "^5.0.1",
+    "gulp-sass": "^6.0.1",
     "sass": "^1.90.0"
   }
 }
