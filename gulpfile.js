@@ -3,7 +3,7 @@ import * as dartSass from "sass";
 import gulpSass from "gulp-sass";
 import terser from "gulp-terser";
 import rename from "gulp-rename";
-import cleanCSS from "gulp-clean-css";
+import cssnano from "cssnano";
 
 const sass = gulpSass(dartSass);
 export function scss(done) {
@@ -17,7 +17,7 @@ export function scss(done) {
 export function css(done) {
     src("src/css/**/*.css", { sourcemaps: true })
         .pipe(sass().on("error", sass.logError))
-        .pipe(cleanCSS({ level: 1 }))
+        .pipe(postcss([cssnano({ preset: "default" })]))
         .pipe(rename({ suffix: ".min" }))
         .pipe(dest("static/css", { sourcemaps: "." }));
 
