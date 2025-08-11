@@ -61,15 +61,7 @@
     --gradient_blue-purple: linear-gradient(45deg, #af40ff, #5b42f3 50%, #00ddeb);
     --gradient_blue-sky: linear-gradient(to top, #30cfd0 0%, #330867 100%);
     --purple-blue-green: linear-gradient(45deg, #fa8bff 0%, #2bd2ff 52%, #2bff88 90%);
-    --rainbow-cacke: linear-gradient(
-        45deg,
-        rgba(196, 69, 69, 1) 9.2%,
-        rgba(255, 167, 73, 0.82) 25%,
-        rgba(253, 217, 82, 0.82) 43.4%,
-        rgba(107, 225, 108, 0.82) 58.2%,
-        rgba(107, 169, 225, 0.82) 75.1%,
-        rgba(153, 41, 243, 0.82) 87.3%
-    );
+    --rainbow-cacke: linear-gradient(45deg,rgba(196, 69, 69, 1) 9.2%,rgba(255, 167, 73, 0.82) 25%,rgba(253, 217, 82, 0.82) 43.4%,rgba(107, 225, 108, 0.82) 58.2%,rgba(107, 169, 225, 0.82) 75.1%,rgba(153, 41, 243, 0.82) 87.3%);
     --rainbow: linear-gradient(45deg, rgba(255, 26, 1, 1) 28.9%, rgba(254, 155, 1, 1) 33%, rgba(255, 241, 0, 1) 48.6%, rgba(34, 218, 1, 1) 65.3%, rgba(0, 141, 254, 1) 80.6%, rgba(113, 63, 254, 1) 100.1%);
 
     --main-icon_url: url("../img/main_icon.webp");

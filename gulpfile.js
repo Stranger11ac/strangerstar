@@ -36,6 +36,7 @@ export function js(done) {
 
 export function watchFiles() {
     watch("src/scss/**/*.scss", scss);
+    watch("src/css/**/*.css", css);
     watch("src/js/**/*.js", js);
 }
 
