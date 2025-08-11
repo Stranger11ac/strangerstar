@@ -9,8 +9,8 @@
     <title>{% block titlefirst %}Inicio{% endblock %} | Stranger Star {% block titleend %}{% endblock %}</title>
     <meta name="author" content="Ing. Salvador Alejandro Hernandez Cepeda" />
 
-    <link rel="stylesheet" href="{% static 'css/globals.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/globals.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/icons.min.css' %}" />
 
     <link rel="stylesheet" href="{% static 'libraries/nano.min.css' %}" />
     <script>
@@ -118,7 +118,7 @@
     {% block endContent %}{% endblock %}
 
     <script src="{% static 'libraries/libraries.min.js' %}"></script>
-    <script src="{% static 'js/functions.js' %}"></script>
+    <script src="{% static 'js/functions.min.js' %}"></script>
     {% block scriptsextra %}{% endblock %}
 </body>
 

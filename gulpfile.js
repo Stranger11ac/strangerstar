@@ -17,7 +17,7 @@ export function scss(done) {
 export function css(done) {
     src("src/css/**/*.css", { sourcemaps: true })
         .pipe(sass().on("error", sass.logError))
-        .pipe(cleanCSS({ level: 2 }))
+        .pipe(cleanCSS({ level: 1 }))
         .pipe(rename({ suffix: ".min" }))
         .pipe(dest("static/css", { sourcemaps: "." }));
 

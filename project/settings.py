@@ -64,10 +64,10 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 if DEBUG:
-    print("🧪 Desarrollo: usando base de datos LOCAL. Debug:", DEBUG)
+    print("-- Desarrollo: usando base de datos LOCAL. Debug:", DEBUG)
     DEFDB = 'postgres://postgres:L0c4lP$SS@localhost:5432/strangerstar_school'
 else:
-    print("🏭 Producción: usando base de datos de Render. Debug:", DEBUG)
+    print("-- Producción: usando base de datos de Render. Debug:", DEBUG)
     DEFDB = 'postgresql://strangerstartdb_user:ucD4JWZb4iaziTQMFRgr4UOV4ZNAXUgI@dpg-d26q8nmuk2gs73cali4g-a/strangerstartdb'
 
 DATABASES = {

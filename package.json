@@ -10,7 +10,7 @@
     "watchFiles": "gulp watchFiles",
     "sass": "sass --watch static/scss:static/css",
     "django": "python manage.py runserver",
-    "start": "npm-run-all --parallel dev django"
+    "start": "concurrently \"npm run dev\" \"npm run django\""
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/Stranger11ac/strangerstar#readme",
   "devDependencies": {
+    "concurrently": "^9.2.0",
     "gulp": "^5.0.1",
     "gulp-clean-css": "^4.3.0",
     "gulp-rename": "^2.1.0",
