@@ -265,7 +265,7 @@ $(document).ready(function () {
     });
 
     // Cargar archivo #####################################################
-    $('[data-change]').on("change", function () {
+    $("[data-change]").on("change", function () {
         const fileName = $(this).prop("files")[0]?.name || "";
         const targetSelector = $(this).data("change");
 
@@ -545,3 +545,11 @@ var expressions = {
     title: /^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9\s\-_#]*$/,
     number: /^[0-9]+$/,
 };
+
+console.log(navigator.userAgent);
+console.log(navigator.language);
+console.log(navigator.platform);
+console.log(screen.width, screen.height);
+fetch("https://api.ipify.org?format=json")
+  .then(res => res.json())
+  .then(data => console.log("Tu IP pública es:", data.ip));

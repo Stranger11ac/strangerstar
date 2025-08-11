@@ -3,13 +3,12 @@
 {% block titlefirst %} Administracion | {{user}} | Dashboard {% endblock %}
 
 {% block linksextra %}
-<link rel="stylesheet" href="{% static 'css/aside.css' %}" />
-<link rel="stylesheet" href="{% static 'css/grid.css' %}" />
+<link rel="stylesheet" href="{% static 'css/aside.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/grid.min.css' %}" />
 <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}" />
 <link rel="stylesheet" href="{% static 'css/dt.css' %}" />
 {% endblock %}
 
-{% block bodyclass %}update_link{% endblock %}
 {% block navlinks %}
 <a href="#tabHome" class="link_item" data-toggle-tab="tabHome"> <span class="ic-solar home-angle"></span><span class="link_item-title">Inicio</span></a>
 <a href="#tabMap" class="link_item" data-toggle-tab="tabMap"> <span class="ic-solar map"></span><span class="link_item-title">Mapa</span></a>
@@ -32,9 +31,6 @@
 </button>
 {% endblock %}
 
-{% block sectparentclass %}flexbox gap{% endblock %}
-{% block sectchildid %}id="containerTabs"{% endblock %}
-{% block sectchildclass %}container transparent{% endblock %}
 {% block aside %}
 <aside id="userAside" class="container close" data-listening="scroll">
     <button type="button" id="close_aside" class="btn btn-second btn-hover btn-icon" data-toggle="aside-close" title="Cerrar Aside">
@@ -409,12 +405,13 @@
 {% endblock %}
 
 {% block scriptsextra %}
-<script src="{% static 'js/tabs.js' %}"></script>
-<script src="{% static 'js/aside.js' %}"></script>
+<script src="{% static 'js/tabs.min.js' %}"></script>
+<script src="{% static 'js/aside.min.js' %}"></script>
+<script src="{% static 'js/submit.min.js' %}"></script>
+
 <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 <script src="{% static 'js/validate.js' %}"></script>
-<script src="{% static 'js/submit.js' %}"></script>
+<script src="{% static 'js/forms.js' %}"></script>
 <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu" crossorigin="anonymous"></script>
 <script src="{% static 'js/datatable.js' %}"></script>
-<script src="{% static 'js/forms.js' %}"></script>
 {% endblock %}

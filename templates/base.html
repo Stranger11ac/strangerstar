@@ -24,7 +24,7 @@
     {% block linksextra %}{% endblock %}
 </head>
 
-<body class="{% block bodyclass %}{% endblock %} unload" data-color="dynamic" data-menu-direction="vertical" {% block bodyAttr %}{% endblock %}>
+<body class="{% block bodyclass %}update_link{% endblock %} unload" data-color="dynamic" data-menu-direction="vertical" {% block bodyAttr %}{% endblock %}>
     <script>
         if (storageColor) {
             document.querySelector("body").setAttribute("data-color", storageColor);
@@ -54,10 +54,10 @@
         <span class="nav_links_shadow"></span>
     </nav>
     <button type="button" class="overlay" title="cerrar menu" data-close data-second></button>
-    <section class="{% block sectparentclass %}{% endblock %}">
+    <section class="{% block sectparentclass %}flexbox gap{% endblock %}">
         {% block aside %}{% endblock %}
 
-        <section {% block sectchildid %}{% endblock %} class="{% block sectchildclass %}container{% endblock %}">
+        <section {% block sectchildid %}id="containerTabs"{% endblock %} class="{% block sectchildclass %}container transparent{% endblock %}">
             {% block main %}{% endblock %}
 
             <div class="settings_box hidden">

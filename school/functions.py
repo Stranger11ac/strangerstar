@@ -39,6 +39,10 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
         if is_superuser:
             is_staff = True
 
+        is_system = (group == 'systems')
+        if is_system:
+            is_staff = True
+
         # Crear usuario
         new_user = User.objects.create_user(
             first_name = first_name.strip().lower(),
@@ -55,8 +59,8 @@ def create_newuser(first_name, last_name, username, password1, email=None, passw
         # Actualizar UserProfile con los nuevos campos
         user_profile = UserProfile.objects.get(user=new_user)
         user_profile.insignia = insignia.strip().lower()
-        user_profile.num_list = num_list.strip().lower()
         user_profile.uid = uid.strip().lower()
+        user_profile.num_list = num_list
         user_profile.save()
 
         if not Group.objects.filter(name=group).exists():
