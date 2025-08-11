@@ -35,8 +35,8 @@ export function js(done) {
 }
 
 export function watchFiles() {
-    watch("static/scss/**/*.scss", scss);
-    watch("static/js/**/*.js", js);
+    watch("src/scss/**/*.scss", scss);
+    watch("src/js/**/*.js", js);
 }
 
 // Este se ejecuta al mandar llamar `gulp` en el pakage.json
