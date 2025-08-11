@@ -2,28 +2,41 @@ import { src, dest, watch, series } from "gulp";
 import * as dartSass from "sass";
 import gulpSass from "gulp-sass";
 import terser from "gulp-terser";
+import rename from "gulp-rename";
+import cleanCSS from "gulp-clean-css";
 
 const sass = gulpSass(dartSass);
+export function scss(done) {
+    src("src/scss/app.scss", { sourcemaps: true })
+        .pipe(sass({ outputStyle: "compressed" }).on("error", sass.logError))
+        .pipe(dest("static/css", { sourcemaps: "." }));
+
+    done();
+}
+
 export function css(done) {
-    src("static/scss/**/*.scss", { sourcemaps: true })
-        .pipe(sass({outputStyle: "compressed"}).on("error", sass.logError))
-        .pipe(dest("static/css"), { sourcemaps: "." });
+    src("src/css/**/*.css", { sourcemaps: true })
+        .pipe(sass().on("error", sass.logError))
+        .pipe(cleanCSS({ level: 2 }))
+        .pipe(rename({ suffix: ".min" }))
+        .pipe(dest("static/css", { sourcemaps: "." }));
 
     done();
 }
 
 export function js(done) {
-    src("static/functions/**/*.js")
+    src("src/js/**/*.js")
         .pipe(terser())
         .on("error", function(err) {console.error("Error in compressing JS:", err.toString());})
-        .pipe(dest("static/js"));
+        .pipe(rename({ suffix: ".min" }))
+        .pipe(dest("static/js", { sourcemaps: "." }));
 
     done();
 }
 
 export function watchFiles() {
-    watch("static/scss/**/*.scss", css);
-    watch("static/functions/**/*.js", js);
+    watch("static/scss/**/*.scss", scss);
+    watch("static/js/**/*.js", js);
 }
 
 // Este se ejecuta al mandar llamar `gulp` en el pakage.json
