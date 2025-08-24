@@ -1536,6 +1536,9 @@ table.table_even {
 .maxw-600 {
     max-width: 600px;
 }
+.maxw-800 {
+    max-width: 800px;
+}
 
 /* flexbox */
 .flexbox,

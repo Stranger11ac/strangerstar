@@ -16,8 +16,8 @@
 
 {% block sectchildclass %}container transparent{% endblock %}
 {% block main %}
-<div class="content flexbox gap2 flex-column last-padding">
-    <form class="content_form gap_15" method="POST" action="{% url 'singup' %}" data-submit data-validuser>
+<div class="content flexbox-center flex-column last-padding">
+    <form class="content_form maxw-800 gap_15" method="POST" action="{% url 'singup' %}" data-submit data-validuser>
         <h3 class="center">Nuevo Usuario</h3>
         {% csrf_token %}
         <div class="input_group group_icon">
@@ -65,5 +65,5 @@
 {% block scriptsextra %}
 <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 <script src="{% static 'js/validate.js' %}"></script>
-<script src="{% static 'js/submit.js' %}"></script>
+<script src="{% static 'js/submit.min.js' %}"></script>
 {% endblock %}
