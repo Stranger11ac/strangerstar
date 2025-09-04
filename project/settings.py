@@ -4,7 +4,7 @@ import environ
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env(DEBUG=(bool, True), ALLOWED_HOSTS=(list, []))
+env = environ.Env(DEBUG=(bool, True), LOCAL_HOSTS=(list, []))
 env.read_env(BASE_DIR / '.env')
 
 SECRET_KEY = env('DJ_SECRET_KEY', default='django-secure-dwkz!xn+ahpk*ah)69dvo3x6@xw%^$u3du-ia$zjf^_(w+9r2b')
@@ -12,7 +12,11 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = []
 
 if not DEBUG:
-    ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+    if env("DEPLOY_HOSTS"):
+        ALLOWED_HOSTS = env("DEPLOY_HOSTS")
+else:
+    if env("LOCAL_HOSTS"):
+        ALLOWED_HOSTS = env("LOCAL_HOSTS")
 
 # Soporte para Render.com
 RENDER_EXTERNAL_HOSTNAME = env("RENDER_EXTERNAL_HOSTNAME", default=None)
