@@ -1,0 +1,59 @@
+Para configurar github con dos cuentas se debe ejecutar lo siguiente en gitbash
+
+    # Llave personal
+    ssh-keygen -t ed25519 -C "salvahdzcep@gmail.com" -f ~/.ssh/id_ed25519_personal
+
+    # Llave laboral
+    ssh-keygen -t ed25519 -C "salvadorh@utc.edu.mx" -f ~/.ssh/id_ed25519_laboral
+
+
+Esto va a pedir un PASSPHRASE, la cual es opcional pero recomendable utilizarla.
+Despues se crean 2 archivo en la carpeta del usuario: "C:\Users\salva\.ssh"
+Las llaves se deben configurar en su respectivo perfil de github. Settings → SSH and GPG keys → New SSH key
+En gitbash ejecuta lo soguiente:
+
+    # Personal
+    cat ~/.ssh/id_ed25519_personal.pub
+
+    # Laboral
+    cat ~/.ssh/id_ed25519_laboral.pub
+
+
+El resultado de cada uno se pega en su respectiva cuenta.
+En la carpeta .ssh crea un archivo "config" (sin extension), este debe contener lo siguiente:
+
+    # Cuenta personal
+    Host github-personal
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/id_ed25519_personal
+        IdentitiesOnly yes
+
+    # Cuenta laboral
+    Host github-laboral
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/id_ed25519_laboral
+        IdentitiesOnly yes
+
+
+Cargar las llaves en el agente SSH, esto requiere que ya exista el archivo "config".
+Para activar el agente ssh debes ejecuta lo siguiente en SHELL Administrador:
+
+    Set-Service -Name ssh-agent -StartupType Automatic
+    Start-Service ssh-agent
+    Get-Service ssh-agent
+
+Con esto se cargan las llaves en el agente:
+
+    ssh-add $env:USERPROFILE\.ssh\id_ed25519_personal
+    ssh-add $env:USERPROFILE\.ssh\id_ed25519_laboral
+
+
+Al clonar un repositorio mediante SSH, en lugar de utilizar: 
+git@github.com:Stranger11ac/strangerstar.git
+
+se cambia por el alias a utilizar, en este caso la cuenta personal:
+git@github-personal:Stranger11ac/strangerstar.git
+
+git@github-personal respeta mayusculas y minusculas, y despues de ejecutar va a pedir la PASSPHRASE
