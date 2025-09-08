@@ -57,3 +57,5 @@ se cambia por el alias a utilizar, en este caso la cuenta personal:
 git@github-personal:Stranger11ac/strangerstar.git
 
 git@github-personal respeta mayusculas y minusculas, y despues de ejecutar va a pedir la PASSPHRASE
+
+utc@Ind$nce%!
