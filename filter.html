@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Buscador estilo Ctrl+F</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .highlight {
+            background: yellow;
+            /* Color de resaltado */
+            color: black;
+            font-weight: bold;
+        }
+
+        #buscador {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="buscador" placeholder="Buscar texto..." />
+
+    <p>Este es un ejemplo de párrafo. Puedes buscar palabras como <b>ejemplo</b>, <i>párrafo</i> o cualquier otra
+        coincidencia que exista en el texto.</p>
+
+    <script>
+        $(document).ready(function () {
+            function resaltar(texto) {
+                // 1. Limpia resaltados anteriores
+                $("body")
+                    .find("span.highlight")
+                    .each(function () {
+                        $(this).replaceWith($(this).text());
+                    });
+
+                if (texto.length > 0) {
+                    // 2. Crea una expresión regular con la búsqueda (case-insensitive)
+                    let regex = new RegExp("(" + texto + ")", "gi");
+
+                    // 3. Recorre los elementos de texto dentro del body
+                    $("body")
+                        .children()
+                        .each(function () {
+                            $(this).html($(this).html().replace(regex, "<span class='highlight'>$1</span>"));
+                        });
+                }
+            }
+
+            // Detecta cambios en el input
+            $("#buscador").on("input", function () {
+                let texto = $(this).val();
+                resaltar(texto);
+            });
+        });
+    </script>
+</body>
+
+</html>

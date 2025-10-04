@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <title>Hexágono giratorio (scroll pausa + resume)</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <style>
+            /* estilo base */
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                background: #111;
+                color: #eee;
+                font-family: Arial;
+            }
+            /* altura para poder hacer scroll (prueba) */
+            .spacer {
+                height: 250vh;
+            }
+
+            /* contenedor centrado */
+            .center {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* hexágono */
+            .hexagono {
+                width: 160px;
+                aspect-ratio: 1/1;
+                clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+                background: linear-gradient(135deg, #00f2fe, #4facfe);
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 -6px 18px rgba(0, 0, 0, 0.15);
+                will-change: transform;
+                transform-origin: 50% 50%;
+                width: 160px;
+                height: 160px;
+            }
+
+            /* pequeño texto explicativo */
+            .info {
+                position: fixed;
+                left: 12px;
+                bottom: 12px;
+                font-size: 13px;
+                opacity: 0.9;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="spacer"></div>
+
+        <div class="center">
+            <div class="hexagono" id="hex"></div>
+        </div>
+
+        <div class="info">
+            <div>Scroll para pausar y controlar la rotación. Vuelve solo después de 60s.</div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script>
+            $(function () {
+                const $hex = $("#hex");
+
+                // estado
+                let currentAngle = 0; // grados
+                let isManual = false; // true cuando el usuario controla con scroll
+                let lastScrollY = $(window).scrollTop();
+                let resumeTimer = null;
+
+                // RAF
+                let rafId = null;
+                let lastFrameTime = null;
+
+                // ajustes (ajusta a tu gusto)
+                const AUTO_SPEED_DEG_PER_SEC = 72; // 360deg cada 5s => 72 deg/s (rotación automática CW)
+                const SCROLL_SENSITIVITY = 0.09; // grados por pixel de scroll (mayor => gira más con el mismo scroll)
+                const RESUME_DELAY_MS = 6000; // 60s sin scroll para reanudar auto-rotación
+
+                // aplica la rotación al elemento (siempre con un número razonable)
+                function applyAngle(a) {
+                    // normalizar para evitar overflow
+                    currentAngle = ((a % 360) + 360) % 360;
+                    $hex.css("transform", `rotate(${currentAngle}deg)`);
+                }
+
+                // bucle de rotación automática (sentido horario)
+                function startAutoRotate() {
+                    if (rafId) return; // ya corriendo
+                    lastFrameTime = performance.now();
+                    function step(now) {
+                        const dt = (now - lastFrameTime) / 1000;
+                        lastFrameTime = now;
+                        applyAngle(currentAngle + AUTO_SPEED_DEG_PER_SEC * dt);
+                        rafId = requestAnimationFrame(step);
+                    }
+                    rafId = requestAnimationFrame(step);
+                }
+
+                function stopAutoRotate() {
+                    if (rafId) {
+                        cancelAnimationFrame(rafId);
+                        rafId = null;
+                    }
+                }
+
+                // Iniciar rotación automática al cargar
+                startAutoRotate();
+
+                // Manejo de scroll
+                $(window).on("scroll", function () {
+                    const scrollY = $(this).scrollTop();
+                    const delta = scrollY - lastScrollY; // >0 scroll hacia abajo, <0 hacia arriba
+                    lastScrollY = scrollY;
+
+                    // Si no hay cambio real, no hacemos nada
+                    if (delta === 0) return;
+
+                    // si entramos en control por scroll, paramos la auto-rotación
+                    if (!isManual) {
+                        isManual = true;
+                        stopAutoRotate();
+                    }
+
+                    // rotar según dirección del scroll
+                    // scroll hacia abajo (delta>0) => sentido horario (aumenta el ángulo)
+                    // scroll hacia arriba (delta<0) => sentido antihorario (disminuye)
+                    applyAngle(currentAngle + delta * SCROLL_SENSITIVITY);
+
+                    // reprogramar reanudación automática tras RESUME_DELAY_MS sin scroll
+                    if (resumeTimer) clearTimeout(resumeTimer);
+                    resumeTimer = setTimeout(function () {
+                        isManual = false;
+                        // reanudar la rotación automática en sentido horario
+                        startAutoRotate();
+                    }, RESUME_DELAY_MS);
+                });
+
+                // (opcional) si el usuario deja de usar la rueda pero hace touchstart/touchmove,
+                // lo cubrimos con eventos touch para móviles:
+                let touchStartY = null;
+                $(window).on("touchstart", function (ev) {
+                    if (ev.touches && ev.touches[0]) touchStartY = ev.touches[0].clientY;
+                });
+                $(window).on("touchmove", function (ev) {
+                    if (!touchStartY && ev.touches && ev.touches[0]) touchStartY = ev.touches[0].clientY;
+                    if (!ev.touches || !ev.touches[0]) return;
+                    const y = ev.touches[0].clientY;
+                    const delta = touchStartY - y; // movimiento hacia arriba => touchStartY - y > 0 => scroll DOWN equivalent
+                    touchStartY = y;
+
+                    // tratar como scroll: iniciar control manual si no lo estábamos
+                    if (!isManual) {
+                        isManual = true;
+                        stopAutoRotate();
+                    }
+                    applyAngle(currentAngle + delta * SCROLL_SENSITIVITY);
+
+                    if (resumeTimer) clearTimeout(resumeTimer);
+                    resumeTimer = setTimeout(function () {
+                        isManual = false;
+                        startAutoRotate();
+                    }, RESUME_DELAY_MS);
+                });
+
+                // limpieza al cerrar / navegar
+                $(window).on("beforeunload", function () {
+                    if (rafId) cancelAnimationFrame(rafId);
+                });
+            });
+        </script>
+    </body>
+</html>

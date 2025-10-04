@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Swiper scroll infinito lineal</title>
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /> -->
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                padding: 0;
+                background: #111;
+                font-family: Helvetica, sans-serif;
+            }
+            .swiper {
+                width: 100%;
+                height: 100vh;
+                padding: 30px;
+            }
+            .swiper-slide {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                font-weight: bold;
+                color: #fff;
+                background: #333;
+                border: 2px solid white;
+                border-radius: 20px;
+            }
+
+            /* 👇 Forzar movimiento lineal en las transiciones */
+            .swiper-wrapper {
+                transition-timing-function: linear !important;
+            }
+            .swiper-slide-prev {
+                background: red;
+            }
+            .swiper-slide-next {
+                background: blue;
+            }
+            .swiper-slide-next + .swiper-slide {
+                background: cyan;
+            }
+            .swiper-slide-next + .swiper-slide + .swiper-slide {
+                background: orange;
+            }
+            .swiper-slide-active {
+                background: lime;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+                <div class="swiper-slide">Slide 4</div>
+                <div class="swiper-slide">Slide 5</div>
+                <div class="swiper-slide">Slide 6</div>
+                <div class="swiper-slide">Slide 7</div>
+                <div class="swiper-slide">Slide 8</div>
+                <div class="swiper-slide">Slide 9</div>
+                <div class="swiper-slide">Slide 0</div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script>
+            const swiper = new Swiper(".mySwiper", {
+                slidesPerView: "auto",
+                direction: "vertical",
+                slidesPerView: 5,
+                spaceBetween: 30,
+                loop: true,
+                // speed: 3000,
+                autoplay: {
+                    // delay: 0,
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                // allowTouchMove: false,
+                // Mouse Wheel no funciona correctamente con autoplay con depay 0.
+                // mousewheel: true,
+            });
+
+            $(function () {
+                let resumeTimer;
+
+                // Pausar autoplay
+                function pauseAutoplay() {
+                    if (swiper.autoplay.running) {
+                        swiper.autoplay.stop();
+                    }
+                    clearTimeout(resumeTimer);
+                    // swiper.params.speed = 100;
+
+                    resumeTimer = setTimeout(() => {
+                        // swiper.params.speed = 3000;
+                        swiper.autoplay.start();
+                    }, 5000); // 30s
+                }
+
+                // Scroll con rueda del mouse
+                $(window).on("wheel", function (e) {
+                    pauseAutoplay();
+                    if (e.originalEvent.deltaY > 0) {
+                        swiper.slideNext();
+                    } else {
+                        swiper.slidePrev();
+                    }
+                });
+
+                // Touch scroll en móvil
+                let touchStartY = null;
+                $(window).on("touchstart", function (e) {
+                    if (e.touches && e.touches[0]) {
+                        touchStartY = e.touches[0].clientY;
+                    }
+                });
+                $(window).on("touchmove", function (e) {
+                    if (e.touches && e.touches[0]) {
+                        const deltaY = e.touches[0].clientY - touchStartY;
+                        pauseAutoplay();
+                        if (deltaY < 0) {
+                            swiper.slideNext();
+                        } else {
+                            swiper.slidePrev();
+                        }
+                        touchStartY = e.touches[0].clientY;
+                    }
+                });
+
+                // Click o touch sobre el slider → pausa por 30s
+                $(".swiper").on("click touchstart", function () {
+                    pauseAutoplay();
+                });
+            });
+        </script>
+    </body>
+</html>
